@@ -45,7 +45,9 @@ function Hero() {
         <p className="mt-6 max-w-xl text-pretty text-lg leading-relaxed text-zinc-600 dark:text-zinc-400">
           A chat-native conversational game that measures STEP-equivalent skills,
           AI fluency (Tier 0–4), and assigns each unmapped young person their first
-          ISCO-08 occupation code — in 12 minutes, on a phone they already own.
+          ISCO-08 occupation code — in 12 minutes, on a phone they already own. Then
+          Atlas matches them with employers posting projects on WhatsApp, so a verified
+          credential turns into real work in the channel they already use.
         </p>
         <div className="mt-8 flex flex-wrap items-center gap-3 text-xs text-zinc-500">
           <span className="rounded-full border border-zinc-300 px-3 py-1 dark:border-white/15">
