@@ -23,7 +23,7 @@ const ContextSchema = z.object({
   iscoSeed: z.string().optional(),
   aiTierProvisional: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]).optional(),
   companion: z.string().optional(),
-  scores: z.record(z.string(), z.number()),
+  scores: z.record(z.string(), z.union([z.number(), z.string()])),
   channel: z.literal("web"),
 });
 

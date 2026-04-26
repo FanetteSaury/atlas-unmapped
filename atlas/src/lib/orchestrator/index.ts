@@ -11,6 +11,7 @@
 import { getCountry } from "@/lib/config/schema";
 import { WAGES, AUTOMATION_RISK } from "@/lib/data/wages";
 import { ISCO_TITLES } from "@/lib/data/seed-cards";
+import { saveCard, generateSlug, type StoredCard } from "@/lib/storage/cards";
 import { callSage } from "./claude";
 
 export const CHAPTER_IDS = [
@@ -37,7 +38,7 @@ export interface PlayerContext {
   iscoSeed?: string;
   aiTierProvisional?: 0 | 1 | 2 | 3 | 4;
   companion?: string;
-  scores: Record<string, number>;
+  scores: Record<string, number | string>;
   channel: "wa" | "web";
   /** Lives left (3-heart mechanic). Lose 1 on dodge / non-substantive answers. */
   lives?: number;
@@ -728,6 +729,24 @@ function handleCard(_input: ChapterInput, ctx: PlayerContext): ChapterResult {
   const usPct = auto ? Math.round(auto.freyOsborneScore * 100) : 0;
   const lmicPct = auto ? Math.round(auto.lmicAdjusted * 100) : 0;
   const moreOrLess = lmicPct < usPct ? "more" : "less";
+
+  const slug = generateSlug();
+  const stored: StoredCard = {
+    slug,
+    handle: `${ctx.channel}:${ctx.handle}`,
+    country: ctx.country,
+    iscoCode: isco,
+    iscoTitle: title,
+    iscoConfidence: (ctx.scores.iscoConfidence as number) ?? 0.5,
+    atlasClass: classFor(isco),
+    aiTier: tier,
+    scores: ctx.scores,
+    oNetTasks: oNetTasks.length ? oNetTasks : undefined,
+    skillGap: skillGap || undefined,
+    channel: ctx.channel,
+    issuedAt: new Date().toISOString(),
+  };
+  void saveCard(stored);
 
   return {
     replies: [

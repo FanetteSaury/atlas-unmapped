@@ -194,9 +194,6 @@ export function ProgramOfficerView({ country, cards, kpis }: Props) {
 
       {/* Wittgenstein 2025-2035 narrative */}
       <WittgensteinCard country={country} />
-
-      {/* Country comparison panel */}
-      <CountryComparePanel current={country} />
     </div>
   );
 }
