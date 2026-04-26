@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { COUNTRIES, getCountry } from "@/lib/config/schema";
 import {
@@ -33,6 +33,25 @@ export function EmployerDashboard() {
   const [view, setView] = useState<"map" | "list">("map");
   const [recency, setRecency] = useState<"all" | "30d" | "7d">("all");
   const [postOpen, setPostOpen] = useState(false);
+
+  // First-time onboarding: auto-open the "Post a project" dialog so a new
+  // employer immediately understands the wedge ("describe a job → squad room").
+  // Once dismissed, we set a localStorage flag so we don't bug them again.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const seen = window.localStorage.getItem("atlas:employer:onboarded");
+    if (!seen) {
+      const t = setTimeout(() => setPostOpen(true), 600);
+      return () => clearTimeout(t);
+    }
+  }, []);
+
+  function closePost() {
+    setPostOpen(false);
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem("atlas:employer:onboarded", "1");
+    }
+  }
 
   const filtered = useMemo(() => {
     const cutoff =
@@ -80,7 +99,7 @@ export function EmployerDashboard() {
           country={country}
           iscoOptions={allIscos.map((c) => ({ code: c, title: ISCO_TITLES[c] ?? c }))}
           wardOptions={wards}
-          onClose={() => setPostOpen(false)}
+          onClose={closePost}
         />
       )}
       <RecruiterContent

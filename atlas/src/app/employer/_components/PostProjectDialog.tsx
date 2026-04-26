@@ -77,10 +77,13 @@ export function PostProjectDialog({ country, iscoOptions, wardOptions, onClose }
       >
         {!result ? (
           <>
-            <h2 className="text-lg font-semibold tracking-tight">📣 Post a project</h2>
+            <div className="rounded-md bg-[#F0F4F8] px-3 py-1 text-[10px] uppercase tracking-widest text-[#006EB5]">
+              Welcome — start here
+            </div>
+            <h2 className="mt-2 text-lg font-semibold tracking-tight text-[#002244]">📣 Post your first project</h2>
             <p className="mt-1 text-xs text-zinc-500">
-              Atlas matches your brief with verified workers in the area + opens a WhatsApp room with your shortlist.
-              You ask <em>&ldquo;who&apos;s free Friday?&rdquo;</em> in the group, they reply. No résumés, no calls.
+              Atlas matches your brief with verified workers in the area + opens a chat room with your shortlist.
+              You ask <em>&ldquo;who&apos;s free Friday?&rdquo;</em>, they reply. No résumés, no calls, no app install.
             </p>
             <form onSubmit={submit} className="mt-4 space-y-3">
               <Field label="Project title">
