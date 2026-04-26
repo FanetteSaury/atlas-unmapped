@@ -11,6 +11,7 @@
 import { getCountry } from "@/lib/config/schema";
 import { WAGES } from "@/lib/data/wages";
 import { ISCO_TITLES } from "@/lib/data/seed-cards";
+import { callSage } from "./claude";
 
 export const CHAPTER_IDS = [
   "country",
@@ -208,18 +209,63 @@ function handleDrillIn(input: ChapterInput, ctx: PlayerContext): ChapterResult {
   };
 }
 
-function handleOrigin(input: ChapterInput, ctx: PlayerContext): ChapterResult {
-  // Phase 1 morning: call claude.classifyOccupation(input.body) -> ISCO.
-  // For now, keep the seed and advance.
-  const scores = { ...ctx.scores, origin: scoreLength(input.body) };
-  const next: PlayerContext = { ...ctx, scores };
+async function handleOrigin(input: ChapterInput, ctx: PlayerContext): Promise<ChapterResult> {
   const country = getCountry(ctx.country);
+
+  // Try real Claude ISCO classification. Fall back to heuristic seed if no
+  // API key is set or Claude is slow / parse fails.
+  let iscoUnit = ctx.iscoSeed ?? country.samplePlayer.iscoSeed;
+  let iscoConfidence = 0.5;
+  let detectedTitle = "";
+  let claudeReply: string | null = null;
+  try {
+    if (process.env.ANTHROPIC_API_KEY) {
+      const sage = await callSage({
+        chapter: "origin",
+        countryCode: ctx.country,
+        playerBody: input.body,
+        injectedFacts: { sample_city: country.sampleCity },
+      });
+      if (sage?.scoring?.iscoUnit) iscoUnit = String(sage.scoring.iscoUnit);
+      if (typeof sage?.scoring?.iscoConfidence === "number") {
+        iscoConfidence = sage.scoring.iscoConfidence;
+      }
+      claudeReply = sage?.reply_messages?.[0] ?? null;
+      detectedTitle = ISCO_TITLES[iscoUnit] ?? "";
+    }
+  } catch (err) {
+    console.error("[orchestrator/origin] Claude call failed, using heuristic", err);
+  }
+
+  // Heuristic fallback: keyword sniff for ISCO seeds (Phase 1 keyword detector).
+  if (!detectedTitle) {
+    const lower = input.body.toLowerCase();
+    const hits: Array<[string, number]> = [
+      ["7421", /(phone|repair|screen|battery|logic|solder|kiosk)/g.test(lower) ? 1 : 0],
+      ["7531", /(sew|tailor|blouse|fabric|embroider|stitch|silk|kente)/g.test(lower) ? 1 : 0],
+      ["2519", /(code|coding|javascript|python|react|next\.?js|debug|developer|software)/g.test(lower) ? 1 : 0],
+      ["5223", /(selling|shop|store|sales|kiosk|market)/g.test(lower) ? 1 : 0],
+    ];
+    hits.sort((a, b) => b[1] - a[1]);
+    if (hits[0][1] > 0) {
+      iscoUnit = hits[0][0];
+      iscoConfidence = 0.65;
+    }
+    detectedTitle = ISCO_TITLES[iscoUnit] ?? "your craft";
+  }
+
+  const scores = {
+    ...ctx.scores,
+    origin: scoreLength(input.body),
+    iscoConfidence,
+  };
+  const next: PlayerContext = { ...ctx, iscoSeed: iscoUnit, scores };
+
+  // Bot reply: prefer Claude's reply (warm, contextual), else build template.
+  const transition = `📜 *${detectedTitle}* locked, ${Math.round(iscoConfidence * 100)}% confidence.\n\n⚒️ *The Forge*\n\nNow — tell me about the hardest one you've ever pulled off. What was at stake, what did you do, what worked?`;
+
   return {
-    replies: [
-      {
-        text: `Got it — sounds like ${country.sampleCity} work. We'll lock the occupation code at the end.\n\n🏆 *Chapter 2 — The Forge*\n\nTell me about the hardest job you've ever pulled off in your line of work. What was at stake, what did you do, what worked?`,
-      },
-    ],
+    replies: [{ text: claudeReply ?? transition }, ...(claudeReply ? [{ text: transition }] : [])],
     nextChapter: "forge",
     ctx: next,
   };
