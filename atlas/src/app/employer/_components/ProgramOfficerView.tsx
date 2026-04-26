@@ -7,6 +7,7 @@ import { ISCO_TITLES } from "@/lib/data/seed-cards";
 import { AUTOMATION_RISK, AI_TIER_PREMIUM, WAGES, FREY_OSBORNE_SOURCE, WDI_SOURCE } from "@/lib/data/wages";
 import { DataSourceCitation } from "@/components/DataSourceCitation";
 import type { RealKpis } from "@/lib/data/real-kpis";
+import { getProfile, SOURCES } from "@/lib/data/policymaker";
 
 // Hardcoded HCI 2024 values (latest World Bank Human Capital Index release).
 // Phase 1 ingest replaces these with live REST fetch.
@@ -179,14 +180,23 @@ export function ProgramOfficerView({ country, cards, kpis }: Props) {
         </div>
       </div>
 
-      {/* Wittgenstein 2030 placeholder */}
-      <div className="rounded-2xl border border-dashed border-zinc-300 bg-zinc-50 p-4 text-center text-xs text-zinc-500 dark:border-white/10 dark:bg-zinc-900/50">
-        📈 <strong>Wittgenstein Centre 2025–2035 cohort projections</strong> — RDS files staged at{" "}
-        <code className="rounded bg-white/60 px-1 py-0.5 text-[10px] dark:bg-white/10">
-          atlas/data/lmic/_raw/wittgenstein-*.rds
-        </code>
-        . Phase 1 ingest reads via <code>pyreadr</code> → live trend chart per country/age/sex/edu.
-      </div>
+      {/* Sector employment growth (real WDI data) */}
+      <SectorGrowthCard country={country} />
+
+      {/* WBL gender legal score gauge */}
+      <WBLCard country={country} />
+
+      {/* WBES skill-gap signal — supply vs demand crossover */}
+      <WBESCard country={country} />
+
+      {/* Findex digital readiness */}
+      <FindexCard country={country} />
+
+      {/* Wittgenstein 2025-2035 narrative */}
+      <WittgensteinCard country={country} />
+
+      {/* Country comparison panel */}
+      <CountryComparePanel current={country} />
     </div>
   );
 }
@@ -220,5 +230,254 @@ function AggKpi({
         {citation && <DataSourceCitation source={citation} inline />}
       </div>
     </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// NGO/Policymaker-specific cards (brief p.4-5 econometrics)
+// ---------------------------------------------------------------------------
+
+function CardShell({
+  title,
+  subtitle,
+  citation,
+  children,
+}: {
+  title: string;
+  subtitle?: string;
+  citation?: { name: string; url: string; year?: string };
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="rounded-2xl border border-zinc-200 bg-white p-4 dark:border-white/10 dark:bg-zinc-900">
+      <div className="mb-3 flex items-start justify-between gap-2">
+        <div>
+          <div className="text-sm font-semibold">{title}</div>
+          {subtitle && <div className="text-xs text-zinc-500">{subtitle}</div>}
+        </div>
+        {citation && <DataSourceCitation source={citation} />}
+      </div>
+      {children}
+    </div>
+  );
+}
+
+function SectorGrowthCard({ country }: { country: string }) {
+  const p = getProfile(country);
+  const rows = [
+    { sector: "Services", share: p.sectorShares.services, growth: p.sectorGrowth.services },
+    { sector: "Industry", share: p.sectorShares.industry, growth: p.sectorGrowth.industry },
+    { sector: "Agriculture", share: p.sectorShares.agriculture, growth: p.sectorGrowth.agriculture },
+  ];
+  return (
+    <CardShell
+      title="Sector employment — share + YoY growth"
+      subtitle="Where the labor market is shifting. Compare to your cohort's ISCO distribution above."
+      citation={SOURCES.WDI}
+    >
+      <div className="space-y-3">
+        {rows.map((r) => (
+          <div key={r.sector}>
+            <div className="flex items-center justify-between text-xs">
+              <span className="font-medium">{r.sector}</span>
+              <span className="text-zinc-500">
+                {r.share.toFixed(1)}% of jobs ·{" "}
+                <span className={r.growth >= 0 ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"}>
+                  {r.growth >= 0 ? "+" : ""}
+                  {r.growth.toFixed(1)}% YoY
+                </span>
+              </span>
+            </div>
+            <div className="relative mt-1 h-2 overflow-hidden rounded-full bg-zinc-100 dark:bg-white/10">
+              <div
+                className="absolute inset-y-0 left-0 rounded-full bg-zinc-900 dark:bg-zinc-50"
+                style={{ width: `${Math.min(100, r.share)}%` }}
+              />
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="mt-3 text-[11px] text-zinc-500">
+        💡 Cohort design hint: services growth + structural shift away from agri ⇒ retrain agri-cohorts toward
+        services-adjacent ISCO codes.
+      </div>
+    </CardShell>
+  );
+}
+
+function WBLCard({ country }: { country: string }) {
+  const p = getProfile(country);
+  const restrictive = p.wbl < 60;
+  return (
+    <CardShell
+      title="Women, Business and the Law — gender legal score"
+      subtitle="Drives Atlas's privacy-default tier per country × gender. Lower score ⇒ stricter T1-aggregate-only default."
+      citation={SOURCES.WBL}
+    >
+      <div className="flex items-center gap-4">
+        <div>
+          <div className="text-3xl font-semibold tracking-tight">{p.wbl.toFixed(1)}</div>
+          <div className="text-[11px] uppercase tracking-wider text-zinc-500">/ 100 (WBL Index)</div>
+        </div>
+        <div className="flex-1">
+          <div className="relative h-3 overflow-hidden rounded-full bg-zinc-100 dark:bg-white/10">
+            <div
+              className={
+                "absolute inset-y-0 left-0 rounded-full " +
+                (p.wbl >= 75
+                  ? "bg-emerald-500"
+                  : p.wbl >= 50
+                    ? "bg-amber-500"
+                    : "bg-rose-500")
+              }
+              style={{ width: `${p.wbl}%` }}
+            />
+          </div>
+          <div className="mt-2 text-[11px] text-zinc-500">
+            Female LFP {p.femaleLfp.toFixed(0)}% (WDI 2023). {restrictive ? "Atlas applies T1-aggregate-only default for female users." : "Atlas applies standard T2 pseudonymous default."}
+          </div>
+        </div>
+      </div>
+    </CardShell>
+  );
+}
+
+function WBESCard({ country }: { country: string }) {
+  const p = getProfile(country);
+  const bars = [
+    { label: "Inadequately educated workforce", value: p.wbesSkillGaps.inadequatelyEducatedWorkforce },
+    { label: "Hiring difficulty (firms reporting)", value: p.wbesSkillGaps.hiringDifficulty },
+    { label: "Unfilled vacancies", value: p.wbesSkillGaps.unfilledVacancies },
+  ];
+  return (
+    <CardShell
+      title="Employer skill gaps — WBES firm-level"
+      subtitle="The supply-vs-demand crossover. Where Atlas's cohort can clear vacancies."
+      citation={SOURCES.WBES}
+    >
+      <div className="space-y-2">
+        {bars.map((b) => (
+          <div key={b.label}>
+            <div className="flex items-center justify-between text-xs">
+              <span>{b.label}</span>
+              <span className="font-semibold">{b.value.toFixed(1)}%</span>
+            </div>
+            <div className="relative mt-1 h-2 overflow-hidden rounded-full bg-zinc-100 dark:bg-white/10">
+              <div className="absolute inset-y-0 left-0 rounded-full bg-amber-500" style={{ width: `${Math.min(100, b.value * 2)}%` }} />
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="mt-3 rounded-md bg-emerald-50/60 p-2 text-[11px] text-emerald-900 dark:bg-emerald-500/10 dark:text-emerald-200">
+        🎯 Atlas wedge: <strong>{p.wbesSkillGaps.unfilledVacancies.toFixed(0)}%</strong> unfilled vacancies × <strong>cohort AI Tier 2+</strong> = your direct placement opportunity.
+      </div>
+    </CardShell>
+  );
+}
+
+function FindexCard({ country }: { country: string }) {
+  const p = getProfile(country);
+  return (
+    <CardShell
+      title="Digital readiness — Findex 2024 + ITU"
+      subtitle="Mobile-money + internet penetration constrain how candidates can be onboarded."
+      citation={SOURCES.FINDEX}
+    >
+      <div className="grid grid-cols-3 gap-3 text-center">
+        <div>
+          <div className="text-2xl font-semibold">{p.findexAccount.toFixed(0)}%</div>
+          <div className="text-[10px] uppercase tracking-wider text-zinc-500">financial account</div>
+        </div>
+        <div>
+          <div className="text-2xl font-semibold">{p.mobileMoneyPct.toFixed(0)}%</div>
+          <div className="text-[10px] uppercase tracking-wider text-zinc-500">mobile money</div>
+        </div>
+        <div>
+          <div className="text-2xl font-semibold">{p.internetPct.toFixed(0)}%</div>
+          <div className="text-[10px] uppercase tracking-wider text-zinc-500">internet users</div>
+        </div>
+      </div>
+      <div className="mt-3 text-[11px] text-zinc-500">
+        ITU Digital Development {SOURCES.ITU.year} for internet penetration · Global Findex {SOURCES.FINDEX.year} for accounts + mobile money.
+      </div>
+    </CardShell>
+  );
+}
+
+function WittgensteinCard({ country }: { country: string }) {
+  const p = getProfile(country);
+  const delta = p.wittgenstein.completion2035 - p.wittgenstein.completion2025;
+  return (
+    <CardShell
+      title="Wittgenstein 2025–2035 — secondary completion trajectory"
+      subtitle="Where this region's cohort is heading. Plan upstream now."
+      citation={SOURCES.WITTGENSTEIN}
+    >
+      <div className="flex items-center justify-between gap-4">
+        <div className="flex-1">
+          <div className="flex items-baseline gap-2">
+            <span className="text-2xl font-semibold">{p.wittgenstein.completion2025.toFixed(1)}%</span>
+            <span className="text-zinc-500">→</span>
+            <span className="text-2xl font-semibold text-emerald-600 dark:text-emerald-400">{p.wittgenstein.completion2035.toFixed(1)}%</span>
+          </div>
+          <div className="text-[11px] uppercase tracking-wider text-zinc-500">2025 → 2035 · ages 20-24 · both sexes · SSP2 scenario</div>
+          <div className="mt-1 text-xs">{p.wittgenstein.trend}</div>
+          <div className="mt-1 text-[11px] font-semibold text-emerald-700 dark:text-emerald-300">+{delta.toFixed(1)} pp gain in 10 years</div>
+        </div>
+      </div>
+      <div className="mt-3 text-[11px] text-zinc-500">
+        Source RDS files staged at <code className="rounded bg-zinc-100 px-1 py-0.5 dark:bg-white/10">data/lmic/_raw/wittgenstein-*.rds</code> · Phase 2: live trend chart per country/age/sex/edu via pyreadr.
+      </div>
+    </CardShell>
+  );
+}
+
+function CountryComparePanel({ current }: { current: string }) {
+  const a = getProfile("GH");
+  const b = getProfile("BD");
+  const cur = current.toUpperCase();
+  type SourceKey = keyof typeof SOURCES;
+  const rows: Array<{ label: string; gh: string; bd: string; cite: (typeof SOURCES)[SourceKey] }> = [
+    { label: "GDP per capita (USD)", gh: a.gdpPerCapita.toLocaleString(), bd: b.gdpPerCapita.toLocaleString(), cite: SOURCES.WDI },
+    { label: "Youth NEET (%)", gh: a.neet.toFixed(1) + "%", bd: b.neet.toFixed(1) + "%", cite: SOURCES.WDI },
+    { label: "Female LFP (%)", gh: a.femaleLfp.toFixed(1) + "%", bd: b.femaleLfp.toFixed(1) + "%", cite: SOURCES.WDI },
+    { label: "HCI (0-1)", gh: a.hci.toFixed(2), bd: b.hci.toFixed(2), cite: SOURCES.HCI },
+    { label: "WBL gender legal", gh: a.wbl.toFixed(1) + "/100", bd: b.wbl.toFixed(1) + "/100", cite: SOURCES.WBL },
+    { label: "Internet users", gh: a.internetPct.toFixed(0) + "%", bd: b.internetPct.toFixed(0) + "%", cite: SOURCES.ITU },
+    { label: "Mobile money", gh: a.mobileMoneyPct.toFixed(0) + "%", bd: b.mobileMoneyPct.toFixed(0) + "%", cite: SOURCES.FINDEX },
+    { label: "Services share of jobs", gh: a.sectorShares.services.toFixed(1) + "%", bd: b.sectorShares.services.toFixed(1) + "%", cite: SOURCES.WDI },
+    { label: "Unfilled vacancies (firms)", gh: a.wbesSkillGaps.unfilledVacancies.toFixed(1) + "%", bd: b.wbesSkillGaps.unfilledVacancies.toFixed(1) + "%", cite: SOURCES.WBES },
+    { label: "Sec-edu completion 2035", gh: a.wittgenstein.completion2035.toFixed(1) + "%", bd: b.wittgenstein.completion2035.toFixed(1) + "%", cite: SOURCES.WITTGENSTEIN },
+  ];
+  return (
+    <CardShell
+      title="Country comparison — same engine, different contexts"
+      subtitle="Brief p.4 country-agnostic requirement. Add a country = add a JSON file."
+    >
+      <div className="overflow-hidden rounded-lg border border-zinc-200 dark:border-white/10">
+        <table className="w-full text-sm">
+          <thead className="bg-zinc-100 text-xs uppercase tracking-wide text-zinc-500 dark:bg-white/5">
+            <tr>
+              <th className="px-3 py-2 text-left font-medium">Indicator</th>
+              <th className={"px-3 py-2 text-right font-medium " + (cur === "GH" ? "bg-emerald-50 dark:bg-emerald-500/10" : "")}>🇬🇭 Ghana</th>
+              <th className={"px-3 py-2 text-right font-medium " + (cur === "BD" ? "bg-emerald-50 dark:bg-emerald-500/10" : "")}>🇧🇩 Bangladesh</th>
+              <th className="px-3 py-2 text-left font-medium">Source</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-zinc-100 dark:divide-white/5">
+            {rows.map((r) => (
+              <tr key={r.label}>
+                <td className="px-3 py-2 text-zinc-700 dark:text-zinc-300">{r.label}</td>
+                <td className={"px-3 py-2 text-right tabular-nums " + (cur === "GH" ? "font-semibold" : "")}>{r.gh}</td>
+                <td className={"px-3 py-2 text-right tabular-nums " + (cur === "BD" ? "font-semibold" : "")}>{r.bd}</td>
+                <td className="px-3 py-2">
+                  <DataSourceCitation source={r.cite} inline />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </CardShell>
   );
 }
