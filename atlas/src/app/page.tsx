@@ -45,7 +45,7 @@ function Hero() {
           Closing the distance between real skills and real opportunity in the age of AI.
         </h1>
         <p className="mt-6 max-w-xl text-pretty text-lg leading-relaxed text-zinc-600 dark:text-zinc-400">
-          A WhatsApp-native conversational game that measures STEP-equivalent skills,
+          A chat-native conversational game that measures STEP-equivalent skills,
           AI fluency (Tier 0–4), and assigns each unmapped young person their first
           ISCO-08 occupation code — in 12 minutes, on a phone they already own.
         </p>
@@ -72,24 +72,43 @@ function Hero() {
 
 function PhoneMock() {
   return (
-    <div className="mx-auto w-full max-w-sm rounded-3xl border border-zinc-200 bg-white p-2 shadow-2xl dark:border-white/10 dark:bg-zinc-900">
-      <div className="rounded-2xl bg-[#0b141a] p-4 text-sm text-zinc-100">
-        <div className="mb-3 flex items-center justify-between text-xs text-zinc-400">
-          <span>12:34 · 5G</span>
-          <span>Atlas · WhatsApp-style</span>
-        </div>
-        <div className="space-y-2">
-          <Bubble bot>🌍 Atlas Quest — Sage here.</Bubble>
-          <Bubble bot>
-            In 12 min I&apos;ll tell you 3 things no one has:
-            <br />
-            💰 your worth
-            <br />
-            🎭 your class
-            <br />
-            🤖 your AI Tier
-          </Bubble>
-          <Bubble user>START</Bubble>
+    <div className="flex justify-center">
+      <div className="relative w-[300px] flex-none rounded-[2.75rem] border border-zinc-300 bg-white p-2 shadow-2xl dark:border-white/10 dark:bg-black">
+        {/* notch */}
+        <div className="absolute left-1/2 top-2 z-10 h-5 w-24 -translate-x-1/2 rounded-b-2xl bg-black"></div>
+        <div className="overflow-hidden rounded-[2.25rem] bg-[#0b141a]">
+          {/* status bar */}
+          <div className="flex items-center justify-between bg-black px-5 pb-1.5 pt-3 text-[11px] font-medium text-zinc-300">
+            <span>12:34 · 5G</span>
+            <span className="text-zinc-500">Atlas Quest</span>
+          </div>
+          {/* chat header */}
+          <div className="flex items-center gap-2 border-b border-white/5 bg-[#111b21] px-3 py-2.5">
+            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-emerald-500/15 text-base">🌍</div>
+            <div>
+              <div className="text-[13px] font-semibold text-zinc-100">Atlas Quest</div>
+              <div className="text-[10px] text-zinc-400">online · Sage is your guide</div>
+            </div>
+          </div>
+          {/* messages */}
+          <div className="h-[420px] space-y-2 overflow-y-auto p-3 text-sm">
+            <Bubble bot>🌍 Atlas Quest — Sage here.</Bubble>
+            <Bubble bot>
+              In 12 min I&apos;ll tell you 3 things no one has:
+              <br />
+              💰 your worth
+              <br />
+              🎭 your class
+              <br />
+              🤖 your AI Tier
+            </Bubble>
+            <Bubble user>START</Bubble>
+          </div>
+          {/* composer */}
+          <div className="flex items-center gap-2 border-t border-white/5 bg-[#111b21] px-2 py-2">
+            <div className="flex-1 rounded-full bg-[#202c33] px-3 py-1.5 text-[12px] text-zinc-500">Type a message…</div>
+            <button className="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-500 text-white" aria-label="Send">➤</button>
+          </div>
         </div>
       </div>
     </div>
