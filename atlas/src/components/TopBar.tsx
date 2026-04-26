@@ -26,7 +26,7 @@ const COPY = {
   employer: {
     eyebrow: "Atlas · Recruiter Workspace",
     title: "Hire verified talent in your ward",
-    description: "SME hiring tool with WhatsApp-native matching",
+    description: "SME hiring tool with chat-native matching",
   },
   policymaker: {
     eyebrow: "Atlas · Country Programmes",

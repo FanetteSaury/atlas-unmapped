@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Atlas — Hack-Nation 2026 · UNMAPPED · World Bank Youth Summit",
   description:
-    "Closing the distance between real skills and real opportunity in the age of AI. A WhatsApp-native conversational game for the 600M unmapped young people across 75 LIC + LMIC countries.",
+    "Closing the distance between real skills and real opportunity in the age of AI. A chat-native conversational game for the 600M unmapped young people across 75 LIC + LMIC countries.",
 };
 
 export default function RootLayout({

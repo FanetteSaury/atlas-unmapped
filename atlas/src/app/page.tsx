@@ -155,7 +155,7 @@ function Entries() {
       href: "/player?country=GH",
       icon: "📱",
       title: "Player",
-      desc: "Take the Atlas Quest — 12 minutes, WhatsApp-style chat, end with your AI Tier + your Atlas Card.",
+      desc: "Take the Atlas Quest — 12 minutes of chat, end with your AI Tier + your Atlas Card.",
       cta: "Start a quest",
       audience: "Free for youth",
     },
