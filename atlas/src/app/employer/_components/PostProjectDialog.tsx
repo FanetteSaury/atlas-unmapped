@@ -195,14 +195,22 @@ export function PostProjectDialog({ country, iscoOptions, wardOptions, onClose }
               <div className="mt-1 text-sm font-medium text-emerald-900 dark:text-emerald-100">
                 {result.invite.name}
               </div>
-              <a
-                href={result.invite.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-3 inline-flex items-center gap-2 rounded-md bg-emerald-600 px-3 py-2 text-sm font-medium text-white hover:bg-emerald-700"
-              >
-                💬 Open the room on WhatsApp
-              </a>
+              <div className="mt-3 flex flex-wrap gap-2">
+                <a
+                  href={`/employer/squad/${result.project.slug}`}
+                  className="inline-flex items-center gap-2 rounded-md bg-[#075e54] px-3 py-2 text-sm font-medium text-white hover:bg-[#054d44]"
+                >
+                  🎬 Preview the room
+                </a>
+                <a
+                  href={result.invite.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-md bg-emerald-600 px-3 py-2 text-sm font-medium text-white hover:bg-emerald-700"
+                >
+                  💬 Open WhatsApp
+                </a>
+              </div>
               {!result.invite.configured && (
                 <p className="mt-3 text-[11px] leading-snug text-emerald-900/80 dark:text-emerald-200/70">
                   Demo-grade link. Production: Twilio Conversations API creates a fresh room per project + invites
