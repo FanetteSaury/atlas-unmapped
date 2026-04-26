@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Atlas — Cohort Insights · Country Programmes</title>
+<link rel="stylesheet" href="styles/ngo.css" />
+</head>
+<body class="ngo-page">
+
+<div class="ngo-beta">
+  <strong>We're in Beta.</strong> Open access during the Hack-Nation × World Bank Youth Summit hackathon · Production gated by World Bank Country Office SSO. Help us improve by sharing your <a href="#feedback">feedback</a>.
+</div>
+
+<header class="ngo-brandbar">
+  <div class="ngo-brand">
+    <div class="ngo-crest">A</div>
+    <div class="ngo-brand-divider">
+      <div style="font-size:1.5rem;font-weight:800;color:var(--d360-blue);letter-spacing:0.04em">ATLAS</div>
+      <div style="font-size:0.85rem;color:var(--d360-text-2)">
+        <strong>Cohort Insights</strong> &nbsp;|&nbsp; <span style="color:var(--d360-blue)">Country Programmes</span>
+      </div>
+    </div>
+  </div>
+  <div class="ngo-search">
+    <input id="country-search" type="search" placeholder="Search country, ISO code, or region…" autocomplete="off" />
+    <div class="ngo-search-dropdown" id="search-dropdown" style="display:none"></div>
+  </div>
+</header>
+
+<nav class="ngo-mainnav">
+  <div class="ngo-mainnav-links">
+    <a class="ngo-mainnav-link" href="index.html">Home</a>
+    <a class="ngo-mainnav-link active" href="#economies">Economies</a>
+    <a class="ngo-mainnav-link" href="#themes">Themes ▾</a>
+    <a class="ngo-mainnav-link" href="#data">Data &amp; Resources ▾</a>
+    <a class="ngo-mainnav-link" href="#analytics">Analytics ▾</a>
+    <a class="ngo-mainnav-link" href="#methodology">Methodology ▾</a>
+    <a class="ngo-mainnav-link" href="employer.html">Recruiter View</a>
+    <a class="ngo-mainnav-link" href="#about">About ▾</a>
+  </div>
+  <div class="ngo-mainnav-right">
+    <button class="ngo-mainnav-login">👤 Login</button>
+  </div>
+</nav>
+
+<div class="ngo-breadcrumb">
+  <a href="index.html">Atlas</a> &nbsp;/&nbsp; <a href="#country-programmes">Country Programmes</a> &nbsp;/&nbsp; <span>Cohort Dashboard</span>
+</div>
+
+<div class="ngo-shell">
+  <div class="ngo-hero">
+    <div>
+      <h1 style="font-size:1.6rem;color:var(--d360-navy);margin:0 0 8px 0">Cohort signals for programme design</h1>
+      <p style="max-width:680px;color:var(--d360-text-2);margin:0">
+        Aggregate, anonymized signals from the Atlas talent layer — built for NGOs and government programme officers designing youth-employment cohorts. <strong>No individual candidate handles.</strong> No outreach features. All data cited at source (ILOSTAT · WDI · Frey-Osborne · WBL · ITU · HCI).
+      </p>
+    </div>
+    <div class="ngo-hero-meta">
+      <div class="ngo-country-switcher">
+        <button class="active" data-country="GH"><span>🇬🇭</span><span>Ghana</span></button>
+        <button data-country="BD"><span>🇧🇩</span><span>Bangladesh</span></button>
+      </div>
+      <div class="ngo-callout" style="max-width:280px">
+        ⚠️ Hackathon-grade rubrics, calibrated against Ghana 2013 STEP. Not psychometrically validated.
+      </div>
+    </div>
+  </div>
+
+  <div class="ngo-callout" style="background:#EAF1F8;border-color:var(--d360-blue-light)">
+    🔒 <strong>Restricted view</strong> — production deploy gates this surface behind verified NGO + government credentials (WB Country Office SSO planned). Demo: open access for the hackathon. &nbsp;&nbsp;Looking to hire? <a href="employer.html" style="color:var(--d360-blue)">Switch to the SME / Recruiter view →</a>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:24px 0">
+    <div class="ngo-statblock">
+      <div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--d360-muted)">Cohort size</div>
+      <div style="font-size:2.4rem;font-weight:700;color:var(--d360-navy);margin:6px 0">41</div>
+      <div style="font-size:0.78rem;color:var(--d360-muted)">Atlas Cards issued (2023/24)</div>
+    </div>
+    <div class="ngo-statblock" style="border-color:var(--d360-cyan);box-shadow:0 0 0 2px var(--d360-cyan)">
+      <div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--d360-muted)">Mean AI Tier</div>
+      <div style="font-size:2.4rem;font-weight:700;color:var(--d360-navy);margin:6px 0">1.95</div>
+      <div style="font-size:0.78rem;color:var(--d360-muted)">of 4 (Atlas-original metric) <span class="ribbon-fresh" style="margin-left:4px">2024</span></div>
+    </div>
+    <div class="ngo-statblock">
+      <div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--d360-muted)">Human Capital Index</div>
+      <div style="font-size:2.4rem;font-weight:700;color:var(--d360-navy);margin:6px 0">0.45</div>
+      <div style="font-size:0.78rem;color:var(--d360-muted)">learning-adjusted years &middot; <a href="https://www.worldbank.org/en/publication/human-capital" style="color:var(--d360-blue)">ⓘ World Bank Human Capital Index 2024</a></div>
+    </div>
+    <div class="ngo-statblock">
+      <div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--d360-muted)">Female labor force</div>
+      <div style="font-size:2.4rem;font-weight:700;color:var(--d360-navy);margin:6px 0">56%</div>
+      <div style="font-size:0.78rem;color:var(--d360-muted)">age 15+, modeled ILO &middot; <a href="https://data.worldbank.org/indicator/SL.TLF.CACT.FE.ZS" style="color:var(--d360-blue)">ⓘ World Bank WDI 2024</a></div>
+    </div>
+  </div>
+
+  <div class="ngo-panel">
+    <div class="ngo-panel-head">
+      <div>
+        <h3 style="margin:0;color:var(--d360-navy)">Atlas informal-skill clusters</h3>
+        <div class="ngo-panel-sub">10 clusters mapping informal-sector occupations to ISCO-08 sub-majors. Each card crosswalks cohort share, female share, wage band, automation risk, and WBES skill-gap demand.</div>
+      </div>
+      <div class="ngo-panel-source"><span class="ribbon-fresh" style="background:#1A4F8B">Atlas taxonomy · ISCO-08</span></div>
+    </div>
+
+    <div style="display:flex;align-items:center;gap:12px;margin:16px 0">
+      <div style="position:relative;flex:1">
+        <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--d360-muted)">🔎</span>
+        <input id="cluster-search-input" type="search" placeholder="Search by cluster name, ISCO code, occupation, or skill…" style="width:100%;padding:10px 36px;border:1px solid var(--d360-border);border-radius:6px;font-size:0.92rem" />
+      </div>
+      <div style="font-size:0.78rem;color:var(--d360-muted);white-space:nowrap">Showing <strong id="cluster-count">5</strong> of <strong>10</strong> clusters</div>
+    </div>
+
+    <div id="cluster-grid" class="cluster-grid">
+
+      <div class="cluster-card">
+        <div class="cc-head"><div class="cc-emoji">🔧</div><div class="cc-title"><div class="cc-name">The Artisan</div><div class="cc-tag"><em>Hands. Craft. Fixing things.</em></div></div></div>
+        <div style="display:flex;flex-wrap:wrap;gap:4px;margin:8px 0"><span class="cc-isco">7411</span><span class="cc-isco">7421</span><span class="cc-isco">7531</span><span class="cc-isco" style="background:transparent;border-color:transparent;color:var(--d360-muted)">+3 more</span></div>
+        <div class="cc-stats"><div class="cc-stat"><span class="lbl">Cohort share</span><span class="val">18.4%</span></div><div class="cc-stat"><span class="lbl">Female share</span><span class="val">32%</span></div><div class="cc-stat"><span class="lbl">Wage band</span><span class="val">₵1,050–1,400</span></div><div class="cc-stat"><span class="lbl">Auto-risk</span><span class="val warn">58%</span></div><div class="cc-stat"><span class="lbl">Skill gap (WBES)</span><span class="val">58%</span></div><div class="cc-stat"><span class="lbl">Sector YoY</span><span class="val pos">+3.2%</span></div></div>
+        <div class="cc-skills"><span class="chip">soldering</span><span class="chip">diagnostic reasoning</span><span class="chip">hand embroidery</span><span class="chip">pattern cutting</span></div>
+        <div class="cc-foot"><span>Skill level 2 · ISCO majors 7, 8</span><span>★ Amara</span></div>
+      </div>
+
+      <div class="cluster-card">
+        <div class="cc-head"><div class="cc-emoji">🌾</div><div class="cc-title"><div class="cc-name">The Grower</div><div class="cc-tag"><em>Patience. Cycles. Earth.</em></div></div></div>
+        <div style="display:flex;flex-wrap:wrap;gap:4px;margin:8px 0"><span class="cc-isco">6111</span><span class="cc-isco">6121</span><span class="cc-isco">6130</span><span class="cc-isco" style="background:transparent;border-color:transparent;color:var(--d360-muted)">+3 more</span></div>
+        <div class="cc-stats"><div class="cc-stat"><span class="lbl">Cohort share</span><span class="val">11.2%</span></div><div class="cc-stat"><span class="lbl">Female share</span><span class="val">47%</span></div><div class="cc-stat"><span class="lbl">Wage band</span><span class="val">₵720–950</span></div><div class="cc-stat"><span class="lbl">Auto-risk</span><span class="val pos">18%</span></div><div class="cc-stat"><span class="lbl">Skill gap (WBES)</span><span class="val">28%</span></div><div class="cc-stat"><span class="lbl">Sector YoY</span><span class="val pos">+1.1%</span></div></div>
+        <div class="cc-skills"><span class="chip">seasonal planning</span><span class="chip">weather judgment</span><span class="chip">livestock health</span><span class="chip">irrigation timing</span></div>
+        <div class="cc-foot"><span>Skill level 1 · ISCO majors 6, 9</span><span>★ Sub-Saharan + South Asian rural cohorts</span></div>
+      </div>
+
+      <div class="cluster-card">
+        <div class="cc-head"><div class="cc-emoji">🤝</div><div class="cc-title"><div class="cc-name">The Dealmaker</div><div class="cc-tag"><em>Negotiation. Networks. Flow.</em></div></div></div>
+        <div style="display:flex;flex-wrap:wrap;gap:4px;margin:8px 0"><span class="cc-isco">5211</span><span class="cc-isco">5212</span><span class="cc-isco">5223</span><span class="cc-isco" style="background:transparent;border-color:transparent;color:var(--d360-muted)">+3 more</span></div>
+        <div class="cc-stats"><div class="cc-stat"><span class="lbl">Cohort share</span><span class="val">21.5%</span></div><div class="cc-stat"><span class="lbl">Female share</span><span class="val">58%</span></div><div class="cc-stat"><span class="lbl">Wage band</span><span class="val">₵720–1,100</span></div><div class="cc-stat"><span class="lbl">Auto-risk</span><span class="val danger">92%</span></div><div class="cc-stat"><span class="lbl">Skill gap (WBES)</span><span class="val">60%</span></div><div class="cc-stat"><span class="lbl">Sector YoY</span><span class="val pos">+5.6%</span></div></div>
+        <div class="cc-skills"><span class="chip">price negotiation</span><span class="chip">supplier networks</span><span class="chip">ice-supply timing</span><span class="chip">credit &amp; susu</span></div>
+        <div class="cc-foot"><span>Skill level 2 · ISCO majors 5, 9, 1</span><span>★ Lagos / Dakar / Dhaka / Hà Nội traders</span></div>
+      </div>
+
+      <div class="cluster-card">
+        <div class="cc-head"><div class="cc-emoji">🛡️</div><div class="cc-title"><div class="cc-name">The Guardian</div><div class="cc-tag"><em>Care. Protect. Teach.</em></div></div></div>
+        <div style="display:flex;flex-wrap:wrap;gap:4px;margin:8px 0"><span class="cc-isco">5311</span><span class="cc-isco">5312</span><span class="cc-isco">5321</span><span class="cc-isco" style="background:transparent;border-color:transparent;color:var(--d360-muted)">+3 more</span></div>
+        <div class="cc-stats"><div class="cc-stat"><span class="lbl">Cohort share</span><span class="val">12.8%</span></div><div class="cc-stat"><span class="lbl">Female share</span><span class="val">81%</span></div><div class="cc-stat"><span class="lbl">Wage band</span><span class="val">₵850–1,200</span></div><div class="cc-stat"><span class="lbl">Auto-risk</span><span class="val pos">22%</span></div><div class="cc-stat"><span class="lbl">Skill gap (WBES)</span><span class="val">46%</span></div><div class="cc-stat"><span class="lbl">Sector YoY</span><span class="val pos">+2.8%</span></div></div>
+        <div class="cc-skills"><span class="chip">child care</span><span class="chip">basic literacy teaching</span><span class="chip">first aid</span><span class="chip">community health outreach</span></div>
+        <div class="cc-foot"><span>Skill level 2 · ISCO majors 5, 3</span><span>★ Care economy women</span></div>
+      </div>
+
+      <div class="cluster-card">
+        <div class="cc-head"><div class="cc-emoji">💡</div><div class="cc-title"><div class="cc-name">The Storyteller</div><div class="cc-tag"><em>Voice. Audience. Persuasion.</em></div></div></div>
+        <div style="display:flex;flex-wrap:wrap;gap:4px;margin:8px 0"><span class="cc-isco">5113</span><span class="cc-isco">5141</span><span class="cc-isco">5142</span><span class="cc-isco" style="background:transparent;border-color:transparent;color:var(--d360-muted)">+3 more</span></div>
+        <div class="cc-stats"><div class="cc-stat"><span class="lbl">Cohort share</span><span class="val">8.1%</span></div><div class="cc-stat"><span class="lbl">Female share</span><span class="val">63%</span></div><div class="cc-stat"><span class="lbl">Wage band</span><span class="val">₵900–1,500</span></div><div class="cc-stat"><span class="lbl">Auto-risk</span><span class="val warn">64%</span></div><div class="cc-stat"><span class="lbl">Skill gap (WBES)</span><span class="val">38%</span></div><div class="cc-stat"><span class="lbl">Sector YoY</span><span class="val pos">+4.3%</span></div></div>
+        <div class="cc-skills"><span class="chip">tour guiding</span><span class="chip">on-camera presence</span><span class="chip">salon styling</span><span class="chip">events MC</span></div>
+        <div class="cc-foot"><span>Skill level 2 · ISCO majors 5, 3</span><span>★ Creator economy entrants</span></div>
+      </div>
+
+    </div>
+
+    <div style="display:flex;justify-content:center;margin-top:20px"><button class="ngo-btn" style="padding:8px 20px">+ Show all 10 clusters</button></div>
+  </div>
+</div>
+
+<div class="ngo-modal-backdrop show" id="welcome-modal">
+  <div class="ngo-modal" style="max-width:520px">
+    <div class="ngo-modal-head">
+      <h3 style="color:var(--d360-navy);margin:0">👋 Welcome to Cohort Insights</h3>
+      <button class="ngo-modal-close" id="welcome-close" aria-label="Close">×</button>
+    </div>
+    <div class="ngo-modal-body">
+      <div class="ngo-callout" style="margin:0 0 16px 0"><strong>For programme officers</strong> from NGOs and country offices designing youth-employment cohorts.</div>
+      <p style="margin:0 0 12px 0;color:var(--d360-text-2);line-height:1.6">This dashboard surfaces the <strong>Atlas talent layer</strong> — verified, anonymised skill signals from young people in informal sectors across Ghana and Bangladesh.</p>
+      <p style="margin:0 0 16px 0;color:var(--d360-text-2);line-height:1.6">Start by exploring the <strong>10 informal-skill clusters</strong> below. Each card crosswalks cohort share, female participation, wage band, automation risk and skill-gap demand — all sourced from ILOSTAT, WDI, WBES, Frey-Osborne LMIC and WBL 2024.</p>
+      <div style="display:flex;gap:8px;justify-content:flex-end"><button id="welcome-dismiss" class="ngo-btn primary" style="padding:8px 18px">Explore the cohort →</button></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll(".ngo-country-switcher button").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".ngo-country-switcher button").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      const url = new URL(window.location); url.searchParams.set("country", btn.dataset.country);
+      window.history.replaceState({}, "", url);
+    });
+  });
+  (function () {
+    const modal = document.getElementById("welcome-modal");
+    if (localStorage.getItem("atlas:policymaker:onboarded")) modal.classList.remove("show");
+    function dismiss() { modal.classList.remove("show"); localStorage.setItem("atlas:policymaker:onboarded", "1"); }
+    document.getElementById("welcome-close").addEventListener("click", dismiss);
+    document.getElementById("welcome-dismiss").addEventListener("click", dismiss);
+    modal.addEventListener("click", (e) => { if (e.target === modal) dismiss(); });
+  })();
+  (function () {
+    const input = document.getElementById("cluster-search-input");
+    const cards = document.querySelectorAll("#cluster-grid .cluster-card");
+    const count = document.getElementById("cluster-count");
+    input.addEventListener("input", (e) => {
+      const q = e.target.value.toLowerCase().trim();
+      let visible = 0;
+      cards.forEach(c => { const m = !q || c.textContent.toLowerCase().includes(q); c.style.display = m ? "" : "none"; if (m) visible++; });
+      count.textContent = visible;
+    });
+  })();
+</script>
+</body>
+</html>
