@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+@import "../styles/paola/main.css";
+@import "../styles/paola/dashboard.css";
+@import "../styles/paola/ngo.css";
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
