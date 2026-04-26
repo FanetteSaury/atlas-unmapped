@@ -9,9 +9,35 @@ Status legend: ⏳ pending · 🚧 in progress · ✅ done · ⏸ deferred · �
 
 ---
 
-## 🆘 LIVE BOARD — 2026-04-26 morning (~9h00 Paris)
+## 🆘 LIVE BOARD — 2026-04-26 ~11h11 Paris (sprint update)
 
-The 3 highest-priority active items right now. These are blocking.
+**Plan locked Fanette 11:11 — parallel sprint then pitch:**
+
+| Slot | Time | Owner | Task | Output |
+|---|---|---|---|---|
+| **P1** | 11:11 → 12:11 (1h) | **Paola** | Frontend polish + data verification → "NGO vibes": tighten copy, color/typography pass, verify every datum on `/policymaker` traces to a real source, swap any placeholder phrasing for NGO-officer voice | `/policymaker` + `/employer` look credibly NGO-grade |
+| **P2** | 11:11 → 12:11 (1h, parallel) | **Fanette** | Research WhatsApp **group chat** wiring (1:1 is almost shipped). Decide: (a) Twilio Conversations API vs (b) hardcoded `chat.whatsapp.com/<invite>` link in Atlas Card. Output: 5-bullet decision note + 30-min impl spike if option (b) chosen | `atlas/docs/wa-group-decision.md` + impl plan |
+| **P3** | 12:11 → 13:41 (1h30) | **Paola** | Pitch deck final + 90s script + handout + backup video record | Deck PDF + script.md + 90s.mp4 |
+
+**Why group chat matters (Fanette context, 11:13):** *"the group chat is important because you need to understand the mentality in those countries"*. In Ghana / Bangladesh / Vietnam, **WhatsApp groups ARE the de facto labor market** — informal hiring happens in trade-specific groups (mechanics, tailors, devs), not on LinkedIn or job boards. The Atlas Card → group invite flow is therefore the **product-market fit moment**, not a polish detail: it's how a 23-year-old phone repair tech in Madina actually finds the next gig. Without it, Atlas is a credential that goes nowhere. With it, the credential plugs directly into the channel the user already lives on. **This is the wedge.**
+
+**WA group chat — research scope for P2 (Fanette, 1h):**
+
+1. **Option B (recommended hackathon path)**: Fanette pre-creates 1 WA group per country (Madina Phone Repair · Mirpur Tailors · Hà Nội Devs), 2-3 sample employer accounts in each. Hardcode invite link in `src/lib/config/squad-invites.json`. Atlas Card reveal sends `https://chat.whatsapp.com/<invite>` as last message. Disclose in HonestLimits: "Squad groups demo-grade; production = Twilio Conversations + verified-employer onboarding."
+   - **Time**: 30 min create groups + 15 min wire links into Tribe completion + 15 min smoke
+   - **Risk**: zero
+   - **Demo wow**: judge taps link, joins real group, sees other members
+2. **Option A (production path, NOT for this hackathon)**: Twilio Conversations API — `client.conversations.v1.conversations.create()` + `.participants.create({ messagingBinding: { address: 'whatsapp:+<phone>' } })`. Requires WA Business API number (Sandbox doesn't support multi-party). 2-3h minimum. **Cut.**
+
+Decide at start of P2. If Option B → spend the hour creating groups + wiring + testing on Fanette's burner. If you find Option A is somehow tractable in <45min, escalate to manager before committing.
+
+**P2-stretch (NOT priority, only if time allows after group-chat ships)**: port the 8-chapter game flow into WhatsApp end-to-end (currently the bot replies via `runChapter()` but the full game UX — measurement rail, hearts/gems, Atlas Card 8-message reveal — is browser-polished, WA-stubby). Stretch goal, not a gate. Manager will track as separate `P2b` item if Fanette green-lights.
+
+---
+
+### Earlier items (from prior live board, still relevant)
+
+The 3 highest-priority active items as of 9h00. Now mostly resolved or queued.
 
 ### #15 — 🔴 PRIORITY 1 (Paola, 8:44 AM convo) — split policymaker from employer dashboards
 
