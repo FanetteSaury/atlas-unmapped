@@ -1,0 +1,25 @@
+{
+  "code": "GH",
+  "name": "Ghana",
+  "flag": "🇬🇭",
+  "currency": "₵",
+  "currencyCode": "GHS",
+  "isoAlpha2": "GH",
+  "isoAlpha3": "GHA",
+  "languages": ["English", "Twi", "Ga", "Ewe", "Hausa"],
+  "primaryLanguage": "Twi-English",
+  "sampleCity": "Madina, Greater Accra",
+  "messagingChannel": "WhatsApp",
+  "privacyDefaultFemale": "T2",
+  "privacyDefaultMale": "T2",
+  "samplePlayer": {
+    "name": "Amara",
+    "domainHint": "Phone repair micro-business + self-taught Python",
+    "iscoSeed": "7421"
+  },
+  "uiStrings": {
+    "start": "START",
+    "yourSquad": "Your squad",
+    "yourVerdict": "Your verdict"
+  }
+}

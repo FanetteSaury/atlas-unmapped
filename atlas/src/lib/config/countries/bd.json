@@ -1,0 +1,25 @@
+{
+  "code": "BD",
+  "name": "Bangladesh",
+  "flag": "🇧🇩",
+  "currency": "৳",
+  "currencyCode": "BDT",
+  "isoAlpha2": "BD",
+  "isoAlpha3": "BGD",
+  "languages": ["Bengali", "English"],
+  "primaryLanguage": "Bengali-English",
+  "sampleCity": "Mirpur, Dhaka",
+  "messagingChannel": "WhatsApp + imo",
+  "privacyDefaultFemale": "T1",
+  "privacyDefaultMale": "T2",
+  "samplePlayer": {
+    "name": "Riya",
+    "domainHint": "Tailor / hand embroidery on bridal blouses",
+    "iscoSeed": "7531"
+  },
+  "uiStrings": {
+    "start": "START",
+    "yourSquad": "Your squad",
+    "yourVerdict": "Your verdict"
+  }
+}

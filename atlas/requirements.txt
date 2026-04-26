@@ -1,0 +1,27 @@
+# Atlas Python engine — Vercel Python runtime + ingest scripts
+# Pinned-major to avoid surprise breakage during the hackathon window.
+
+# === Web framework (serverless API handlers) ===
+fastapi>=0.115,<0.117
+pydantic>=2.9,<3
+
+# === LLM ===
+anthropic>=0.50,<1.0          # Claude Sonnet 4.6 with prompt caching
+openai>=1.50,<2                # Whisper STT only
+
+# === WhatsApp ===
+twilio>=9.3,<10                # Sandbox WhatsApp + group invite
+
+# === HTTP client (for ILOSTAT / WDI / WBES fetches) ===
+httpx>=0.27,<0.29
+
+# === Storage ===
+upstash-redis>=1.2,<2          # Vercel KV is Upstash Redis under the hood
+
+# === Env + utility ===
+python-dotenv>=1.0,<2
+
+# === Dev (not deployed to Vercel; uv install --dev) ===
+# pytest>=8,<9
+# ruff>=0.7,<1
+# mypy>=1.13,<2
