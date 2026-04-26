@@ -91,14 +91,15 @@ const AI_TOOLS = [
   { id: "none",     label: "I haven't used any of these", emoji: "❌", maker: null, character: "zuri" }
 ];
 
-// Companion characters (mapped to LLM families)
+// Companion characters — human archetypes Amara would recognize from life.
+// No LLM/AI references: she lives in rural Ghana, AI is what we measure, not how we frame her guide.
 const CHARACTERS = {
-  sage:  { id: "sage",  emoji: "🧙", name: "Sage",  echoes: "Claude",   tagline: "I'll think with you, not for you." },
-  spark: { id: "spark", emoji: "⚡", name: "Spark", echoes: "ChatGPT",  tagline: "Try me with anything." },
-  zuri:  { id: "zuri",  emoji: "🌅", name: "Zuri",  echoes: "Local LLM",tagline: "Yɛbɛyɛ no wɔ Twi mu — let's do this in your language." },
-  kira:  { id: "kira",  emoji: "🎯", name: "Kira",  echoes: "Copilot",  tagline: "No fluff. Show me what you've built." },
-  scout: { id: "scout", emoji: "🦅", name: "Scout", echoes: "Gemini",   tagline: "I see your world." },
-  ember: { id: "ember", emoji: "🔥", name: "Ember", echoes: "DeepSeek / open-source", tagline: "Bold and raw." }
+  sage:  { id: "sage",  emoji: "🧙", name: "Sage",  archetype: "the thinker",   tagline: "Let's slow down and think this through together." },
+  spark: { id: "spark", emoji: "⚡", name: "Spark", archetype: "the doer",      tagline: "Show me — we'll learn by trying." },
+  zuri:  { id: "zuri",  emoji: "🌅", name: "Zuri",  archetype: "the neighbor",  tagline: "Yɛbɛyɛ no wɔ Twi mu — we'll do this in your language." },
+  kira:  { id: "kira",  emoji: "🎯", name: "Kira",  archetype: "the finisher",  tagline: "Tell me what you've already built. Then what's next." },
+  scout: { id: "scout", emoji: "🦅", name: "Scout", archetype: "the explorer", tagline: "I'll help you see the bigger picture." },
+  ember: { id: "ember", emoji: "🔥", name: "Ember", archetype: "the firestarter", tagline: "Bold first, polish later." }
 };
 
 // Boss-fight rivals — your guide vs the rival in The Oracle

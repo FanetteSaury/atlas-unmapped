@@ -194,7 +194,7 @@
     const companion = C.CHARACTERS[state.companion];
 
     $("#rail-country").textContent = `${country.flag} ${country.name}`;
-    $("#rail-companion").innerHTML = `<span class="ava">${companion.emoji}</span><div><div class="name">${companion.name}</div><div class="sub">echoes ${companion.echoes}</div></div>`;
+    $("#rail-companion").innerHTML = `<span class="ava">${companion.emoji}</span><div><div class="name">${companion.name}</div><div class="sub">${companion.archetype}</div></div>`;
     $("#rail-codename").textContent = state.codename || "(awaiting)";
     $("#rail-isco").textContent = state.isco || "—";
 
@@ -331,8 +331,8 @@
     // Drill-in (recency)
     const companion = C.CHARACTERS[state.companion];
     await botSay([
-      `${companion.emoji} <strong>${companion.name}</strong> is now your companion. Echoes ${companion.echoes}.`,
-      `<strong>3️⃣  Last quick one before the quest.</strong> Tell me — when did you last use ${companion.echoes}, and what did you ask?`,
+      `${companion.emoji} <strong>${companion.name}</strong> is now your companion. ${companion.archetype}.`,
+      `<strong>3️⃣  Last quick one before the quest.</strong> Tell me — when did you last try to figure something out on your own — what was it?`,
       `(30 seconds. Voice or text.)`
     ]);
 
@@ -536,7 +536,7 @@
     await showQuickReplies(["READY"]);
 
     // ---- Phase 1: Intel ----
-    await botSay([`📜 <strong>Phase 1 — INTEL</strong>`, `Tell me about the LAST time you used ${C.CHARACTERS[state.companion].echoes}. When was it, what did you ask, what did you do with the answer? (45 sec)`]);
+    await botSay([`📜 <strong>Phase 1 — INTEL</strong>`, `Tell me about the LAST time you taught yourself something new — what was it, where did you learn it, what did you do with what you learned?? (45 sec)`]);
     await showQuickReplies([`Use sample`, "Type my own"]);
     const last = document.querySelector(".wa-bubble.user:last-child")?.textContent;
     let intelStory;
@@ -568,7 +568,7 @@
     if (!skipForge) {
       await botSay([
         `🔥 <strong>Phase 2 — LOADOUT</strong>`,
-        `60 seconds. Imagine ${C.CHARACTERS[state.companion].echoes} is open right now.`,
+        `60 seconds. Imagine you have one trusted friend on the other end right now.`,
         oracle.loadout_scenario[state.country],
         `Voice the EXACT prompt you'd type. Word for word.`
       ]);

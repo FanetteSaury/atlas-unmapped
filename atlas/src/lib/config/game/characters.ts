@@ -7,17 +7,21 @@ export interface Character {
   id: CharacterId;
   emoji: string;
   name: string;
-  echoes: string;
+  /** Human archetype Amara would recognize from her own community (no LLM/AI references). */
+  archetype: string;
   tagline: string;
 }
 
+// Amara lives in rural Ghana. She doesn't know ChatGPT or Claude. Her companion
+// is a person-archetype she's met in real life: a thinker, a doer, a finisher.
+// AI is what we MEASURE on her side (AI Tier 0–4), not how we frame her guide.
 export const CHARACTERS: Record<CharacterId, Character> = {
-  sage: { id: "sage", emoji: "🧙", name: "Sage", echoes: "Claude", tagline: "I'll think with you, not for you." },
-  spark: { id: "spark", emoji: "⚡", name: "Spark", echoes: "ChatGPT", tagline: "Try me with anything." },
-  zuri: { id: "zuri", emoji: "🌅", name: "Zuri", echoes: "Local LLM", tagline: "Yɛbɛyɛ no wɔ Twi mu — let's do this in your language." },
-  kira: { id: "kira", emoji: "🎯", name: "Kira", echoes: "Copilot", tagline: "No fluff. Show me what you've built." },
-  scout: { id: "scout", emoji: "🦅", name: "Scout", echoes: "Gemini", tagline: "I see your world." },
-  ember: { id: "ember", emoji: "🔥", name: "Ember", echoes: "DeepSeek / open-source", tagline: "Bold and raw." },
+  sage: { id: "sage", emoji: "🧙", name: "Sage", archetype: "the thinker", tagline: "Let's slow down and think this through together." },
+  spark: { id: "spark", emoji: "⚡", name: "Spark", archetype: "the doer", tagline: "Show me — we'll learn by trying." },
+  zuri: { id: "zuri", emoji: "🌅", name: "Zuri", archetype: "the neighbor", tagline: "Yɛbɛyɛ no wɔ Twi mu — we'll do this in your language." },
+  kira: { id: "kira", emoji: "🎯", name: "Kira", archetype: "the finisher", tagline: "Tell me what you've built. Then what's next." },
+  scout: { id: "scout", emoji: "🦅", name: "Scout", archetype: "the explorer", tagline: "I'll help you see the bigger picture." },
+  ember: { id: "ember", emoji: "🔥", name: "Ember", archetype: "the firestarter", tagline: "Bold first, polish later." },
 };
 
 /// Boss-fight rivals — your guide vs the rival in The Oracle chapter
