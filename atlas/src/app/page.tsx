@@ -133,32 +133,36 @@ function StatRow() {
 function Entries() {
   const cards = [
     {
-      href: "/player",
+      href: "/player?country=GH",
       icon: "📱",
       title: "Player",
-      desc: "Walk a player through the Atlas Quest in WhatsApp-style chat. Inventory · Origin · Forge · Mind · Storm · Oracle · Future · Tribe.",
+      desc: "Take the Atlas Quest — 12 minutes, WhatsApp-style chat, end with your AI Tier + your Atlas Card.",
       cta: "Start a quest",
+      audience: "Free for youth",
     },
     {
-      href: "/employer",
+      href: "/employer?country=GH",
       icon: "💼",
-      title: "Employer",
-      desc: "Pseudonymous skill-density heatmap by ward. Verified-employer-only intros — consent-gated.",
-      cta: "Open dashboard",
+      title: "SME / Employer",
+      desc: "Find verified candidates near you. Pseudonymous skill-density map, filter by ISCO + AI Tier + ward, 1:1 WhatsApp intro.",
+      cta: "Open recruiter view",
+      audience: "For SMEs + recruiters",
     },
     {
-      href: "/policymaker",
+      href: "/policymaker?country=GH",
       icon: "🏛️",
-      title: "Policymaker",
-      desc: "Aggregate skill supply, ILOSTAT wages, WDI sector growth, Frey-Osborne risk, Wittgenstein 2030. Country-swap demo.",
-      cta: "Open dashboard",
+      title: "NGO / Policymaker",
+      desc: "Cohort signals for program design. Aggregate AI Tier distribution, Frey-Osborne risk, HCI, Wittgenstein 2030. No individual handles.",
+      cta: "Open program officer view",
+      audience: "For NGOs + governments",
     },
   ];
   return (
     <section className="py-12">
-      <h2 className="text-2xl font-semibold tracking-tight">Three views — one engine</h2>
+      <h2 className="text-2xl font-semibold tracking-tight">Three audiences — one engine</h2>
       <p className="mt-2 max-w-2xl text-sm text-zinc-600 dark:text-zinc-400">
-        The same configurable backend powers all three surfaces. Add a country = add a JSON file. No code changes.
+        Same configurable backend, three role-distinct surfaces. SMEs see candidates; NGOs see cohort signals; youth play the quest.
+        Add a country = add a JSON file.
       </p>
       <div className="mt-6 grid gap-4 sm:grid-cols-3">
         {cards.map((c) => (
@@ -168,7 +172,10 @@ function Entries() {
             className="group rounded-2xl border border-zinc-200 bg-white p-6 transition hover:border-zinc-400 hover:shadow-lg dark:border-white/10 dark:bg-zinc-900 dark:hover:border-white/30"
           >
             <div className="mb-3 text-3xl">{c.icon}</div>
-            <div className="text-lg font-semibold">{c.title}</div>
+            <div className="flex items-baseline justify-between gap-2">
+              <div className="text-lg font-semibold">{c.title}</div>
+              <span className="text-[10px] uppercase tracking-wider text-zinc-500">{c.audience}</span>
+            </div>
             <p className="mt-2 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">{c.desc}</p>
             <div className="mt-4 text-sm font-medium text-zinc-900 group-hover:underline dark:text-zinc-50">
               {c.cta} →

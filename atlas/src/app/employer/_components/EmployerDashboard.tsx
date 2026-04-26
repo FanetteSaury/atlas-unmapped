@@ -15,7 +15,6 @@ import { DataSourceCitation } from "@/components/DataSourceCitation";
 import { getRealKpis } from "@/lib/data/real-kpis";
 import { resolveOneOnOne } from "@/lib/wa/squad";
 import { WardMap } from "./WardMap";
-import { ProgramOfficerView } from "./ProgramOfficerView";
 
 type AiTier = 0 | 1 | 2 | 3 | 4;
 
@@ -32,7 +31,6 @@ export function EmployerDashboard() {
   const [selectedWards, setSelectedWards] = useState<string[]>(wards);
   const [view, setView] = useState<"map" | "list">("map");
   const [recency, setRecency] = useState<"all" | "30d" | "7d">("all");
-  const [role, setRole] = useState<"recruiter" | "officer">("recruiter");
 
   const filtered = useMemo(() => {
     const cutoff =
@@ -64,65 +62,33 @@ export function EmployerDashboard() {
 
   return (
     <div className="space-y-4">
-      {/* Role toggle: dual interface per brief Module 3 */}
-      <div className="flex items-center justify-between rounded-full border border-zinc-200 bg-white p-1 text-sm dark:border-white/10 dark:bg-zinc-900">
-        <div className="flex">
-          <button
-            onClick={() => setRole("recruiter")}
-            className={
-              "rounded-full px-4 py-1.5 font-medium transition " +
-              (role === "recruiter"
-                ? "bg-zinc-900 text-zinc-50 dark:bg-zinc-50 dark:text-zinc-900"
-                : "text-zinc-600 hover:bg-zinc-100 dark:text-zinc-400")
-            }
-          >
-            👔 Recruiter
-          </button>
-          <button
-            onClick={() => setRole("officer")}
-            className={
-              "rounded-full px-4 py-1.5 font-medium transition " +
-              (role === "officer"
-                ? "bg-zinc-900 text-zinc-50 dark:bg-zinc-50 dark:text-zinc-900"
-                : "text-zinc-600 hover:bg-zinc-100 dark:text-zinc-400")
-            }
-          >
-            🏛️ Program Officer
-          </button>
-        </div>
-        <div className="px-3 text-[11px] text-zinc-500">
-          Brief Module 3 dual interface — same data, two roles.
-        </div>
+      <div className="rounded-lg border border-zinc-200 bg-white px-4 py-2 text-xs text-zinc-600 dark:border-white/10 dark:bg-zinc-900 dark:text-zinc-400">
+        👔 <strong>SME / Recruiter workspace</strong> — find verified candidates near you. Looking for cohort-level signals? <a href="/policymaker" className="underline decoration-dotted underline-offset-2 hover:text-zinc-900 dark:hover:text-zinc-50">Switch to the NGO / Program Officer view →</a>
       </div>
-
-      {role === "officer" ? (
-        <ProgramOfficerView country={country} cards={allCards} kpis={kpis} />
-      ) : (
-        <RecruiterContent
-          {...{
-            allIscos,
-            allCards,
-            wards,
-            cfg,
-            country,
-            byWard,
-            maxDensity,
-            filtered,
-            kpis,
-            selectedIscos,
-            setSelectedIscos,
-            selectedTiers,
-            setSelectedTiers,
-            selectedWards,
-            setSelectedWards,
-            view,
-            setView,
-            recency,
-            setRecency,
-            toggle,
-          }}
-        />
-      )}
+      <RecruiterContent
+        {...{
+          allIscos,
+          allCards,
+          wards,
+          cfg,
+          country,
+          byWard,
+          maxDensity,
+          filtered,
+          kpis,
+          selectedIscos,
+          setSelectedIscos,
+          selectedTiers,
+          setSelectedTiers,
+          selectedWards,
+          setSelectedWards,
+          view,
+          setView,
+          recency,
+          setRecency,
+          toggle,
+        }}
+      />
     </div>
   );
 }
