@@ -1,5 +1,30 @@
 # PRD.md — Atlas Product Requirements
 
+## Positioning — **B2B SaaS** (locked 2026-04-26 morning)
+
+Atlas is a **B2B platform**. Paying customers are:
+
+- **Employers** (SMEs, recruiters in LMIC verticals: phone repair shops, tailoring co-ops, dev contractors, retail chains) — they pay per active hire / per cohort / per recruiter seat
+- **NGOs / training providers** (BRAC, Generation, Pratham, Mastercard Foundation grantees) — they pay per cohort placement
+- **Governments / multilaterals** (World Bank Youth Summit pilot countries, national youth agencies) — they pay per country deployment / per dashboard license
+
+The **player Quest** (`/player` + Twilio Sandbox WhatsApp) is **free for youth** — it's the user-acquisition surface. Player onboarding feeds the talent pool that paying employers pay to access.
+
+Three roles, one engine:
+
+| Role | Surface | Paid? |
+|---|---|---|
+| Player (Amara) | `/player` + WA chat | Free |
+| Employer / recruiter (Akosua) | `/employer` recruiter view | Paid |
+| Program officer / policymaker | `/employer` program-officer toggle (aggregate signals) | Paid (NGO / gov license) |
+
+Why this matters for design:
+- The Quest has to be **fun + game-feel** (Hogwarts framing, lives, gems, boss fight) so players actually finish — that's the funnel. NOT transactional / wage-pitching at the start.
+- The employer dashboard has to be **substantive + data-cited** — that's what justifies the subscription. ILOSTAT, Frey-Osborne, ITU citations matter to the buyer.
+- The pitch leads with **employer revenue model** + **NGO/gov licensing** as the path to sustainability, with the youth-side viral loop (family WhatsApp) as the marginal-cost-zero acquisition channel.
+
+---
+
 ## 0. The job to be done
 
 > *Amara is 22, lives outside Accra, runs a phone-repair micro-business, taught herself basic Python from YouTube on a shared connection. She holds a secondary-school certificate. By any reasonable measure, she has skills. But no employer in her city knows she exists. No training program has assessed what she already knows. No labor-market system has a record of her.* (— UNMAPPED brief, p. 2)

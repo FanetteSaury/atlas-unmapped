@@ -48,6 +48,27 @@ export async function POST(req: Request): Promise<Response> {
   }
 
   const ctx: PlayerContext = parsed.ctx;
+
+  // First-touch: empty body AND no country yet -> open the quest in
+  // Hogwarts/RPG framing. Hide the "wage / hire group" payoff until the
+  // Atlas Card reveal at the end — game first, transactional reveal later.
+  if (!parsed.body.trim() && !ctx.country && parsed.chapter === "country") {
+    return NextResponse.json({
+      ctx,
+      chapter: "country",
+      replies: [
+        { text: "🌍 Welcome, traveler. I'm *Sage*." },
+        {
+          text: "Three lives. Seven gems. One Atlas Card at the end — your *class*, your *AI tier*, and a door I can't tell you about yet.",
+        },
+        {
+          text: "Twelve minutes. Eight chapters. A boss fight in the middle.\n\nWhere does your story start?\n\nReply *GH* 🇬🇭 or *BD* 🇧🇩.",
+        },
+      ],
+      finished: false,
+    });
+  }
+
   const result = await runChapter(
     { chapter: parsed.chapter, body: parsed.body },
     ctx,

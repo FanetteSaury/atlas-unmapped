@@ -23,7 +23,7 @@ export interface HandleResult {
 }
 
 const HELP_TEXT =
-  "🌍 *Atlas Quest* — a 12-minute quest that gives you your AI Tier + your worth.\n\n" +
+  "🌍 *Atlas Quest* — twelve minutes, eight chapters, one boss fight.\n\n" +
   "Reply *START* to begin. Reply *RESTART* any time to start over.";
 
 export async function handleWaMessage(from: string, rawBody: string): Promise<HandleResult> {
@@ -53,8 +53,9 @@ export async function handleWaMessage(from: string, rawBody: string): Promise<Ha
     await setState(from, fresh);
     return {
       messages: [
-        "🌍 *Atlas Quest* — 12 minutes, 8 chapters. You'll walk away with an Atlas Card: your AI Tier, your worth, and a hire-group invite.",
-        "Where are you?\n\nReply *GH* (Ghana) or *BD* (Bangladesh).",
+        "🌍 Welcome, traveler. I'm *Sage*.",
+        "Three lives. Seven gems. One Atlas Card at the end — your *class*, your *AI tier*, and a door I can't tell you about yet.",
+        "Twelve minutes. Eight chapters. A boss fight in the middle.\n\nWhere does your story start?\n\nReply *GH* 🇬🇭 or *BD* 🇧🇩.",
       ],
       finished: false,
     };

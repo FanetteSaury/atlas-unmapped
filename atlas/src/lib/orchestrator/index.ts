@@ -128,7 +128,17 @@ function handleCountry(input: ChapterInput, ctx: PlayerContext): ChapterResult {
   return {
     replies: [
       {
-        text: `${country.flag} ${country.name}. Got it.\n\nQuick check — which of these are part of your daily life? Reply with the numbers, comma-separated.\n\n1. Phone repair / electronics\n2. Tailoring / hand crafts\n3. Coding / software\n4. Selling / shopkeeping\n5. None of these — type your own`,
+        text: `${country.flag} ${country.name}. So that's where the story begins.`,
+      },
+      {
+        text:
+          "First mark on the map: *what does your hand know how to do?*\n\n" +
+          "Reply with the numbers (comma-separated, pick all that fit):\n\n" +
+          "1️⃣  Fix things — phones, electronics, broken stuff\n" +
+          "2️⃣  Make things — fabric, thread, hand-craft\n" +
+          "3️⃣  Code things — software, scripts, websites\n" +
+          "4️⃣  Sell things — shop, market, kiosk\n" +
+          "5️⃣  None of those — type your own in a sentence",
       },
     ],
     nextChapter: "inventory",

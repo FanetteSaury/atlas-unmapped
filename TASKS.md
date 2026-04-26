@@ -1,9 +1,86 @@
 # TASKS.md — Atlas time-boxed work list
 
-> **Submission deadline: 2026-04-26 15:00 Paris.**
+> **Submission deadline: 2026-04-26 13:00 Paris.**
 > **One commit per task.** Conventional commits (`feat:`, `fix:`, `chore:`, `docs:`, `refactor:`, `test:`).
 
 Status legend: ⏳ pending · 🚧 in progress · ✅ done · ⏸ deferred · ✂️ cut from scope
+
+---
+
+## 🟢 ACTIVE SPRINT — 8h00 → 10h00 (Twilio validation hard gate)
+
+**Goal:** real Claude orchestrator + Twilio Sandbox round-trip text + (optional) Whisper voice. Iterative deploys after each agent commit so Fanette can test live.
+
+| # | When | Owner | Task | Files / Output | Hard gate |
+|---|---|---|---|---|---|
+| **A.1** | 8:00 → 8:10 | team-lead | Split GAME_PIPELINE.md → `atlas/docs/game/{01-flow,02-oracle,03-atlas-card,04-claude-prompts}.md` (~80 lines each, focused) | 4 new files | none |
+| **A.2** | 8:00 → 8:10 (parallel) | **Fanette** | Twilio account + Sandbox claim + webhook URL = `https://atlas-mu-vert.vercel.app/api/wa/webhook` + note Account SID + Auth Token | Twilio creds in hand | 8:15 |
+| **B.1** | 8:10 → 9:10 | **`claude-wirer` agent** | Real Claude orchestrator: `prompts.ts` (cached system + 7 rubric chunks) + `claude.ts` (SDK wrapper, JSON mode, 5s timeout) + `index.ts` (replace heuristic stubs, fallback if no API key) | 3 modified TS files | **9:10** |
+| **B.2** | 8:10 → 8:25 (parallel) | **Fanette** | Vercel env vars: `ANTHROPIC_API_KEY`, `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, `TWILIO_WA_FROM=whatsapp:+14155238886`, `WA_PHONE_SALT` (`openssl rand -hex 32`) + provision Vercel KV (Storage tab) | env wired | 8:25 |
+| **B.3** | 9:10 | team-lead | Review `claude-wirer`'s diff, build, preview deploy, ping Fanette to test | preview URL | — |
+| **B.4** | 9:10 → 9:15 | Fanette | Test text round-trip on preview URL `/player` | ✅ or 🐛 | 9:15 |
+| **🚦** | **9:15** | — | **GATE: if Phase B not green, ship text-only + skip Phase C** | — | — |
+| **C.1** | 9:15 → 9:30 | **`voice-wirer` agent** | Whisper integration: `src/lib/wa/voice.ts` + 5-line patch to webhook to detect MediaUrl0 + audio + transcribe + pass to handler. Fallback "type instead" on error. | 1 new + 1 patched | 9:30 |
+| **C.2** | 9:15 → 9:17 (parallel) | **Fanette** | Vercel env: `OPENAI_API_KEY=sk-...` (skip if voice cut) | env wired | — |
+| **C.3** | 9:30 | team-lead | Review voice patch, deploy prod | live URL | — |
+| **D.1** | 9:30 → 9:50 | **Fanette + team-lead** | LIVE smoke test: text Sandbox `START` → 3 round-trips text → 1 voice note → Atlas Card reveal | ✅ pipeline validated | **9:50** |
+| **E.1** | 9:50 → 9:55 | team-lead | Re-spawn `brief-guardian` for Entry 2 review | ledger appended | — |
+| **E.2** | 9:55 → 10:00 | team-lead | Final commit + push + status | clean main | 10:00 |
+
+### Cuts already locked for this sprint (don't reopen)
+
+- ✂️ Mind chapter (numeracy) — Phase 2
+- ✂️ Storm chapter (socio-emotional) — Phase 2
+- ✂️ Real attestor round-trip in Tribe — self-attest only
+- ✂️ ILOSTAT live API ingest — hardcoded with citations is fine
+- ✂️ STEP/O*NET/HCI/ILO Future of Work ingest — Phase 2
+- ✂️ /player UI iteration — figé tel qu'en prod
+- ✂️ /employer dashboard new features — figé
+
+---
+
+## 🟡 NEXT SPRINT — 10h00 → 12h00 (with Paola)
+
+| # | Task | Owner |
+|---|---|---|
+| F.1 | Paola onboard via PRD.md + ATLAS_BRIEF.md + GAME_PIPELINE.md | Paola, 15 min |
+| F.2 | Pitch deck draft (5 slides per ATLAS_BRIEF §8) | Paola |
+| F.3 | 90-second demo script word-for-word (use PITCH_SCENARIO.md) | Paola |
+| F.4 | One-pager handout PDF | Paola |
+| F.5 | Backup demo video recorded (90s screen capture) | Paola |
+| F.6 | If voice not done in sprint A: spawn `voice-wirer` here | team-lead |
+| F.7 | Brief-guardian Entry 3 review post-deck | team-lead, 5 min |
+
+---
+
+## 🔴 FINAL SPRINT — 12h00 → 13h00 (submit)
+
+| # | Task | Owner |
+|---|---|---|
+| G.1 | Smoke test all 3 surfaces on Vercel prod (landing + /employer + /player + /api/wa/webhook) | team-lead + Fanette |
+| G.2 | Citation audit: click every `<DataSourceCitation>`, confirm live source URL | Fanette |
+| G.3 | Brief-guardian final Entry (Entry 4) review, FLAGGED items resolved | team-lead, 5 min |
+| G.4 | Final commit `chore: submission v1` + git tag `submission-v1` | team-lead |
+| G.5 | Submit Hack-Nation form: GitHub URL + Vercel URL + deck PDF + 90s video | both |
+| G.6 | Confirm submission timestamp before 13:00 | both |
+
+---
+
+## Orchestration simplifiée — token-preserving (locked Fanette 8h05)
+
+> **Pas d'agents spawnés pendant ce sprint.** Manager (team-lead) écrit tout le code en main loop. Économie ~30-50k tokens vs agent-supervised pattern. Brief-guardian = re-spawn UNIQUEMENT à 9:55 pour Entry 2 review (~5 min budget).
+
+**Manager iteration loop (pour chaque petit changement testable) :**
+1. Manager écrit 1 fichier focalisé (ex: `prompts.ts` seul)
+2. `pnpm tsc --noEmit && pnpm build` (fail-fast)
+3. `pnpm dlx vercel --prod --yes` (deploy direct prod, skip preview pour aller vite)
+4. Manager pings Fanette : "test https://atlas-mu-vert.vercel.app/player → tape GH"
+5. Fanette teste ✅/🐛 → manager fix ou next
+6. Commit après bundle de 2-3 fichiers, pas après chaque fichier (réduit le bruit git)
+
+**Re-spawns autorisés** :
+- `brief-guardian` à 9:55 (5 min, Entry 2 ledger review) — seul agent live de la fin du sprint
+- Aucun autre agent avant 12h00 (sauf besoin urgent)
 
 ---
 
