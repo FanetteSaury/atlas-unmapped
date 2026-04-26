@@ -3,270 +3,205 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Atlas — Policymaker Dashboard</title>
-<link rel="stylesheet" href="styles/main.css" />
-<link rel="stylesheet" href="styles/dashboard.css" />
+<title>Atlas — Cohort Insights · Country Programmes</title>
+<link rel="stylesheet" href="styles/ngo.css" />
 </head>
-<body class="dash-page">
+<body class="ngo-page">
 
-  <div class="dash-topbar">
-    <div><a href="index.html">← Atlas</a> &nbsp;·&nbsp; Policymaker view &nbsp;·&nbsp; <span style="opacity:0.7">aggregate · econometric · country-swap</span></div>
-    <div class="country-toggle" id="country-toggle"></div>
+<div class="ngo-beta">
+  <strong>We're in Beta.</strong> Open access during the Hack-Nation × World Bank Youth Summit hackathon · Production gated by World Bank Country Office SSO. Help us improve by sharing your <a href="#feedback">feedback</a>.
+</div>
+
+<header class="ngo-brandbar">
+  <div class="ngo-brand">
+    <div class="ngo-crest">A</div>
+    <div class="ngo-brand-divider">
+      <div style="font-size:1.5rem;font-weight:800;color:var(--d360-blue);letter-spacing:0.04em">ATLAS</div>
+      <div style="font-size:0.85rem;color:var(--d360-text-2)">
+        <strong>Cohort Insights</strong> &nbsp;|&nbsp; <span style="color:var(--d360-blue)">Country Programmes</span>
+      </div>
+    </div>
+  </div>
+  <div class="ngo-search">
+    <input id="country-search" type="search" placeholder="Search country, ISO code, or region…" autocomplete="off" />
+    <div class="ngo-search-dropdown" id="search-dropdown" style="display:none"></div>
+  </div>
+</header>
+
+<nav class="ngo-mainnav">
+  <div class="ngo-mainnav-links">
+    <a class="ngo-mainnav-link" href="index.html">Home</a>
+    <a class="ngo-mainnav-link active" href="#economies">Economies</a>
+    <a class="ngo-mainnav-link" href="#themes">Themes ▾</a>
+    <a class="ngo-mainnav-link" href="#data">Data &amp; Resources ▾</a>
+    <a class="ngo-mainnav-link" href="#analytics">Analytics ▾</a>
+    <a class="ngo-mainnav-link" href="#methodology">Methodology ▾</a>
+    <a class="ngo-mainnav-link" href="employer.html">Recruiter View</a>
+    <a class="ngo-mainnav-link" href="#about">About ▾</a>
+  </div>
+  <div class="ngo-mainnav-right">
+    <button class="ngo-mainnav-login">👤 Login</button>
+  </div>
+</nav>
+
+<div class="ngo-breadcrumb">
+  <a href="index.html">Atlas</a> &nbsp;/&nbsp; <a href="#country-programmes">Country Programmes</a> &nbsp;/&nbsp; <span>Cohort Dashboard</span>
+</div>
+
+<div class="ngo-shell">
+  <div class="ngo-hero">
+    <div>
+      <h1 style="font-size:1.6rem;color:var(--d360-navy);margin:0 0 8px 0">Cohort signals for programme design</h1>
+      <p style="max-width:680px;color:var(--d360-text-2);margin:0">
+        Aggregate, anonymized signals from the Atlas talent layer — built for NGOs and government programme officers designing youth-employment cohorts. <strong>No individual candidate handles.</strong> No outreach features. All data cited at source (ILOSTAT · WDI · Frey-Osborne · WBL · ITU · HCI).
+      </p>
+    </div>
+    <div class="ngo-hero-meta">
+      <div class="ngo-country-switcher">
+        <button class="active" data-country="GH"><span>🇬🇭</span><span>Ghana</span></button>
+        <button data-country="BD"><span>🇧🇩</span><span>Bangladesh</span></button>
+      </div>
+      <div class="ngo-callout" style="max-width:280px">
+        ⚠️ Hackathon-grade rubrics, calibrated against Ghana 2013 STEP. Not psychometrically validated.
+      </div>
+    </div>
   </div>
 
-  <div class="dash-shell">
-
-    <div class="kpi-row" id="kpi-row"></div>
-
-    <div class="dash-grid">
-
-      <!-- Skill-supply curve vs sector demand -->
-      <div class="panel">
-        <h3>📈 Skill supply vs sectoral demand <span class="panel-tag">ILOSTAT × Atlas live</span></h3>
-        <div class="panel-sub">Verified Atlas-Card holders mapped onto ILOSTAT 2024 sector employment growth. Identifies under-supplied skills.</div>
-        <div class="bar-chart" id="supply-demand-chart"></div>
-      </div>
-
-      <!-- AI Tier composition -->
-      <div class="panel">
-        <h3>🤖 AI fluency stratification <span class="panel-tag">Atlas-original</span></h3>
-        <div class="panel-sub">Distribution of AI Tier across the verified youth cohort. The 5–20% productivity premium of Tier 2+ workers is unmeasured by any other public dataset.</div>
-        <div class="bar-chart" id="ai-tier-chart"></div>
-      </div>
-    </div>
-
-    <div class="dash-grid">
-
-      <!-- Wage premium scenarios -->
-      <div class="panel">
-        <h3>💰 AI wage premium model <span class="panel-tag">ILO × Atlas</span></h3>
-        <div class="panel-sub">If 50% of the cohort moved up one AI Tier, aggregate informal-sector wage uplift in this country.</div>
-        <div id="wage-scenario"></div>
-      </div>
-
-      <!-- Frey-Osborne disruption map -->
-      <div class="panel">
-        <h3>⚠️ Automation exposure (Frey-Osborne LMIC) <span class="panel-tag">FO 2024 reappraisal</span></h3>
-        <div class="panel-sub">% of routine tasks automatable in 5 years for the top 5 ISCO occupations in the cohort. Adjacent durable tasks shown.</div>
-        <div class="bar-chart" id="fo-chart"></div>
-      </div>
-    </div>
-
-    <div class="dash-grid">
-      <!-- Wittgenstein 2030 cohort projection -->
-      <div class="panel">
-        <h3>🎓 Wittgenstein 2030 — cohort education projection <span class="panel-tag">Wittgenstein Centre</span></h3>
-        <div class="panel-sub">Projected % of women 20-24 with secondary+ education by 2030. Where the next 5 years of credentialing is heading.</div>
-        <div id="wittgenstein-block"></div>
-      </div>
-
-      <!-- WBL gender legal context -->
-      <div class="panel">
-        <h3>⚖️ Women, Business & the Law 2024 <span class="panel-tag">WBL · World Bank</span></h3>
-        <div class="panel-sub">Gender legal score (0-100). Drives Atlas privacy defaults for female users in this country.</div>
-        <div id="wbl-block"></div>
-      </div>
-    </div>
-
-    <!-- Story panel -->
-    <div class="panel">
-      <h3>👥 Behind every dot, one Amara <span class="panel-tag">qual + quant</span></h3>
-      <div class="panel-sub">Click a verified Atlas-Card holder to see their (consented) story. The human bridge between aggregate data and individual lives.</div>
-      <div id="stories-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:14px"></div>
-    </div>
-
-    <div class="panel" style="background:linear-gradient(135deg,#0a2540,#1e6fd9);color:white">
-      <h3 style="color:white">🎯 The 6 econometric signals — wired in </h3>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:14px">
-        <div style="background:rgba(255,255,255,0.1);border-radius:10px;padding:14px"><strong>ILOSTAT 2024</strong><br/><span style="font-size:0.82rem;opacity:0.9">Wage by ISCO occupation × country</span></div>
-        <div style="background:rgba(255,255,255,0.1);border-radius:10px;padding:14px"><strong>WDI 2024</strong><br/><span style="font-size:0.82rem;opacity:0.9">Sector employment growth + macro</span></div>
-        <div style="background:rgba(255,255,255,0.1);border-radius:10px;padding:14px"><strong>Frey-Osborne LMIC</strong><br/><span style="font-size:0.82rem;opacity:0.9">Automation probability adapted to LMIC task mix</span></div>
-        <div style="background:rgba(255,255,255,0.1);border-radius:10px;padding:14px"><strong>WBES 2024</strong><br/><span style="font-size:0.82rem;opacity:0.9">Employer-side skill gaps</span></div>
-        <div style="background:rgba(255,255,255,0.1);border-radius:10px;padding:14px"><strong>WBL 2024</strong><br/><span style="font-size:0.82rem;opacity:0.9">Gender legal context — privacy default driver</span></div>
-        <div style="background:rgba(255,255,255,0.1);border-radius:10px;padding:14px"><strong>Findex 2024 + Wittgenstein 2030</strong><br/><span style="font-size:0.82rem;opacity:0.9">Digital rails + cohort projections</span></div>
-      </div>
-    </div>
-
+  <div class="ngo-callout" style="background:#EAF1F8;border-color:var(--d360-blue-light)">
+    🔒 <strong>Restricted view</strong> — production deploy gates this surface behind verified NGO + government credentials (WB Country Office SSO planned). Demo: open access for the hackathon. &nbsp;&nbsp;Looking to hire? <a href="employer.html" style="color:var(--d360-blue)">Switch to the SME / Recruiter view →</a>
   </div>
 
-  <script src="scripts/configs.js"></script>
-  <script src="data/econometric.js"></script>
-  <script>
-    (function () {
-      const C = window.ATLAS_CONFIG;
-      const E = window.ECONOMETRIC;
-      let country = "GH";
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:24px 0">
+    <div class="ngo-statblock">
+      <div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--d360-muted)">Cohort size</div>
+      <div style="font-size:2.4rem;font-weight:700;color:var(--d360-navy);margin:6px 0">41</div>
+      <div style="font-size:0.78rem;color:var(--d360-muted)">Atlas Cards issued (2023/24)</div>
+    </div>
+    <div class="ngo-statblock" style="border-color:var(--d360-cyan);box-shadow:0 0 0 2px var(--d360-cyan)">
+      <div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--d360-muted)">Mean AI Tier</div>
+      <div style="font-size:2.4rem;font-weight:700;color:var(--d360-navy);margin:6px 0">1.95</div>
+      <div style="font-size:0.78rem;color:var(--d360-muted)">of 4 (Atlas-original metric) <span class="ribbon-fresh" style="margin-left:4px">2024</span></div>
+    </div>
+    <div class="ngo-statblock">
+      <div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--d360-muted)">Human Capital Index</div>
+      <div style="font-size:2.4rem;font-weight:700;color:var(--d360-navy);margin:6px 0">0.45</div>
+      <div style="font-size:0.78rem;color:var(--d360-muted)">learning-adjusted years &middot; <a href="https://www.worldbank.org/en/publication/human-capital" style="color:var(--d360-blue)">ⓘ World Bank Human Capital Index 2024</a></div>
+    </div>
+    <div class="ngo-statblock">
+      <div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--d360-muted)">Female labor force</div>
+      <div style="font-size:2.4rem;font-weight:700;color:var(--d360-navy);margin:6px 0">56%</div>
+      <div style="font-size:0.78rem;color:var(--d360-muted)">age 15+, modeled ILO &middot; <a href="https://data.worldbank.org/indicator/SL.TLF.CACT.FE.ZS" style="color:var(--d360-blue)">ⓘ World Bank WDI 2024</a></div>
+    </div>
+  </div>
 
-      const wrap = document.getElementById("country-toggle");
-      Object.values(C.COUNTRIES).forEach(c => {
-        const b = document.createElement("button");
-        b.className = `country-btn ${c.code === country ? "active" : ""}`;
-        b.textContent = `${c.flag} ${c.name}`;
-        b.onclick = () => { country = c.code; document.querySelectorAll(".country-btn").forEach(x => x.classList.remove("active")); b.classList.add("active"); render(); };
-        wrap.appendChild(b);
-      });
+  <div class="ngo-panel">
+    <div class="ngo-panel-head">
+      <div>
+        <h3 style="margin:0;color:var(--d360-navy)">Atlas informal-skill clusters</h3>
+        <div class="ngo-panel-sub">10 clusters mapping informal-sector occupations to ISCO-08 sub-majors. Each card crosswalks cohort share, female share, wage band, automation risk, and WBES skill-gap demand.</div>
+      </div>
+      <div class="ngo-panel-source"><span class="ribbon-fresh" style="background:#1A4F8B">Atlas taxonomy · ISCO-08</span></div>
+    </div>
 
-      function render() {
-        const cc = C.COUNTRIES[country];
-        const wdi = E.WDI[country];
-        const wbes = E.WBES_SKILL_GAPS[country];
-        const findex = E.FINDEX[country];
-        const wbl = E.WBL[country];
-        const witt = E.WITTGENSTEIN_2030[country];
+    <div style="display:flex;align-items:center;gap:12px;margin:16px 0">
+      <div style="position:relative;flex:1">
+        <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--d360-muted)">🔎</span>
+        <input id="cluster-search-input" type="search" placeholder="Search by cluster name, ISCO code, occupation, or skill…" style="width:100%;padding:10px 36px;border:1px solid var(--d360-border);border-radius:6px;font-size:0.92rem" />
+      </div>
+      <div style="font-size:0.78rem;color:var(--d360-muted);white-space:nowrap">Showing <strong id="cluster-count">5</strong> of <strong>10</strong> clusters</div>
+    </div>
 
-        // KPIs
-        document.getElementById("kpi-row").innerHTML = `
-          <div class="kpi-card">
-            <div class="lbl">Verified Atlas Cards (cohort)</div>
-            <div class="val">2,341</div>
-            <div class="sub">${cc.flag} ${cc.name} · 30-day</div>
-            <div class="src">Atlas live</div>
-          </div>
-          <div class="kpi-card">
-            <div class="lbl">Youth NEET</div>
-            <div class="val">${wdi.youth_neet}%</div>
-            <div class="sub">aged 15-24</div>
-            <div class="src">WDI 2024</div>
-          </div>
-          <div class="kpi-card">
-            <div class="lbl">Female labor force participation</div>
-            <div class="val">${wdi.female_lfp}%</div>
-            <div class="sub">working-age women</div>
-            <div class="src">WDI / ILO</div>
-          </div>
-          <div class="kpi-card">
-            <div class="lbl">Informal employment share</div>
-            <div class="val">${cc.informal_employment_pct}%</div>
-            <div class="sub">of total employment</div>
-            <div class="src">ILOSTAT 2024</div>
-          </div>`;
+    <div id="cluster-grid" class="cluster-grid">
 
-        // Supply vs demand
-        const sd = [
-          { l: "Phone repair",  supply: 28, demand: wbes.repair_trades, gain: wdi.sector_growth.manufacturing },
-          { l: "Tailoring",     supply: 41, demand: 36, gain: wdi.sector_growth.manufacturing },
-          { l: "Sales",         supply: 52, demand: 49, gain: wdi.sector_growth.services },
-          { l: "Software",      supply: 14, demand: wbes.ict_specific, gain: wdi.sector_growth.ict },
-          { l: "Childcare",     supply: 19, demand: 31, gain: wdi.sector_growth.services }
-        ];
-        document.getElementById("supply-demand-chart").innerHTML = sd.map(r => `
-          <div class="bar">
-            <div>${r.l}</div>
-            <div class="bar-track"><div class="bar-fill" style="width:${r.supply}%"></div></div>
-            <div class="bar-val">${r.supply}%</div>
-          </div>
-          <div class="bar">
-            <div style="opacity:0.7">↳ demand</div>
-            <div class="bar-track"><div class="bar-fill ${r.demand > r.supply ? 'danger' : 'warn'}" style="width:${r.demand}%"></div></div>
-            <div class="bar-val">${r.demand}%</div>
-          </div>
-          <div class="bar" style="margin-bottom:14px">
-            <div style="opacity:0.6;font-size:0.78rem">↳ growth YoY</div>
-            <div class="bar-track"><div class="bar-fill" style="width:${Math.min(100, r.gain * 6)}%"></div></div>
-            <div class="bar-val" style="font-size:0.78rem">+${r.gain}%</div>
-          </div>`).join("");
+      <div class="cluster-card">
+        <div class="cc-head"><div class="cc-emoji">🔧</div><div class="cc-title"><div class="cc-name">The Artisan</div><div class="cc-tag"><em>Hands. Craft. Fixing things.</em></div></div></div>
+        <div style="display:flex;flex-wrap:wrap;gap:4px;margin:8px 0"><span class="cc-isco">7411</span><span class="cc-isco">7421</span><span class="cc-isco">7531</span><span class="cc-isco" style="background:transparent;border-color:transparent;color:var(--d360-muted)">+3 more</span></div>
+        <div class="cc-stats"><div class="cc-stat"><span class="lbl">Cohort share</span><span class="val">18.4%</span></div><div class="cc-stat"><span class="lbl">Female share</span><span class="val">32%</span></div><div class="cc-stat"><span class="lbl">Wage band</span><span class="val">₵1,050–1,400</span></div><div class="cc-stat"><span class="lbl">Auto-risk</span><span class="val warn">58%</span></div><div class="cc-stat"><span class="lbl">Skill gap (WBES)</span><span class="val">58%</span></div><div class="cc-stat"><span class="lbl">Sector YoY</span><span class="val pos">+3.2%</span></div></div>
+        <div class="cc-skills"><span class="chip">soldering</span><span class="chip">diagnostic reasoning</span><span class="chip">hand embroidery</span><span class="chip">pattern cutting</span></div>
+        <div class="cc-foot"><span>Skill level 2 · ISCO majors 7, 8</span><span>★ Amara</span></div>
+      </div>
 
-        // AI tier dist
-        const tiers = [
-          { l: "Tier 0 — Unfamiliar", v: 38, cls: "danger" },
-          { l: "Tier 1 — Curious",    v: 36, cls: "warn" },
-          { l: "Tier 2 — Active",     v: 19, cls: "" },
-          { l: "Tier 3 — Power User", v: 6,  cls: "" },
-          { l: "Tier 4 — Builder",    v: 1,  cls: "" }
-        ];
-        document.getElementById("ai-tier-chart").innerHTML = tiers.map(t => `
-          <div class="bar">
-            <div>${t.l}</div>
-            <div class="bar-track"><div class="bar-fill ${t.cls}" style="width:${t.v}%"></div></div>
-            <div class="bar-val">${t.v}%</div>
-          </div>`).join("");
+      <div class="cluster-card">
+        <div class="cc-head"><div class="cc-emoji">🌾</div><div class="cc-title"><div class="cc-name">The Grower</div><div class="cc-tag"><em>Patience. Cycles. Earth.</em></div></div></div>
+        <div style="display:flex;flex-wrap:wrap;gap:4px;margin:8px 0"><span class="cc-isco">6111</span><span class="cc-isco">6121</span><span class="cc-isco">6130</span><span class="cc-isco" style="background:transparent;border-color:transparent;color:var(--d360-muted)">+3 more</span></div>
+        <div class="cc-stats"><div class="cc-stat"><span class="lbl">Cohort share</span><span class="val">11.2%</span></div><div class="cc-stat"><span class="lbl">Female share</span><span class="val">47%</span></div><div class="cc-stat"><span class="lbl">Wage band</span><span class="val">₵720–950</span></div><div class="cc-stat"><span class="lbl">Auto-risk</span><span class="val pos">18%</span></div><div class="cc-stat"><span class="lbl">Skill gap (WBES)</span><span class="val">28%</span></div><div class="cc-stat"><span class="lbl">Sector YoY</span><span class="val pos">+1.1%</span></div></div>
+        <div class="cc-skills"><span class="chip">seasonal planning</span><span class="chip">weather judgment</span><span class="chip">livestock health</span><span class="chip">irrigation timing</span></div>
+        <div class="cc-foot"><span>Skill level 1 · ISCO majors 6, 9</span><span>★ Sub-Saharan + South Asian rural cohorts</span></div>
+      </div>
 
-        // Wage scenario
-        const cohortSize = 2341;
-        const baselineMedianWage = cc.median_wage_informal;
-        const upliftPerPersonMonth = baselineMedianWage * 0.15; // ~AI Tier+1 ≈ 15% on average
-        const aggregateMonthly = Math.round(cohortSize * upliftPerPersonMonth * 0.5);
-        document.getElementById("wage-scenario").innerHTML = `
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:6px">
-            <div class="kpi-card" style="background:#f5f9ff;border-color:var(--atlas-cyan)">
-              <div class="lbl">Status quo monthly cohort wages</div>
-              <div class="val">${cc.currency}${(cohortSize * baselineMedianWage).toLocaleString()}</div>
-              <div class="sub">${cohortSize.toLocaleString()} workers × ${cc.currency}${baselineMedianWage.toLocaleString()}/mo</div>
-            </div>
-            <div class="kpi-card" style="background:#f0fdf4;border-color:var(--atlas-success)">
-              <div class="lbl">If 50% lift one AI Tier (+15%)</div>
-              <div class="val" style="color:var(--atlas-success)">+ ${cc.currency}${aggregateMonthly.toLocaleString()}</div>
-              <div class="sub">aggregate monthly wage uplift</div>
-            </div>
-          </div>
-          <div style="margin-top:14px;font-size:0.85rem;color:var(--atlas-muted);background:var(--atlas-bg);padding:12px;border-radius:8px">
-            <strong>Policy implication:</strong> The single highest-leverage intervention for this cohort is <strong>not</strong> a new training program — it's <strong>raising AI fluency by one Tier</strong>. Atlas measures and tracks this lever; existing labor data does not.
-          </div>`;
+      <div class="cluster-card">
+        <div class="cc-head"><div class="cc-emoji">🤝</div><div class="cc-title"><div class="cc-name">The Dealmaker</div><div class="cc-tag"><em>Negotiation. Networks. Flow.</em></div></div></div>
+        <div style="display:flex;flex-wrap:wrap;gap:4px;margin:8px 0"><span class="cc-isco">5211</span><span class="cc-isco">5212</span><span class="cc-isco">5223</span><span class="cc-isco" style="background:transparent;border-color:transparent;color:var(--d360-muted)">+3 more</span></div>
+        <div class="cc-stats"><div class="cc-stat"><span class="lbl">Cohort share</span><span class="val">21.5%</span></div><div class="cc-stat"><span class="lbl">Female share</span><span class="val">58%</span></div><div class="cc-stat"><span class="lbl">Wage band</span><span class="val">₵720–1,100</span></div><div class="cc-stat"><span class="lbl">Auto-risk</span><span class="val danger">92%</span></div><div class="cc-stat"><span class="lbl">Skill gap (WBES)</span><span class="val">60%</span></div><div class="cc-stat"><span class="lbl">Sector YoY</span><span class="val pos">+5.6%</span></div></div>
+        <div class="cc-skills"><span class="chip">price negotiation</span><span class="chip">supplier networks</span><span class="chip">ice-supply timing</span><span class="chip">credit &amp; susu</span></div>
+        <div class="cc-foot"><span>Skill level 2 · ISCO majors 5, 9, 1</span><span>★ Lagos / Dakar / Dhaka / Hà Nội traders</span></div>
+      </div>
 
-        // Frey-Osborne
-        const fo = E.FREY_OSBORNE;
-        const foBars = Object.entries(fo).map(([isco, d]) => ({
-          isco, label: window.ESCO_CATALOG?.[isco]?.label || isco,
-          p: Math.round(d.p_automation * 100),
-          durable: d.durable_tasks?.[0] || ""
-        }));
-        document.getElementById("fo-chart").innerHTML = foBars.map(r => `
-          <div class="bar">
-            <div>${r.label}<br/><span style="font-size:0.7rem;opacity:0.7">durable: ${r.durable}</span></div>
-            <div class="bar-track"><div class="bar-fill ${r.p > 70 ? 'danger' : r.p > 50 ? 'warn' : ''}" style="width:${r.p}%"></div></div>
-            <div class="bar-val">${r.p}%</div>
-          </div>`).join("");
+      <div class="cluster-card">
+        <div class="cc-head"><div class="cc-emoji">🛡️</div><div class="cc-title"><div class="cc-name">The Guardian</div><div class="cc-tag"><em>Care. Protect. Teach.</em></div></div></div>
+        <div style="display:flex;flex-wrap:wrap;gap:4px;margin:8px 0"><span class="cc-isco">5311</span><span class="cc-isco">5312</span><span class="cc-isco">5321</span><span class="cc-isco" style="background:transparent;border-color:transparent;color:var(--d360-muted)">+3 more</span></div>
+        <div class="cc-stats"><div class="cc-stat"><span class="lbl">Cohort share</span><span class="val">12.8%</span></div><div class="cc-stat"><span class="lbl">Female share</span><span class="val">81%</span></div><div class="cc-stat"><span class="lbl">Wage band</span><span class="val">₵850–1,200</span></div><div class="cc-stat"><span class="lbl">Auto-risk</span><span class="val pos">22%</span></div><div class="cc-stat"><span class="lbl">Skill gap (WBES)</span><span class="val">46%</span></div><div class="cc-stat"><span class="lbl">Sector YoY</span><span class="val pos">+2.8%</span></div></div>
+        <div class="cc-skills"><span class="chip">child care</span><span class="chip">basic literacy teaching</span><span class="chip">first aid</span><span class="chip">community health outreach</span></div>
+        <div class="cc-foot"><span>Skill level 2 · ISCO majors 5, 3</span><span>★ Care economy women</span></div>
+      </div>
 
-        // Wittgenstein
-        document.getElementById("wittgenstein-block").innerHTML = `
-          <div style="font-size:2.4rem;font-weight:700;color:var(--atlas-blue);margin-bottom:6px">${Math.round(witt.cohort_with_secondary_plus*100)}%</div>
-          <div style="color:var(--atlas-muted);font-size:0.92rem">of women aged 20-24 will hold secondary+ education by 2030 in ${cc.name}.</div>
-          <div style="margin-top:8px;font-size:0.85rem;color:var(--atlas-success)">${witt.ten_year_delta} from 2020 baseline.</div>
-          <div style="margin-top:14px;background:var(--atlas-bg);padding:10px;border-radius:8px;font-size:0.82rem;color:var(--atlas-muted)">
-            <strong>Reading this:</strong> credential differentiation is becoming harder. AI fluency, ESCO-mapped attestation, and skill specificity replace "I have a diploma" as the labor-market signal.
-          </div>`;
+      <div class="cluster-card">
+        <div class="cc-head"><div class="cc-emoji">💡</div><div class="cc-title"><div class="cc-name">The Storyteller</div><div class="cc-tag"><em>Voice. Audience. Persuasion.</em></div></div></div>
+        <div style="display:flex;flex-wrap:wrap;gap:4px;margin:8px 0"><span class="cc-isco">5113</span><span class="cc-isco">5141</span><span class="cc-isco">5142</span><span class="cc-isco" style="background:transparent;border-color:transparent;color:var(--d360-muted)">+3 more</span></div>
+        <div class="cc-stats"><div class="cc-stat"><span class="lbl">Cohort share</span><span class="val">8.1%</span></div><div class="cc-stat"><span class="lbl">Female share</span><span class="val">63%</span></div><div class="cc-stat"><span class="lbl">Wage band</span><span class="val">₵900–1,500</span></div><div class="cc-stat"><span class="lbl">Auto-risk</span><span class="val warn">64%</span></div><div class="cc-stat"><span class="lbl">Skill gap (WBES)</span><span class="val">38%</span></div><div class="cc-stat"><span class="lbl">Sector YoY</span><span class="val pos">+4.3%</span></div></div>
+        <div class="cc-skills"><span class="chip">tour guiding</span><span class="chip">on-camera presence</span><span class="chip">salon styling</span><span class="chip">events MC</span></div>
+        <div class="cc-foot"><span>Skill level 2 · ISCO majors 5, 3</span><span>★ Creator economy entrants</span></div>
+      </div>
 
-        // WBL
-        const score = wbl.score;
-        const color = score >= 70 ? "var(--atlas-success)" : score >= 50 ? "var(--atlas-gold)" : "var(--atlas-danger)";
-        document.getElementById("wbl-block").innerHTML = `
-          <div style="font-size:2.4rem;font-weight:700;color:${color};margin-bottom:6px">${score}/100</div>
-          <div style="color:var(--atlas-muted);font-size:0.92rem">Gender legal score (WBL 2024).</div>
-          <div style="margin-top:10px;font-size:0.82rem;background:var(--atlas-bg);padding:10px;border-radius:8px">
-            ${wbl.notes}
-          </div>
-          <div style="margin-top:8px;font-size:0.85rem;color:var(--atlas-navy)">
-            <strong>Atlas privacy default for female users in ${cc.name}: T${cc.privacy_default_female}</strong> ${cc.privacy_default_female === 1 ? "(public-only)" : "(pseudonymous OK)"}.
-          </div>`;
+    </div>
 
-        // Stories
-        const stories = country === "GH" ? [
-          { tag: "🔧 Artisan T3", name: "@AT-7421-MAD-T3", line: "Phone repair + self-taught Python — Madina, Greater Accra. AI Tier 2." },
-          { tag: "🤝 Dealmaker T2", name: "@AT-5223-ADE-T2", line: "Market trader — Adenta. AI Tier 1, ready to grow." },
-          { tag: "🛡️ Guardian T1", name: "@AT-5311-OSU-T1", line: "Childcare worker — Osu. Joined this week." },
-          { tag: "💻 Builder T4", name: "@AT-2519-EL-T4",  line: "Junior dev — East Legon. AI Tier 3 (Power User), available remotely." }
-        ] : country === "BD" ? [
-          { tag: "🔧 Artisan T2", name: "@AT-7531-MIR-T2", line: "Bridal embroidery tailor — Mirpur, Dhaka. AI Tier 1." },
-          { tag: "💻 Builder T3", name: "@AT-2519-DHA-T3", line: "Junior dev (garment-tech automation) — Dhanmondi. AI Tier 3." },
-          { tag: "🤝 Dealmaker T1", name: "@AT-5223-OLD-T1", line: "Market vendor — Old Dhaka. Joined yesterday." },
-          { tag: "🛡️ Guardian T0", name: "@AT-5311-MOH-T0", line: "Childcare worker — Mohammadpur. AI Tier 0 — onboarding suggested." }
-        ] : [
-          { tag: "💻 Builder T4", name: "@AT-2519-CG-T4",  line: "Next.js dev — Cầu Giấy, Hà Nội. AI Tier 3 (Power User)." },
-          { tag: "🔧 Artisan T2", name: "@AT-7531-DD-T2",  line: "Tailor — Đống Đa." },
-          { tag: "🤝 Dealmaker T2", name: "@AT-5223-HK-T2", line: "Market vendor — Hoàn Kiếm. Bilingual VN-EN." },
-          { tag: "🛡️ Guardian T1", name: "@AT-5311-BĐ-T1", line: "Childcare — Ba Đình." }
-        ];
-        document.getElementById("stories-grid").innerHTML = stories.map(s => `
-          <div class="kpi-card" style="cursor:pointer">
-            <div class="lbl">${s.tag}</div>
-            <div style="font-family:ui-monospace,monospace;font-size:0.82rem;color:var(--atlas-blue);margin-top:4px">${s.name}</div>
-            <div class="sub" style="margin-top:8px">${s.line}</div>
-          </div>`).join("");
-      }
+    <div style="display:flex;justify-content:center;margin-top:20px"><button class="ngo-btn" style="padding:8px 20px">+ Show all 10 clusters</button></div>
+  </div>
+</div>
 
-      render();
-    })();
-  </script>
-  <script src="data/esco.js"></script>
+<div class="ngo-modal-backdrop show" id="welcome-modal">
+  <div class="ngo-modal" style="max-width:520px">
+    <div class="ngo-modal-head">
+      <h3 style="color:var(--d360-navy);margin:0">👋 Welcome to Cohort Insights</h3>
+      <button class="ngo-modal-close" id="welcome-close" aria-label="Close">×</button>
+    </div>
+    <div class="ngo-modal-body">
+      <div class="ngo-callout" style="margin:0 0 16px 0"><strong>For programme officers</strong> from NGOs and country offices designing youth-employment cohorts.</div>
+      <p style="margin:0 0 12px 0;color:var(--d360-text-2);line-height:1.6">This dashboard surfaces the <strong>Atlas talent layer</strong> — verified, anonymised skill signals from young people in informal sectors across Ghana and Bangladesh.</p>
+      <p style="margin:0 0 16px 0;color:var(--d360-text-2);line-height:1.6">Start by exploring the <strong>10 informal-skill clusters</strong> below. Each card crosswalks cohort share, female participation, wage band, automation risk and skill-gap demand — all sourced from ILOSTAT, WDI, WBES, Frey-Osborne LMIC and WBL 2024.</p>
+      <div style="display:flex;gap:8px;justify-content:flex-end"><button id="welcome-dismiss" class="ngo-btn primary" style="padding:8px 18px">Explore the cohort →</button></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll(".ngo-country-switcher button").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".ngo-country-switcher button").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      const url = new URL(window.location); url.searchParams.set("country", btn.dataset.country);
+      window.history.replaceState({}, "", url);
+    });
+  });
+  (function () {
+    const modal = document.getElementById("welcome-modal");
+    if (localStorage.getItem("atlas:policymaker:onboarded")) modal.classList.remove("show");
+    function dismiss() { modal.classList.remove("show"); localStorage.setItem("atlas:policymaker:onboarded", "1"); }
+    document.getElementById("welcome-close").addEventListener("click", dismiss);
+    document.getElementById("welcome-dismiss").addEventListener("click", dismiss);
+    modal.addEventListener("click", (e) => { if (e.target === modal) dismiss(); });
+  })();
+  (function () {
+    const input = document.getElementById("cluster-search-input");
+    const cards = document.querySelectorAll("#cluster-grid .cluster-card");
+    const count = document.getElementById("cluster-count");
+    input.addEventListener("input", (e) => {
+      const q = e.target.value.toLowerCase().trim();
+      let visible = 0;
+      cards.forEach(c => { const m = !q || c.textContent.toLowerCase().includes(q); c.style.display = m ? "" : "none"; if (m) visible++; });
+      count.textContent = visible;
+    });
+  })();
+</script>
 </body>
 </html>
