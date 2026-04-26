@@ -15,6 +15,7 @@ import { DataSourceCitation } from "@/components/DataSourceCitation";
 import { getRealKpis } from "@/lib/data/real-kpis";
 import { resolveOneOnOne } from "@/lib/wa/squad";
 import { WardMap } from "./WardMap";
+import { PostProjectDialog } from "./PostProjectDialog";
 
 type AiTier = 0 | 1 | 2 | 3 | 4;
 
@@ -31,6 +32,7 @@ export function EmployerDashboard() {
   const [selectedWards, setSelectedWards] = useState<string[]>(wards);
   const [view, setView] = useState<"map" | "list">("map");
   const [recency, setRecency] = useState<"all" | "30d" | "7d">("all");
+  const [postOpen, setPostOpen] = useState(false);
 
   const filtered = useMemo(() => {
     const cutoff =
@@ -62,9 +64,25 @@ export function EmployerDashboard() {
 
   return (
     <div className="space-y-4">
-      <div className="rounded-lg border border-zinc-200 bg-white px-4 py-2 text-xs text-zinc-600 dark:border-white/10 dark:bg-zinc-900 dark:text-zinc-400">
-        👔 <strong>SME / Recruiter workspace</strong> — find verified candidates near you. Looking for cohort-level signals? <a href="/policymaker" className="underline decoration-dotted underline-offset-2 hover:text-zinc-900 dark:hover:text-zinc-50">Switch to the NGO / Program Officer view →</a>
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="rounded-lg border border-zinc-200 bg-white px-4 py-2 text-xs text-zinc-600 dark:border-white/10 dark:bg-zinc-900 dark:text-zinc-400">
+          👔 <strong>SME / Recruiter workspace</strong> — find verified candidates near you. Looking for cohort-level signals? <a href="/policymaker" className="underline decoration-dotted underline-offset-2 hover:text-zinc-900 dark:hover:text-zinc-50">Switch to the NGO / Program Officer view →</a>
+        </div>
+        <button
+          onClick={() => setPostOpen(true)}
+          className="rounded-md bg-emerald-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-emerald-700"
+        >
+          📣 Post a project → open WA room
+        </button>
       </div>
+      {postOpen && (
+        <PostProjectDialog
+          country={country}
+          iscoOptions={allIscos.map((c) => ({ code: c, title: ISCO_TITLES[c] ?? c }))}
+          wardOptions={wards}
+          onClose={() => setPostOpen(false)}
+        />
+      )}
       <RecruiterContent
         {...{
           allIscos,
