@@ -68,7 +68,7 @@ phone-unknown ─────"join atlas-quest" (handled by Twilio Sandbox auto)
 └─────────────────────────┘
             │
             ▼ chapter="country"
-   awaiting GH/BD/VN ─────────▶ ctx.country set
+   awaiting GH/BD ────────────▶ ctx.country set
             │
             ▼ chapter="inventory"
    awaiting numbered picks ───▶ ctx.iscoSeed set

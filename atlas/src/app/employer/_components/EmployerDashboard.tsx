@@ -8,12 +8,12 @@ import {
   ALL_WARDS,
   ISCOS_BY_COUNTRY,
   ISCO_TITLES,
-  SQUAD_INVITES,
   type SeedCard,
 } from "@/lib/data/seed-cards";
 import { WAGES, WDI_SOURCE, AUTOMATION_RISK, FREY_OSBORNE_SOURCE } from "@/lib/data/wages";
 import { DataSourceCitation } from "@/components/DataSourceCitation";
 import { getRealKpis } from "@/lib/data/real-kpis";
+import { resolveOneOnOne } from "@/lib/wa/squad";
 import { WardMap } from "./WardMap";
 import { ProgramOfficerView } from "./ProgramOfficerView";
 
@@ -474,7 +474,12 @@ function Legend() {
 function CandidateRow({ card, country }: { card: SeedCard; country: string }) {
   const wage = WAGES[country]?.[card.iscoCode];
   const auto = AUTOMATION_RISK[card.iscoCode];
-  const squad = SQUAD_INVITES[country]?.[card.iscoCode];
+  const oneOnOne = resolveOneOnOne({
+    country,
+    isco: card.iscoCode,
+    candidateHandle: card.handle,
+    ward: card.ward,
+  });
   return (
     <li className="flex flex-col gap-3 px-4 py-3 sm:flex-row sm:items-center">
       <div className="flex-1 min-w-0">
@@ -513,17 +518,15 @@ function CandidateRow({ card, country }: { card: SeedCard; country: string }) {
           {auto && <> · automation {Math.round(auto.lmicAdjusted * 100)}%</>}
         </div>
       </div>
-      <div className="flex shrink-0 gap-2">
-        {squad && (
-          <a
-            href={squad}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1 rounded-full bg-emerald-600 px-3 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-emerald-700"
-          >
-            🤝 Join Squad
-          </a>
-        )}
+      <div className="flex shrink-0">
+        <a
+          href={oneOnOne.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center justify-center gap-1 rounded-full bg-emerald-600 px-3 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-emerald-700"
+        >
+          💬 Contact on WhatsApp
+        </a>
       </div>
     </li>
   );

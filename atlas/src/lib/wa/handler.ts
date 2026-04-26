@@ -13,7 +13,7 @@
 // it has returned 200 to Twilio. Keeping the side-effect at the edge means
 // this function is unit-testable without mocks.
 
-import { runChapter, type ChapterId, type ChapterInput, type PlayerContext } from "@/lib/orchestrator";
+import { runChapter, type ChapterId, type ChapterInput } from "@/lib/orchestrator";
 import { freshState, getState, setState, type WAState } from "./state";
 import { resolveSquadInvite } from "./squad";
 
@@ -40,7 +40,7 @@ export async function handleWaMessage(from: string, rawBody: string): Promise<Ha
     return {
       messages: [
         "Restarting.",
-        "🌍 Atlas Quest. Where are you?\n\nReply *GH* (Ghana), *BD* (Bangladesh), or *VN* (Vietnam).",
+        "🌍 Atlas Quest. Where are you?\n\nReply *GH* (Ghana) or *BD* (Bangladesh).",
       ],
       finished: false,
     };
@@ -54,7 +54,7 @@ export async function handleWaMessage(from: string, rawBody: string): Promise<Ha
     return {
       messages: [
         "🌍 *Atlas Quest* — 12 minutes, 8 chapters. You'll walk away with an Atlas Card: your AI Tier, your worth, and a hire-group invite.",
-        "Where are you?\n\nReply *GH* (Ghana), *BD* (Bangladesh), or *VN* (Vietnam).",
+        "Where are you?\n\nReply *GH* (Ghana) or *BD* (Bangladesh).",
       ],
       finished: false,
     };

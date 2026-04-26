@@ -32,7 +32,7 @@ export type ChapterId = (typeof CHAPTER_IDS)[number];
 export interface PlayerContext {
   /** Pseudonymous handle: `wa:<sha256(phone+salt).slice(0,16)>` or `web:<runId>`. */
   handle: string;
-  country: string; // GH / BD / VN
+  country: string; // GH / BD
   iscoSeed?: string;
   aiTierProvisional?: 0 | 1 | 2 | 3 | 4;
   companion?: string;
@@ -111,14 +111,12 @@ export async function runChapter(
 
 function handleCountry(input: ChapterInput, ctx: PlayerContext): ChapterResult {
   const code = input.body.trim().toUpperCase().slice(0, 2);
-  const known = ["GH", "BD", "VN"];
+  const known = ["GH", "BD"];
   if (!known.includes(code)) {
     return {
       replies: [
         {
-          text:
-            "🌍 Atlas Quest. 12 minutes. Where are you?\n\n" +
-            "Reply *GH* (Ghana), *BD* (Bangladesh), or *VN* (Vietnam).",
+          text: "Atlas is currently in Ghana 🇬🇭 and Bangladesh 🇧🇩 only — reply *GH* or *BD*.",
         },
       ],
       nextChapter: "country",
