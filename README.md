@@ -75,10 +75,10 @@ pnpm dlx vercel --prod
 |---|---|
 | Infrastructure, not product | 3 surfaces (Player · Employer · Policymaker) on 1 configurable backend, country JSON drives everything |
 | Build ≥ 2 of 3 modules | All 3: Skills Signal Engine + AI Readiness Lens (full, with AI-Tier 0–4) + Opportunity Matching dual interface |
-| Country-agnostic | JSON-driven config (`atlas/src/lib/config/countries/*.json`); live country toggle (GH ↔ BD ↔ VN ↔ NG ↔ KE ↔ PH) |
+| Country-agnostic | JSON-driven config (`atlas/src/lib/config/countries/*.json`); live country toggle (GH ↔ BD ↔ NG ↔ KE ↔ PH) |
 | Real economic data | Live APIs (ILOSTAT SDMX, WDI REST, WBES, HCI) + bulk-cached datasets (Findex, WBL, Frey-Osborne, Wittgenstein, ISCO-08, O*NET, STEP). Every datum cited, see [`PIPELINE.md`](./PIPELINE.md) |
 | ≥ 2 econometric signals visible | 4+ on the Atlas Card alone (wage, sector growth, automation risk, AI premium); more on dashboards |
-| Specific constrained user | Amara (Ghana, phone repair) · Riya (Bangladesh, tailor) · Tuan (Vietnam, dev). Voice-ready (Whisper STT), low-bandwidth, shared-device aware, navigator-assistable |
+| Specific constrained user | Amara (Ghana, phone repair) · Riya (Bangladesh, tailor). Voice-ready (Whisper STT), low-bandwidth, shared-device aware, navigator-assistable |
 | Design for constraint | Whisper STT, low-bandwidth chat, country-aware privacy 3-tier with WBL-driven defaults |
 | Localizability with real evidence | Live country swap demo on stage in 30 seconds, 6 country configs shipped |
 | Honest about limits | `<HonestLimitsBanner>` on every UI surface; calibration disclosure on the Atlas Card |

@@ -22,7 +22,6 @@ This solves the **three structural failures** the brief identifies:
 |---|---|---|---|---|
 | **Amara**, 22 | Ghana 🇬🇭 | 7421 (Phone repair) | WhatsApp | Twi-English, ₵-denominated wage, Madina ward |
 | **Riya**, 19 | Bangladesh 🇧🇩 | 7531 (Tailor / hand embroidery) | WhatsApp + imo | Bengali-English, ৳, Mirpur ward, female-stricter privacy default |
-| **Tuan**, 24 | Vietnam 🇻🇳 | 2519 (Software / Web dev) | Zalo | Vietnamese, ₫, Cầu Giấy ward |
 
 Each persona is a `samplePlayer` field in the country JSON config (`atlas/src/lib/config/countries/{iso2}.json`) — adding a country = adding a JSON file.
 
@@ -95,7 +94,7 @@ The brief (p. 4) requires these to be **configurable without changing the codeba
 | Automation exposure calibration | `atlas/data/lmic/frey-osborne/lmic-reappraisal.json`, country-keyed |
 | Opportunity types surfaced (formal · self-employment · gig · training pathway) | Country JSON `opportunityTypes` field |
 
-**Live country swap demo (Phase 2):** GH ↔ BD ↔ VN switches all 3 surfaces in <30 seconds — same engine, same mechanics, same 12 minutes, three completely different lives.
+**Live country swap demo (Phase 2):** GH ↔ BD switches all 3 surfaces in <30 seconds — same engine, same mechanics, same 12 minutes, three completely different lives.
 
 ## 4. Brief-compliance scope
 
@@ -132,7 +131,7 @@ These are the concrete UX/feature changes Paola identified after running the v1 
 | **Faire un mapping skills plus exhaustif** | ISCO-08 (433 unit-level occupations, universal ILO standard) + O*NET 28+ task content (LMIC-adapted via crosswalks) — far more exhaustive than the 5-occupation toy ESCO subset of v1 | P1 |
 | **Demo Vercel** | `pnpm dlx vercel --prod` deploy gates each phase | P0 wake-up + P1+P2+P3 |
 | **Pitch + Demo polish** | Paola's domain, ATLAS_BRIEF §8 5-slide outline as starting point | P2+P3 |
-| **Map · Clusters sur les skills + chaque point = un user clickable** | **CSS grid of wards** (Madina/Mirpur/Cầu Giấy) colored by skill density. Click a ward → expanded panel with pseudonymous candidate handles + their AI Tier badges. No Leaflet — faster, more demo-friendly | P2 |
+| **Map · Clusters sur les skills + chaque point = un user clickable** | **CSS grid of wards** (Madina/Mirpur) colored by skill density. Click a ward → expanded panel with pseudonymous candidate handles + their AI Tier badges. No Leaflet — faster, more demo-friendly | P2 |
 | **Liste skills · Recherche selon filtres** | Search bar + chip filters (ISCO major group · ward · AI Tier · gender) on `/employer`. React state, no extra lib | P2 |
 | **Adresser le problème des shared devices** | (1) "🗑️ Clear my data from this phone" button after Atlas Card reveal; (2) anonymous-by-default handle toggle; (3) shared-device disclosure in the privacy banner; (4) session timeout on `/player` after 30 min idle | P3 |
 
@@ -178,7 +177,7 @@ This is a feature, not a confession. World Bank judges respect "the best teams k
 - IRT psychometric calibration (1000+ players × 6 months in Ghana pilot)
 - Production Meta WhatsApp Cloud API + SMS Twilio fallback
 - On-device LLM (Llama 3.2 1B / Gemma 2B) for true offline-first in low-bandwidth zones
-- Multilingual native-speaker TTS (Twi, Bengali, Vietnamese, Tagalog, Bahasa, Swahili)
+- Multilingual native-speaker TTS (Twi, Bengali, Tagalog, Bahasa, Swahili)
 - ESCO-LMIC fine-tune for informal-sector skills vocabulary
 - Anti-gaming behavioral consistency layer
 - Geographic expansion: Nigeria, Kenya, India, Philippines, Indonesia, Egypt, Pakistan

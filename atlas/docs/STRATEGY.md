@@ -129,7 +129,6 @@ The user said *"pas besoin de pouvoir cliquer forcément sur la carte, il est au
 1. Atlas pre-creates **3 sample WA groups** per country (manual, by Fanette's phone):
    - Ghana: "Atlas · Madina Phone Repair Squad", "Atlas · Accra Tailors", "Atlas · East Legon Devs"
    - Bangladesh: similar
-   - Vietnam: similar
 2. Group invite links are stored as env vars: `WA_GROUP_GH_7421`, `WA_GROUP_GH_7531`, etc.
 3. **Employer side**: clicking "Join squad" on any candidate card opens `https://chat.whatsapp.com/<link>` for that ward × ISCO. Employer joins.
 4. **Player side**: at end-of-quest, the Atlas Card reveal includes "🤝 Join your squad: Madina Phone Repair Squad" → tap → joins same group.
@@ -172,14 +171,14 @@ The user said *"clusters sur les skills"*. Two readings:
 | Module 1: Skills Signal Engine, profile portable + human-readable (p.3) | ISCO-08 + O*NET + STEP, plain-language labels (Paola TODO), share link with QR | ✅ |
 | Module 2: AI Readiness + Displacement Risk (p.3, must use ≥1 real automation dataset) | Frey-Osborne LMIC reappraisal surfaced in Atlas Card 🤖 + employer view | ✅ |
 | Module 3: Opportunity Matching + Dashboard, dual interface (p.3) | Player view + Employer view + Policymaker view = 3 surfaces | ✅✅ |
-| Country-agnostic, configurable (p.4) | JSON configs, live country toggle, Phase 1 ships GH/BD/VN | ✅ |
+| Country-agnostic, configurable (p.4) | JSON configs, live country toggle, Phase 1 ships GH/BD | ✅ |
 | Real economic data, ≥2 econometric signals visible (p.4-5) | 6+ on Atlas Card (wage, growth, automation risk, AI premium, gender legal, digital readiness) | ✅✅ |
 | **Strong: show the data** | DataSourceCitation on every value | ✅ |
 | **Strong: design for constraint** | Low-bandwidth chat, voice-ready, shared-device toggle, country-aware privacy | ✅ |
 | **Strong: localizability with real evidence** | Live country swap on stage | ✅ |
 | **Strong: honest about limits** | HonestLimitsBanner everywhere | ✅ |
 | **Weak avoid: beautiful dashboard you knew** | RISK if employer view just shows "phone repair density". Mitigation: surface AI Tier × wage premium uniquely | ⚠️ Manage |
-| **Weak avoid: generic 'youth'** | Amara/Riya/Tuan named personas | ✅ |
+| **Weak avoid: generic 'youth'** | Amara/Riya named personas | ✅ |
 | **Weak avoid: localizability as slide** | Live country toggle | ✅ |
 | **Weak avoid: overengineered tech, underengineered UX** | Stack tightened (no Postgres, no shadcn, no Leaflet, no Vitest) | ✅ |
 

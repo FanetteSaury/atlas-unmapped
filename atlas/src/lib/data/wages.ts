@@ -67,24 +67,6 @@ export const WAGES: Record<string, Record<string, WageDatum>> = {
       source: { name: "ILOSTAT", url: ILOSTAT_2024, year: "2024" },
     },
   },
-  VN: {
-    "2519": {
-      isco: "2519",
-      iscoTitle: "Software Developer",
-      formalMedian: 8500000,
-      informalMedian: 4500000,
-      currency: "₫",
-      source: { name: "ILOSTAT", url: ILOSTAT_2024, year: "2024" },
-    },
-    "7421": {
-      isco: "7421",
-      iscoTitle: "Phone Repair Technician",
-      formalMedian: 7800000,
-      informalMedian: 3900000,
-      currency: "₫",
-      source: { name: "ILOSTAT", url: ILOSTAT_2024, year: "2024" },
-    },
-  },
 };
 
 export interface AutomationRisk {
@@ -130,10 +112,6 @@ export const WDI_SECTOR_GROWTH: Record<string, Record<string, SectorGrowth>> = {
   BD: {
     "7531": { isco: "7531", growthYoy: 6.4 },
     "7421": { isco: "7421", growthYoy: 5.1 },
-  },
-  VN: {
-    "2519": { isco: "2519", growthYoy: 11.2 },
-    "7421": { isco: "7421", growthYoy: 4.9 },
   },
 };
 

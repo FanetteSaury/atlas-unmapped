@@ -113,7 +113,7 @@ Already staged (data-prestager): ILOSTAT ❌ · WDI ✅ · HCI ❌ · ISCO-08 �
 | 2.1 | `src/app/player/page.tsx` — React port of `player.html`. Components: `ChatBubble`, `MeasurementRail`, `OracleArena`, `AtlasCardModal`. Companion Select + Boss Fight 3-phase kept verbatim. State via Zustand. | ⏳ |
 | 2.2 | `src/app/employer/page.tsx` — Leaflet heatmap (real OSM), 4 KPIs from `lib/lmic`, candidate list (Postgres aggregation, pseudonymized per privacy tier) | ⏳ |
 | 2.3 | `src/app/policymaker/page.tsx` — Recharts: supply/demand × growth, AI-Tier dist, Frey-Osborne strip, WBL gauge, Wittgenstein 2030 | ⏳ |
-| 2.4 | `<CountryToggle>` works across all 3 pages (URL param `?country=GH|BD|VN`) | ⏳ |
+| 2.4 | `<CountryToggle>` works across all 3 pages (URL param `?country=GH|BD`) | ⏳ |
 | 2.5 | `<HonestLimitsBanner>` + `<DataSourceCitation>` on every chart and Atlas Card field | ⏳ |
 | 2.6 | `vercel --prod` deploy v2 | ⏳ |
 | 2.7 | Commit `feat: player + employer + policymaker pages with live lmic data` | ⏳ |
@@ -162,7 +162,7 @@ Already staged (data-prestager): ILOSTAT ❌ · WDI ✅ · HCI ❌ · ISCO-08 �
 | # | Task | Status |
 |---|---|---|
 | 4.1 | Smoke test: full player run on Vercel prod (no console errors) | ⏳ |
-| 4.2 | Smoke test: 3 country swaps (GH ↔ BD ↔ VN) end-to-end | ⏳ |
+| 4.2 | Smoke test: country swap (GH ↔ BD) end-to-end | ⏳ |
 | 4.3 | Smoke test: Twilio Sandbox WhatsApp from a real phone | ⏳ |
 | 4.4 | **Citation audit**: click every `<DataSourceCitation>`, confirm live source URL resolves | ⏳ |
 | 4.5 | Final commit `chore: submission v1` + git tag `submission-v1` + push | ⏳ |
@@ -182,7 +182,7 @@ The brief warns explicitly: *"weak submissions overengineer the tech stack"* (p.
 - ✂️ **No Vitest** in v1 — manual smoke checklist before submit. Saves ~30 min Phase 1 setup. Tests → Phase 2.
 - ✂️ **No TS ingest scripts** — replaced by Python ingest (lead dev's terrain). Same JSON output read by TS frontend.
 - ✂️ **No Meta WhatsApp Cloud API** — verification risk too high in 8h. Twilio Sandbox is the demo path.
-- ✂️ **No TTS** — accent quality risk for Twi/Bengali/Vietnamese. Whisper STT only.
+- ✂️ **No TTS** — accent quality risk for Twi/Bengali. Whisper STT only.
 - ✂️ **No on-device LLM in hackathon scope** — packaging a 1-2GB model in a native app is 6h+ of new tooling. Addressed via offline-graceful UX (network-resilience demo trick) + slide architecture instead. Roadmap Phase 2.
 - ✂️ **No SMS adapter** — Twilio supports it, same orchestrator engine, but +2h work for 0 stage-demo ROI. Architecture diagram only. Roadmap Phase 2.
 - ✂️ **No auth/login** — pseudonymous handle + phone hash for attestor.

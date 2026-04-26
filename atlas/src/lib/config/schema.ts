@@ -34,9 +34,8 @@ export type CountryConfig = z.infer<typeof CountryConfig>;
 
 import gh from "./countries/gh.json" with { type: "json" };
 import bd from "./countries/bd.json" with { type: "json" };
-import vn from "./countries/vn.json" with { type: "json" };
 
-const RAW: Record<string, unknown> = { GH: gh, BD: bd, VN: vn };
+const RAW: Record<string, unknown> = { GH: gh, BD: bd };
 
 const validated: Record<string, CountryConfig> = {};
 for (const [code, raw] of Object.entries(RAW)) {

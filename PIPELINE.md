@@ -127,7 +127,7 @@ Every UI rendering of an econometric value goes through `<DataSourceCitation sou
 
 ## 4. Refresh strategy
 
-- **Phase 1 (08:00–10:00 tomorrow):** initial fetch of every source for GH / BD / VN. Commit results to `data/lmic/`. `_meta.json` records `fetchedAt`.
+- **Phase 1 (08:00–10:00 tomorrow):** initial fetch of every source for GH / BD. Commit results to `data/lmic/`. `_meta.json` records `fetchedAt`.
 - **Phase 2+:** ingest is idempotent. `pnpm ingest` re-runs everything in parallel. `pnpm ingest:ilostat --country GH` for one source/country.
 - **Production roadmap:** Vercel Cron job runs `pnpm ingest` weekly; opens a PR with the diff.
 

@@ -31,21 +31,11 @@ export const WARD_COORDS: Record<string, WardCoord[]> = {
     { ward: "Tejgaon", lat: 23.7641, lng: 90.394 },
     { ward: "Banani", lat: 23.7928, lng: 90.404 },
   ],
-  VN: [
-    { ward: "Cầu Giấy", lat: 21.0307, lng: 105.799 },
-    { ward: "Đống Đa", lat: 21.0157, lng: 105.831 },
-    { ward: "Ba Đình", lat: 21.0339, lng: 105.819 },
-    { ward: "Hai Bà Trưng", lat: 21.0072, lng: 105.86 },
-    { ward: "Tây Hồ", lat: 21.063, lng: 105.815 },
-    { ward: "Hoàn Kiếm", lat: 21.0285, lng: 105.852 },
-    { ward: "Thanh Xuân", lat: 20.99, lng: 105.815 },
-  ],
 };
 
 export const CITY_CENTER: Record<string, { lat: number; lng: number; zoom: number }> = {
   GH: { lat: 5.59, lng: -0.18, zoom: 11 },
   BD: { lat: 23.8, lng: 90.4, zoom: 11 },
-  VN: { lat: 21.03, lng: 105.83, zoom: 12 },
 };
 
 export function getCoord(country: string, ward: string): WardCoord | undefined {

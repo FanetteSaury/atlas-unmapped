@@ -19,7 +19,7 @@ The plan is: keep the demo's IP (game design, country JSON shape, scoring rubric
 - Real Claude-driven chapter orchestrator with prompt caching
 - Real skills mapping built on **ISCO-08 + O*NET task content (LMIC-adapted) + STEP rubrics** — no ESCO (Eurocentric, doesn't fit LMIC informal-sector reality)
 - Real WhatsApp pipe via Twilio Sandbox (P1, after JTBD + data done)
-- All three surfaces (Player Quest · Employer · Policymaker) on one configurable backend, country-swap demo (GH ↔ BD ↔ VN)
+- All three surfaces (Player Quest · Employer · Policymaker) on one configurable backend, country-swap demo (GH ↔ BD)
 
 The demo cheats (hardcoded "use sample" buttons, fake 2.2s witness delay, made-up ESCO codes, mock candidate lists) all get removed. The world-class IP — the Companion Select, the Oracle Boss Fight, the Atlas Card 4-reveal, the 3-tier privacy with country-aware defaults — stays verbatim.
 
@@ -221,7 +221,6 @@ atlas/                              # new Next.js root, will replace demo_v1 as 
 │   │   │   ├── countries/
 │   │   │   │   ├── gh.json         # Ghana
 │   │   │   │   ├── bd.json         # Bangladesh
-│   │   │   │   ├── vn.json         # Vietnam
 │   │   │   │   ├── ng.json         # Nigeria (depth)
 │   │   │   │   ├── ke.json         # Kenya (depth)
 │   │   │   │   └── ph.json         # Philippines (depth)
@@ -328,7 +327,7 @@ atlas/                              # new Next.js root, will replace demo_v1 as 
 1. `src/app/player/page.tsx` — React port of `player.html`. Components: `ChatBubble`, `MeasurementRail`, `OracleArena`, `AtlasCardModal`. State managed client-side (Zustand or `useReducer`), syncs to KV via `/api/chat`. Companion Select kept verbatim (Sage/Spark/Zuri/Kira/Scout/Ember). Boss Fight 3-phase mechanic kept verbatim.
 2. `src/app/employer/page.tsx` — Heatmap (Leaflet, real OSM tiles), 4 KPIs from `lmic/*` accessors, candidate list aggregated from KV runs (pseudonymized per privacy tier).
 3. `src/app/policymaker/page.tsx` — Recharts: supply vs demand × growth, AI-Tier distribution from KV runs, Frey-Osborne strip, WBL gauge, Wittgenstein 2030 projection. Country toggle live.
-4. `CountryToggle` works across all 3 pages (URL param `?country=GH|BD|VN`).
+4. `CountryToggle` works across all 3 pages (URL param `?country=GH|BD`).
 5. `HonestLimitsBanner` + `DataSourceCitation` on every chart and Atlas Card field.
 6. `vercel --prod` deploy v2.
 
@@ -429,10 +428,10 @@ All 6 files are scaffolded in Phase 0 and updated at every commit. The user's ma
 |---|---|---|
 | Infrastructure, not product | 3 surfaces on 1 configurable backend, country JSON drives everything | `src/lib/config/countries/*.json`, README §arch |
 | Build ≥ 2 of 3 modules | Module 1 (Skills Signal Engine), Module 2 (AI Readiness Lens — full, with AI-Tier 0–4 + Frey-Osborne LMIC + Wittgenstein 2030), Module 3 (Opportunity Matching + dual interface) — **all three** | PRD.md §modules, README §brief-compliance |
-| Country-agnostic | JSON-driven; live country toggle (GH ↔ BD ↔ VN) on stage | `CountryToggle`, `config/countries/`, README §country-swap |
+| Country-agnostic | JSON-driven; live country toggle (GH ↔ BD) on stage | `CountryToggle`, `config/countries/`, README §country-swap |
 | Real economic data | All 10 sources fetched live or cached with citation | PIPELINE.md, `data/lmic/_meta.json`, `DataSourceCitation` component |
 | ≥ 2 signals visible to user | 4 on Atlas Card alone (wage, growth, automation risk, AI premium); more on dashboards | `/player` Atlas Card reveal, `/employer`, `/policymaker` |
-| Specific constrained user | Amara (Ghana, phone repair), Riya (Bangladesh, tailor), Tuan (Vietnam, dev) — voice-ready text-first, low-bandwidth, shared-device | `config/countries/*.json` `samplePlayer` field, PRD.md §personas |
+| Specific constrained user | Amara (Ghana, phone repair), Riya (Bangladesh, tailor) — voice-ready text-first, low-bandwidth, shared-device | `config/countries/*.json` `samplePlayer` field, PRD.md §personas |
 | Design for constraint | Whisper STT, low-bandwidth chat, navigator-assist, country-aware privacy defaults | `/api/voice`, `src/lib/privacy.ts` |
 | Localizability with real evidence | Live country swap demo on stage, 6 country configs shipped | Phase 2/3 demo, README §brief-compliance |
 | Honest about limits | `HonestLimitsBanner` on every UI surface; calibration disclosure on Atlas Card | `HonestLimitsBanner.tsx`, README §honest-limits |

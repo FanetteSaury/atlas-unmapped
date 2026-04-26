@@ -4,7 +4,7 @@
 
 import "dotenv/config";
 
-const COUNTRIES = (process.env["INGEST_COUNTRIES"] ?? "GH,BD,VN").split(",");
+const COUNTRIES = (process.env["INGEST_COUNTRIES"] ?? "GH,BD").split(",");
 
 async function main() {
   console.log(`[atlas:ingest] starting for countries: ${COUNTRIES.join(", ")}`);

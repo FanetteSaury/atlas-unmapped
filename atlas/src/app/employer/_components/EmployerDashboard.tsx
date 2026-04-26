@@ -15,6 +15,7 @@ import { WAGES, WDI_SOURCE, AUTOMATION_RISK, FREY_OSBORNE_SOURCE } from "@/lib/d
 import { DataSourceCitation } from "@/components/DataSourceCitation";
 import { getRealKpis } from "@/lib/data/real-kpis";
 import { WardMap } from "./WardMap";
+import { ProgramOfficerView } from "./ProgramOfficerView";
 
 type AiTier = 0 | 1 | 2 | 3 | 4;
 
@@ -31,6 +32,7 @@ export function EmployerDashboard() {
   const [selectedWards, setSelectedWards] = useState<string[]>(wards);
   const [view, setView] = useState<"map" | "list">("map");
   const [recency, setRecency] = useState<"all" | "30d" | "7d">("all");
+  const [role, setRole] = useState<"recruiter" | "officer">("recruiter");
 
   const filtered = useMemo(() => {
     const cutoff =
@@ -60,6 +62,116 @@ export function EmployerDashboard() {
 
   const toggle = <T,>(arr: T[], v: T): T[] => (arr.includes(v) ? arr.filter((x) => x !== v) : [...arr, v]);
 
+  return (
+    <div className="space-y-4">
+      {/* Role toggle: dual interface per brief Module 3 */}
+      <div className="flex items-center justify-between rounded-full border border-zinc-200 bg-white p-1 text-sm dark:border-white/10 dark:bg-zinc-900">
+        <div className="flex">
+          <button
+            onClick={() => setRole("recruiter")}
+            className={
+              "rounded-full px-4 py-1.5 font-medium transition " +
+              (role === "recruiter"
+                ? "bg-zinc-900 text-zinc-50 dark:bg-zinc-50 dark:text-zinc-900"
+                : "text-zinc-600 hover:bg-zinc-100 dark:text-zinc-400")
+            }
+          >
+            👔 Recruiter
+          </button>
+          <button
+            onClick={() => setRole("officer")}
+            className={
+              "rounded-full px-4 py-1.5 font-medium transition " +
+              (role === "officer"
+                ? "bg-zinc-900 text-zinc-50 dark:bg-zinc-50 dark:text-zinc-900"
+                : "text-zinc-600 hover:bg-zinc-100 dark:text-zinc-400")
+            }
+          >
+            🏛️ Program Officer
+          </button>
+        </div>
+        <div className="px-3 text-[11px] text-zinc-500">
+          Brief Module 3 dual interface — same data, two roles.
+        </div>
+      </div>
+
+      {role === "officer" ? (
+        <ProgramOfficerView country={country} cards={allCards} kpis={kpis} />
+      ) : (
+        <RecruiterContent
+          {...{
+            allIscos,
+            allCards,
+            wards,
+            cfg,
+            country,
+            byWard,
+            maxDensity,
+            filtered,
+            kpis,
+            selectedIscos,
+            setSelectedIscos,
+            selectedTiers,
+            setSelectedTiers,
+            selectedWards,
+            setSelectedWards,
+            view,
+            setView,
+            recency,
+            setRecency,
+            toggle,
+          }}
+        />
+      )}
+    </div>
+  );
+}
+
+interface RecruiterProps {
+  allIscos: string[];
+  allCards: SeedCard[];
+  wards: string[];
+  cfg: ReturnType<typeof getCountry>;
+  country: string;
+  byWard: Record<string, number>;
+  maxDensity: number;
+  filtered: SeedCard[];
+  kpis: ReturnType<typeof getRealKpis>;
+  selectedIscos: string[];
+  setSelectedIscos: (v: string[]) => void;
+  selectedTiers: AiTier[];
+  setSelectedTiers: (v: AiTier[]) => void;
+  selectedWards: string[];
+  setSelectedWards: (v: string[]) => void;
+  view: "map" | "list";
+  setView: (v: "map" | "list") => void;
+  recency: "all" | "30d" | "7d";
+  setRecency: (v: "all" | "30d" | "7d") => void;
+  toggle: <T,>(arr: T[], v: T) => T[];
+}
+
+function RecruiterContent({
+  allIscos,
+  allCards,
+  wards,
+  cfg,
+  country,
+  byWard,
+  maxDensity,
+  filtered,
+  kpis,
+  selectedIscos,
+  setSelectedIscos,
+  selectedTiers,
+  setSelectedTiers,
+  selectedWards,
+  setSelectedWards,
+  view,
+  setView,
+  recency,
+  setRecency,
+  toggle,
+}: RecruiterProps) {
   return (
     <div className="grid gap-4 lg:grid-cols-[280px_1fr]">
       {/* Sidebar: filters */}

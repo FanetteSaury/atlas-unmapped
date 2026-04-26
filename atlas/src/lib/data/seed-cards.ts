@@ -41,8 +41,6 @@ const BANGLADESH_WARDS = [
   "Banani",
 ];
 
-const VIETNAM_WARDS = ["Cầu Giấy", "Đống Đa", "Ba Đình", "Hai Bà Trưng", "Tây Hồ", "Hoàn Kiếm", "Thanh Xuân"];
-
 const CLASS_BY_ISCO_PREFIX: Record<string, string> = {
   "1": "🧠 Solver",
   "2": "💻 Builder",
@@ -98,19 +96,16 @@ function buildSet(country: string, wards: string[], iscos: string[]): SeedCard[]
 export const SEED_CARDS: Record<string, SeedCard[]> = {
   GH: buildSet("GH", GHANA_WARDS, ["7421", "7531", "2519", "5223"]),
   BD: buildSet("BD", BANGLADESH_WARDS, ["7531", "7421"]),
-  VN: buildSet("VN", VIETNAM_WARDS, ["2519", "7421"]),
 };
 
 export const ALL_WARDS: Record<string, string[]> = {
   GH: GHANA_WARDS,
   BD: BANGLADESH_WARDS,
-  VN: VIETNAM_WARDS,
 };
 
 export const ISCOS_BY_COUNTRY: Record<string, string[]> = {
   GH: ["7421", "7531", "2519", "5223"],
   BD: ["7531", "7421"],
-  VN: ["2519", "7421"],
 };
 
 export const ISCO_TITLES: Record<string, string> = {
@@ -120,21 +115,19 @@ export const ISCO_TITLES: Record<string, string> = {
   "5223": "Shop Sales Assistant",
 };
 
-// Squad WhatsApp invite links — pre-seeded by team for demo.
-// Phase 2 production uses Twilio Conversations API for dynamic group creation.
-export const SQUAD_INVITES: Record<string, Record<string, string>> = {
-  GH: {
-    "7421": "https://chat.whatsapp.com/atlas-demo-gh-7421",
-    "7531": "https://chat.whatsapp.com/atlas-demo-gh-7531",
-    "2519": "https://chat.whatsapp.com/atlas-demo-gh-2519",
-    "5223": "https://chat.whatsapp.com/atlas-demo-gh-5223",
-  },
-  BD: {
-    "7531": "https://chat.whatsapp.com/atlas-demo-bd-7531",
-    "7421": "https://chat.whatsapp.com/atlas-demo-bd-7421",
-  },
-  VN: {
-    "2519": "https://chat.whatsapp.com/atlas-demo-vn-2519",
-    "7421": "https://chat.whatsapp.com/atlas-demo-vn-7421",
-  },
-};
+// Squad WhatsApp invite links are resolved at runtime from env vars by
+// `src/lib/wa/squad.ts` (`resolveSquadInvite(country, isco)`). The links live
+// in Vercel env (`WA_GROUP_<COUNTRY>_<ISCO>`) and are never committed.
+//
+// `SQUAD_INVITES` below remains exported for callers that need a country×isco
+// table at module-load time, but it's now derived from the resolver — flip an
+// env var, the link flips here too. Phase 2 production: Twilio Conversations
+// API for dynamic group creation. See `docs/WHATSAPP_GAME.md` §roadmap.
+import { resolveSquadInvite } from "@/lib/wa/squad";
+
+export const SQUAD_INVITES: Record<string, Record<string, string>> = Object.fromEntries(
+  Object.entries(ISCOS_BY_COUNTRY).map(([country, iscos]) => [
+    country,
+    Object.fromEntries(iscos.map((isco) => [isco, resolveSquadInvite(country, isco).url])),
+  ]),
+);
