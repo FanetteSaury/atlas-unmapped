@@ -4,13 +4,55 @@
 
 **Hack-Nation 2026 · Track 5: UNMAPPED · The World Bank Youth Summit**
 
-A WhatsApp-native conversational game that, in **12 minutes** on a phone Amara already owns, measures three things no existing tool measures for the **600M unmapped young people** across **75 LIC + LMIC** countries:
+---
 
-1. **STEP-equivalent skill scores** — cognitive, socio-emotional, job-specific
-2. **An ISCO-08 occupation code assignment** with attestor-backed confidence
-3. **An AI Fluency Tier (0–4)** — a measurement that does not exist in any public dataset
+# 🚀 Try it now in beta!
 
-It surfaces real econometric signals (ILOSTAT wages, WDI sector growth, Frey-Osborne automation risk, WBES skill gaps, WBL gender legal context, Findex digital readiness) to give those measurements economic meaning, and routes the player to a real local WhatsApp squad of verified employers.
+# **→ https://atlas-mu-vert.vercel.app**
+
+Open the link, pick Ghana or Bangladesh, post a project as an employer or play the 12-minute quest as a young worker.
+
+---
+
+## The pitch
+
+In low- and middle-income countries, the labor market is not broken — it's invisible.
+
+Up to **90% of young workers operate informally**, and the World Bank identifies **over 600 million young people** with real but unrecognized skills.
+
+So we asked: if they're not on LinkedIn, how does hiring actually happen?
+
+Through family, peer recommendations, word of mouth, and **WhatsApp groups** — but these signals are fragmented and cannot scale.
+
+Then we identified the core constraint: many users struggle to read and write, so CVs, job platforms, and written assessments fail before skills are even captured.
+
+So the real opportunity is not building another job platform — it's **measuring informal skills in a way that fits how people already communicate**.
+
+**Atlas is a voice-first game on WhatsApp.** In under 15 minutes, users tell their story — no writing, no pressure — and we generate a STEP-equivalent skill score and a formal occupation profile.
+
+The user gets a simple scorecard they can share instantly, and is **matched into skill-based WhatsApp groups with employers**.
+
+We are **B2B**: employers, NGOs, and governments pay ~**$2–5 per verified profile** or via SaaS access to local talent pools — while the product is free for users.
+
+Atlas directly addresses that skill misallocation gap — by making skills measurable, shareable, and matchable at scale.
+
+We're not creating demand. **We're unlocking the workforce that already exists.**
+
+---
+
+## Meet Amara
+
+Amara, 22, repairs phones from a kiosk in Madina, Greater Accra. She left school at 16, has no LinkedIn, no CV, and no formal credential. But she fixes 8–12 phones a day, knows three brands of soldering iron by feel, and triages screen replacements while explaining the trade-off in Twi to her customer.
+
+Atlas hands her a phone, asks her to talk for 12 minutes, and gives her back:
+
+- **ISCO-08 7421** — Phone Repair Technician (88% confidence)
+- **AI Tier 2** — Active (uses ChatGPT weekly to look up part numbers, +20% wage premium)
+- **🔧 The Artisan** — Atlas class, calibrated against Ghana 2013 STEP
+- **Wage benchmark**: ₵1,050–1,400/month formal · ₵2,400/month with AI Tier 2 premium (ILOSTAT 2024)
+- **Squad invite**: a WhatsApp room with 4 verified Madina-area employers who just posted projects matching her skill cluster
+
+She didn't fill a form. She told a story. And the labour market saw her for the first time.
 
 ---
 
@@ -18,18 +60,13 @@ It surfaces real econometric signals (ILOSTAT wages, WDI sector growth, Frey-Osb
 
 ```
 202604_Hack_Nation/
-├── atlas/        # ← the real Next.js 15 app (Vercel root)
-├── demo_v1/      # ← legacy static-HTML demo, preserved (read ATLAS_BRIEF.md for the strategic narrative)
-├── docs/         # ← official Hack-Nation + World Bank brief PDFs
-├── README.md     # ← you are here
-├── CLAUDE.md     # ← guide for Claude Code sessions on this repo
-├── PRD.md        # ← product requirements (JTBD, user stories, success metrics)
-├── PIPELINE.md   # ← real LMIC data ingest spec (every source, every endpoint, every citation)
-├── TASKS.md      # ← time-boxed work list (now → 1am → tomorrow 8am-3pm)
-└── PLAN.md       # ← execution plan (stack, architecture, phases, risks)
+├── atlas/        # ← Next.js 16 app, Vercel root
+│   ├── src/app/  #   landing, /employer, /policymaker, /player, /api/*
+│   └── public/v2 #   Paola's polished static demo (player.html, policymaker.html)
+├── demo_v1/      # ← legacy static-HTML demo, preserved for reference
+├── docs/         # ← official Hack-Nation + World Bank brief PDFs + SUBMISSION.md
+└── README.md     # ← you are here
 ```
-
-**Start with:** [`PLAN.md`](./PLAN.md) for the 60-second overview, then [`PRD.md`](./PRD.md) for the product spec, then [`PIPELINE.md`](./PIPELINE.md) for the data layer.
 
 ---
 
@@ -51,67 +88,40 @@ Open http://localhost:3000 → pick a country → walk the 8-chapter quest. Visi
 
 | Var | Required? | What breaks without it | Where to get it |
 |---|---|---|---|
-| `ANTHROPIC_API_KEY` | **recommended** | chat falls back to deterministic stubs (UI still works, scoring still fires) | console.anthropic.com → API Keys (free $5 credit on signup) |
+| `ANTHROPIC_API_KEY` | **recommended** | chat falls back to deterministic stubs (UI still works, scoring still fires) | console.anthropic.com → API Keys |
 | `KV_REST_API_URL` + `KV_REST_API_TOKEN` | optional | completed Atlas Cards aren't persisted; `/policymaker` shows seed cohort only | Vercel → Storage → Upstash for Redis (free tier) |
 | `OPENAI_API_KEY` | optional | Whisper voice notes disabled; text input still works | platform.openai.com |
 | `TWILIO_*` | optional | WhatsApp channel disabled; browser channel still works | console.twilio.com (Sandbox WhatsApp) |
-| `ATLAS_CARD_SIGNING_SECRET` | optional | share-link HMAC signing skipped | `openssl rand -hex 32` |
 
 ### Health check
 
 After `pnpm dev`, hit `http://localhost:3000/api/health` — confirms which services are wired:
 
 ```json
-{ "anthropic": true, "kv": false, "kvCountGH": 0, "model": "claude-sonnet-4-6" }
+{ "anthropic": true, "kv": true, "kvCountGH": 12, "model": "claude-sonnet-4-6" }
 ```
 
-The deployed prod URL exposes the same endpoint: https://atlas-mu-vert.vercel.app/api/health
+Same endpoint live: https://atlas-mu-vert.vercel.app/api/health
 
 ---
 
-## Deploy
+## Stack
 
-The repo is configured for Vercel with the project root set to `atlas/`. Pushing to `main` triggers a production deploy.
-
-```bash
-cd atlas
-pnpm dlx vercel --prod
-```
-
----
-
-## Brief compliance
-
-| Brief requirement | Atlas implementation |
-|---|---|
-| Infrastructure, not product | 3 surfaces (Player · Employer · Policymaker) on 1 configurable backend, country JSON drives everything |
-| Build ≥ 2 of 3 modules | All 3: Skills Signal Engine + AI Readiness Lens (full, with AI-Tier 0–4) + Opportunity Matching dual interface |
-| Country-agnostic | JSON-driven config (`atlas/src/lib/config/countries/*.json`); live country toggle (GH ↔ BD ↔ NG ↔ KE ↔ PH) |
-| Real economic data | Live APIs (ILOSTAT SDMX, WDI REST, WBES, HCI) + bulk-cached datasets (Findex, WBL, Frey-Osborne, Wittgenstein, ISCO-08, O*NET, STEP). Every datum cited, see [`PIPELINE.md`](./PIPELINE.md) |
-| ≥ 2 econometric signals visible | 4+ on the Atlas Card alone (wage, sector growth, automation risk, AI premium); more on dashboards |
-| Specific constrained user | Amara (Ghana, phone repair) · Riya (Bangladesh, tailor). Voice-ready (Whisper STT), low-bandwidth, shared-device aware, navigator-assistable |
-| Design for constraint | Whisper STT, low-bandwidth chat, country-aware privacy 3-tier with WBL-driven defaults |
-| Localizability with real evidence | Live country swap demo on stage in 30 seconds, 6 country configs shipped |
-| Honest about limits | `<HonestLimitsBanner>` on every UI surface; calibration disclosure on the Atlas Card |
-
-**Skills taxonomy is ISCO-08 + O*NET (LMIC-adapted) + World Bank STEP rubrics. Not ESCO** — ESCO is Eurocentric and doesn't fit LMIC informal-sector reality.
+- **Frontend + API**: Next.js 16 (App Router) + TypeScript + Tailwind v4 on Vercel
+- **LLM**: Anthropic Claude Sonnet 4.6 with prompt caching (channel-agnostic `runChapter` orchestrator)
+- **Persistence**: Vercel KV (Upstash Redis) for Atlas Cards + project rooms
+- **WhatsApp**: Twilio Sandbox + browser simulator share the same engine
+- **Skills taxonomy**: ISCO-08 + O*NET (LMIC-adapted) + World Bank STEP rubrics — **not ESCO** (Eurocentric, doesn't fit informal-sector reality)
+- **Real-data layer**: ILOSTAT · WDI · Frey-Osborne LMIC reappraisal · WBES · WBL 2024 · Findex 2024 · Wittgenstein 2030 · HCI · UNESCO UIS · ITU Digital Development
 
 ---
 
-## Honest limits (calibration disclosure)
+## Honest limits
 
-- Hackathon-grade STEP-equivalent rubrics. Not psychometrically validated. Production calibration requires 1000+ players × 6 months of IRT item-bank calibration. Disclosed on the player measurement rail and on the Atlas Card.
-- LMIC econometric data: live where APIs are available (ILOSTAT, WDI, WBES, HCI), cached for paper-based sources (Findex, WBL, Frey-Osborne, Wittgenstein, STEP, ISCO-08, O*NET). All cached files include source URL + license + fetchedAt timestamp in `data/lmic/_meta.json`.
-- WhatsApp pipe is Twilio Sandbox in this submission; production deployment uses Meta WhatsApp Cloud API (architecture diagram in [`PLAN.md`](./PLAN.md)).
-- Voice STT only (OpenAI Whisper). TTS deferred to Phase 2 — accent quality requires native-speaker calibration in 20+ LMIC languages.
-
----
-
-## Sources
-
-ILOSTAT · World Bank WDI · World Bank Enterprise Surveys · Global Findex 2024 · Women, Business and the Law 2024 · Frey & Osborne 2013 + ILO/WB LMIC reappraisal · Wittgenstein Centre 2025–2035 · World Bank STEP · Human Capital Index · ISCO-08 · O*NET 28+ · ITU Digital Development · UNESCO UIS
-
-Full citations + fetched timestamps: [`PIPELINE.md`](./PIPELINE.md) · [`atlas/data/lmic/_meta.json`](./atlas/data/lmic/_meta.json)
+- Hackathon-grade STEP-equivalent rubrics, calibrated against Ghana 2013 STEP anchors. Not psychometrically validated. Production calibration requires 1000+ players × 6 months of IRT item-bank work.
+- LMIC econometric data is hardcoded from public sources at submission time. Every datum cites its source on-screen.
+- WhatsApp pipe is Twilio Sandbox; production deployment uses Meta WhatsApp Cloud API.
+- Voice STT only (Whisper). TTS deferred — accent quality requires native-speaker calibration in 20+ LMIC languages.
 
 ---
 
