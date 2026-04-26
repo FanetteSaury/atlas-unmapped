@@ -5,6 +5,94 @@
 
 Status legend: ⏳ pending · 🚧 in progress · ✅ done · ⏸ deferred · ✂️ cut from scope
 
+> **CONTRACT FOR ALL AGENTS + FUTURE CLAUDE SESSIONS**: this file (`TASKS.md` at the repo root) is the canonical task list. The internal Claude Code TaskList is volatile (per-session, not persisted in git). Any task that should survive a session restart MUST land in this file. Agents read this file to know what's pending; they don't trust the in-session TaskList.
+
+---
+
+## 🆘 LIVE BOARD — 2026-04-26 morning (~9h00 Paris)
+
+The 3 highest-priority active items right now. These are blocking.
+
+### #15 — 🔴 PRIORITY 1 (Paola, 8:44 AM convo) — split policymaker from employer dashboards
+
+> *Paola — 8:44 AM:* "Hello Fanette ! Merci d'avoir bossé autant c'est top ! Par contre il faut revenir en arrière pour le Dashboard employer et policy maker. Un mécanicien ou un patron de PME il ne doit pas avoir accès à des données comme ça — les données sont strictement réservées aux NGOs et au gouvernement. Ça n'a rien à faire ensemble et les deux stakeholders n'ont pas du tout le même but à venir sur le site. Chacun doit pouvoir se connecter avec son profil et les interfaces sont différentes."
+>
+> *Fanette — 8:47 AM:* "je suis d'acc — pour l'instant on a pas le temps de faire de l'authentification, enfin il faut que je me concentre sur whatsapp et toi sur le pitch. on va planifier les priorités tout à l'heure"
+>
+> *Paola — 8:48 AM:* "D'accord mais les dashboards doivent être différents et les données présentées aussi. Remettre ça comme avant c'est la priorité n°1."
+>
+> *Paola — 8:53 AM:* "Après si c'est des Dashboards séparés et qu'on est capable de voir que c'est séparé c'est la priorité."
+>
+> *Fanette — 8:55 AM:* "La donnée récupérée est notre vraie valeur 👍"
+
+**Implementation (no auth for hackathon, just visual + structural separation):**
+
+1. Restore `/policymaker` route as a separate page (currently folded into `/employer` Recruiter|Officer toggle)
+2. `/employer` = SME / recruiter only — filter sidebar + map + list + 1:1 wa.me Contact button. Strip the role toggle. Header: *"SME / Recruiter Dashboard — find verified candidates near you"*
+3. `/policymaker` = NGO / gov only — aggregate KPIs, AI Tier distribution chart, Frey-Osborne LMIC automation per ISCO, HCI score, Wittgenstein 2030 placeholder. **NO individual handles, NO contact CTAs.** Header: *"NGO / Program Officer Dashboard — country-level signals for cohort planning"*
+4. Landing page: 3 distinct entry cards (Player / SME / NGO/Policymaker)
+5. Reuse the existing `ProgramOfficerView` component at `atlas/src/app/employer/_components/ProgramOfficerView.tsx` — lift it to `atlas/src/app/policymaker/_components/PolicymakerDashboard.tsx`
+6. Disclosure on `/policymaker`: *"This view is for verified NGO + government users. Production: SSO via WB Country Office credentials. Demo: open access."*
+
+**Status:** ⏳ pending — manager picks up after WhatsApp validation green-lights
+
+---
+
+### #13 — 🟡 INTERVIEW PENDING — Report Card storage architecture
+
+The orchestrator (`atlas/src/lib/orchestrator/index.ts`) builds the Atlas Card report at end of quest but does NOT persist it. `/api/wa/webhook` and `/api/chat` both return ephemeral results. **Fanette must answer 6 storage questions before any code lands.**
+
+**Q1 — Backend storage layer**
+- A) Vercel KV only (`card:<shareSlug>`, JSON, 30-day TTL) — simplest
+- B) Vercel Postgres + Prisma (re-introduces ORM)
+- C) Supabase (Postgres + auth + RLS, 1h setup)
+- D) JSON files in repo (snapshot-only, not persistent)
+
+**Q2 — Card share URL gating**
+- Open link (anyone with slug)
+- Signed token (HMAC, time-bound)
+- Phone-bound (employer must prove phone before viewing)
+
+**Q3 — Player handle linking**
+- Phone hash (WhatsApp) — already done
+- Web session ID localStorage — already done
+- Email registration optional (Phase 2)
+- No login at all — lose slug, lose card
+
+**Q4 — PII vs pseudonymous**
+- Pseudonymous only (handle + scores + ISCO + ward)
+- + soft PII (language, age range, gender for /policymaker bias audit)
+- + hard PII (phone hash, email hash, consent gate)
+
+**Q5 — Retention**
+- 30 days (KV TTL default)
+- 6 months
+- Indefinite + RGPD right-to-delete
+
+**Q6 — Aggregate analytics for `/policymaker`**
+- Live aggregation (query KV/Postgres at runtime)
+- Pre-computed nightly snapshot (`data/aggregates/<country>.json`)
+- Hybrid (last 24h live + older snapshot)
+
+**Status:** ⏸ blocked on Fanette answering Q1-Q6 inline. Do NOT build storage logic until answered.
+
+---
+
+### #14 — 🔵 NOT NOW (Phase 2) — Big-5 OCEAN report + employer-view metrics
+
+Atlas Card v2 should include the full Big-5 OCEAN profile (Openness, Conscientiousness, Extraversion, Agreeableness, Neuroticism) inferred from chapter answers via Claude scoring. Plus employer-view candidate cards should add small interesting metrics:
+
+- response-time-per-chapter (decisiveness signal)
+- word-count distribution (concreteness)
+- code-switch frequency (multilingual ability)
+- AI-Tier × wage projection delta vs market median
+- female-LFP weight in cohort
+- automation-risk × WDI-sector-growth crossover (the "is your job durable AND growing" quadrant)
+
+**Constraint**: layered on `/employer` candidate cards only. `/policymaker` stays aggregate (per Paola's call).
+
+**Status:** ⏸ deferred to Phase 2 — depends on storage architecture (#13) being resolved first.
+
 ---
 
 ## 🟢 ACTIVE SPRINT — 8h00 → 10h00 (Twilio validation hard gate)
@@ -26,6 +114,19 @@ Status legend: ⏳ pending · 🚧 in progress · ✅ done · ⏸ deferred · �
 | **D.1** | 9:30 → 9:50 | **Fanette + team-lead** | LIVE smoke test: text Sandbox `START` → 3 round-trips text → 1 voice note → Atlas Card reveal | ✅ pipeline validated | **9:50** |
 | **E.1** | 9:50 → 9:55 | team-lead | Re-spawn `brief-guardian` for Entry 2 review | ledger appended | — |
 | **E.2** | 9:55 → 10:00 | team-lead | Final commit + push + status | clean main | 10:00 |
+
+### ✅ Done in this sprint (commit refs)
+
+- `27d34d9 feat(orchestrator): real Claude scoring + 3-hearts + ISCO/O*NET/STEP report card` — completes B.1 Claude wiring + game-feel feedback (3 hearts mechanic + story echoes + ISCO-rooted inventory) + report card rendering.
+- `9a56206 wip: real Claude ISCO classification in handleOrigin` — earlier WIP, superseded.
+
+### 🔥 Next concrete action (after Fanette wakes up / done with subway)
+
+1. **Toi**: 14 Twilio + Vercel clicks per "## WhatsApp validation plan" in the chat history. ~10 min.
+2. **Toi**: ping team-lead "go redeploy" once env vars set.
+3. **Team-lead**: push current `main` (`27d34d9`) + `vercel --prod --yes`.
+4. **Together**: live smoke test. Texts `START` from real WA → bot replies through 8 chapters → Atlas Card reveal in 8 staggered messages.
+5. If green → commit `chore: twilio sandbox validated end-to-end`. If broken → debug via `vercel logs --follow` + `/api/wa/health`.
 
 ### Cuts already locked for this sprint (don't reopen)
 
