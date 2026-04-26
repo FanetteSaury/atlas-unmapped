@@ -1,0 +1,11 @@
+indicator,value,unit,vintage,source,confidence
+gdp_per_capita_usd,2400,,2024,,verified
+youth_unemployment,13.2,,2024,,verified
+youth_neet,28.1,,2024,,verified
+sector_growth.ict,8.4,% YoY,2024,,verified
+sector_growth.manufacturing,3.2,% YoY,2024,,verified
+sector_growth.agriculture,1.1,% YoY,2024,,verified
+sector_growth.services,5.6,% YoY,2024,,verified
+female_lfp,63,,2024,,verified
+mobile_subscriptions_per_100,132,,2024,,verified
+internet_pct,58,,2024,,verified
