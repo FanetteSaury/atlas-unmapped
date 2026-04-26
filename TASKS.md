@@ -56,7 +56,23 @@ Status legend: ⏳ pending · 🚧 in progress · ✅ done · ⏸ deferred · �
 
 ## Phase 1 — 2026-04-26 08:00 → 10:00 (Fanette solo, 2h)
 
-> **Goal:** Real LMIC data on disk + Claude orchestrator answering chapter prompts locally.
+> **Goal:** Close the 5 dataset gaps the brief-guardian flagged + wire Claude orchestrator + `/player` chapter 1.
+
+### 🚨 Brief-guardian baseline (Entry 0, atlas/docs/COMPLIANCE_LEDGER.md)
+
+VERDICT: ⚠️ flagged → GO with 5 dataset gaps to close.
+
+**5 datasets MUST land on disk in Phase 1** (brief p.4–5 explicit, can't be silently omitted):
+
+| # | Source | Why brief requires it |
+|---|---|---|
+| 1.A | **ILOSTAT** (live SDMX REST or bulk) | p.4 "primary real-world labor signal source" — wages by ISCO × country |
+| 1.B | **HCI** (live REST one-liner: `api.worldbank.org/v2/country/{iso2}/indicator/HD.HCI.OVRL`) | p.4 — Human Capital Index |
+| 1.C | **STEP** (Ghana-2013 anchor CSV from World Bank Microdata) | p.5 — only direct LMIC skill measurement |
+| 1.D | **ILO Future of Work** task-content indices (committed CSV from ILO Future of Work datasets page) | p.5 — task routine vs non-routine, 40+ countries |
+| 1.E | **O*NET 28+** task content per ISCO (committed LMIC subset CSV) | p.4 — taxonomy backbone |
+
+Already staged (data-prestager): ILOSTAT ❌ · WDI ✅ · HCI ❌ · ISCO-08 ✅ · Wittgenstein ✅ · UN Pop 📋 · UNESCO UIS ✅ · Frey-Osborne ✅ · STEP ❌ · ILO FoW ❌ · ITU ✅ · O*NET ❌
 
 | # | Task | Owner | Status | Commit |
 |---|---|---|---|---|
