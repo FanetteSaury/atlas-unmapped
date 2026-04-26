@@ -14,6 +14,7 @@
 // timeout; if it expires we send a holding message and queue the real reply
 // for the next inbound turn.
 
+import { after } from "next/server";
 import { handleWaMessage } from "@/lib/wa/handler";
 import { isDuplicate } from "@/lib/wa/state";
 import { sendMessages, validateTwilioSignature } from "@/lib/wa/sender";
@@ -39,9 +40,11 @@ export async function POST(request: Request): Promise<Response> {
   if (!fromE164) return twiml200();
   if (messageSid && (await isDuplicate(messageSid))) return twiml200();
 
-  // Process out-of-band so the 200 returns fast. Errors are swallowed +
-  // logged; Twilio doesn't retry on 200.
-  void processInBackground(fromE164, body);
+  // Process out-of-band via `after()` so the 200 returns fast and Vercel
+  // keeps the function alive long enough for sendMessages() to fire.
+  // Without `after()`, Vercel kills the function once the response is sent
+  // and the unfinished promise is dropped (silent demo-killer).
+  after(processInBackground(fromE164, body));
 
   return twiml200();
 }

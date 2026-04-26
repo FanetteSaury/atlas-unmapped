@@ -27,14 +27,27 @@ export interface WAState {
 const STATE_TTL_SEC = 2 * 60 * 60;
 const SID_TTL_SEC = 5 * 60;
 
+// Fallback salt — used ONLY when WA_PHONE_SALT is not configured, so a fresh
+// deploy still works while ops sets the real salt. This is a privacy regression
+// (everyone using this fallback shares the same hashing-space) so it's logged
+// loudly and reviewed in the health endpoint.
+const FALLBACK_SALT = "atlas-dev-fallback-salt-rotate-me";
+
 export function hashPhone(phoneE164: string): string {
   const salt = process.env.WA_PHONE_SALT;
-  if (!salt) throw new Error("WA_PHONE_SALT not set");
+  if (!salt) {
+    if (!warnedAboutSalt) {
+      console.warn("[wa/state] WA_PHONE_SALT not set — using insecure fallback. Set it in Vercel env.");
+      warnedAboutSalt = true;
+    }
+  }
   return createHash("sha256")
-    .update(salt + phoneE164)
+    .update((salt ?? FALLBACK_SALT) + phoneE164)
     .digest("hex")
     .slice(0, 16);
 }
+
+let warnedAboutSalt = false;
 
 const stateKey = (h: string) => `wa:state:${h}`;
 const sidKey = (sid: string) => `wa:sid:${sid}`;
