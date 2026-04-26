@@ -230,5 +230,110 @@
     });
   });
 </script>
+
+<!-- First-visit pop-up: post a project -->
+<div class="ngo-modal-backdrop show" id="welcome-modal">
+  <div class="ngo-modal" style="max-width:560px">
+    <div class="ngo-modal-head" style="background:#EAF1F8;border-bottom:1px solid var(--d360-border)">
+      <div>
+        <div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--d360-blue)">Welcome — start here</div>
+        <h3 style="color:var(--d360-navy);margin:4px 0 0 0">📣 Post your first project</h3>
+      </div>
+      <button class="ngo-modal-close" id="welcome-close" aria-label="Close">×</button>
+    </div>
+    <div class="ngo-modal-body">
+      <p style="margin:0 0 16px 0;color:var(--d360-text-2);line-height:1.5;font-size:0.9rem">
+        Atlas matches your brief with verified workers in the area + opens a chat room with your shortlist. You ask <em>"who's free Friday?"</em>, they reply. No résumés, no calls, no app install.
+      </p>
+
+      <form id="post-form" style="display:grid;gap:12px">
+        <label style="display:block">
+          <div style="font-size:0.75rem;font-weight:600;color:var(--d360-text);margin-bottom:4px">Project title</div>
+          <input required name="title" placeholder="e.g. Phone shop opening — 3 techs" style="width:100%;padding:8px 10px;border:1px solid var(--d360-border);border-radius:6px;font-size:0.9rem" />
+        </label>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <label>
+            <div style="font-size:0.75rem;font-weight:600;color:var(--d360-text);margin-bottom:4px">Skill needed</div>
+            <select name="iscoCode" style="width:100%;padding:8px 10px;border:1px solid var(--d360-border);border-radius:6px;font-size:0.9rem">
+              <option value="7421">Phone Repair Technician</option>
+              <option value="7531">Tailor</option>
+              <option value="2519">Software Developer</option>
+              <option value="5223">Shop Sales Assistant</option>
+            </select>
+          </label>
+          <label>
+            <div style="font-size:0.75rem;font-weight:600;color:var(--d360-text);margin-bottom:4px">Ward</div>
+            <select name="ward" style="width:100%;padding:8px 10px;border:1px solid var(--d360-border);border-radius:6px;font-size:0.9rem">
+              <option>Madina</option><option>East Legon</option><option>Adabraka</option><option>Nima</option><option>Osu</option><option>Achimota</option>
+            </select>
+          </label>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <label>
+            <div style="font-size:0.75rem;font-weight:600;color:var(--d360-text);margin-bottom:4px">Day needed</div>
+            <input required name="dayNeeded" placeholder="Friday Nov 28" style="width:100%;padding:8px 10px;border:1px solid var(--d360-border);border-radius:6px;font-size:0.9rem" />
+          </label>
+          <label>
+            <div style="font-size:0.75rem;font-weight:600;color:var(--d360-text);margin-bottom:4px">Headcount</div>
+            <input type="number" name="headcount" min="1" max="50" value="1" style="width:100%;padding:8px 10px;border:1px solid var(--d360-border);border-radius:6px;font-size:0.9rem" />
+          </label>
+        </div>
+
+        <label>
+          <div style="font-size:0.75rem;font-weight:600;color:var(--d360-text);margin-bottom:4px">Your shop / handle (optional)</div>
+          <input name="employerHandle" placeholder="Karim's Phone Shop" style="width:100%;padding:8px 10px;border:1px solid var(--d360-border);border-radius:6px;font-size:0.9rem" />
+        </label>
+
+        <label>
+          <div style="font-size:0.75rem;font-weight:600;color:var(--d360-text);margin-bottom:4px">Notes (optional)</div>
+          <textarea name="notes" rows="2" placeholder="₵180/day, full kit provided…" style="width:100%;padding:8px 10px;border:1px solid var(--d360-border);border-radius:6px;font-size:0.9rem;resize:vertical"></textarea>
+        </label>
+
+        <div id="post-result" style="display:none"></div>
+
+        <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:6px">
+          <button type="button" id="welcome-skip" class="ngo-btn" style="padding:8px 16px">Skip for now</button>
+          <button type="submit" class="ngo-btn primary" style="padding:8px 16px;background:var(--d360-blue);color:white;border:none">Post project →</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function () {
+    const modal = document.getElementById("welcome-modal");
+    if (localStorage.getItem("atlas:employer:onboarded")) modal.classList.remove("show");
+    function dismiss() { modal.classList.remove("show"); localStorage.setItem("atlas:employer:onboarded", "1"); }
+    document.getElementById("welcome-close").addEventListener("click", dismiss);
+    document.getElementById("welcome-skip").addEventListener("click", dismiss);
+    modal.addEventListener("click", (e) => { if (e.target === modal) dismiss(); });
+
+    document.getElementById("post-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      const body = { country: "GH" };
+      fd.forEach((v, k) => { body[k] = k === "headcount" ? Number(v) : v; });
+      const result = document.getElementById("post-result");
+      result.style.display = "block";
+      result.innerHTML = `<div style="padding:10px;background:var(--d360-canvas);border-radius:6px;font-size:0.85rem;color:var(--d360-muted)">Posting…</div>`;
+      try {
+        const r = await fetch("/api/projects", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) });
+        if (!r.ok) throw new Error(await r.text());
+        const data = await r.json();
+        result.innerHTML = `
+          <div style="padding:14px;background:#D9F2EE;border:1px solid #2EC27E;border-radius:6px;color:var(--d360-navy)">
+            <div style="font-weight:700;margin-bottom:6px">✅ Project posted — ${data.project.matchedCount} candidate${data.project.matchedCount === 1 ? "" : "s"} matched in ${body.ward}.</div>
+            <a href="${data.invite.url}" target="_blank" style="display:inline-block;background:#25D366;color:white;padding:6px 14px;border-radius:6px;text-decoration:none;margin-top:6px">💬 Open the chat room</a>
+          </div>`;
+      } catch (err) {
+        result.innerHTML = `<div style="padding:10px;background:#FCEEEC;border:1px solid #C0392B;border-radius:6px;color:#8B1A0E">Failed: ${String(err).slice(0, 200)}</div>`;
+      }
+    });
+  })();
+</script>
+
 </body>
 </html>
