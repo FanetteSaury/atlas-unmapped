@@ -316,14 +316,14 @@
       const companionOptions = usedTools.map(id => {
         const tool = toolList.find(t => t.id === id);
         const ch = C.CHARACTERS[tool.character];
-        return `${ch.emoji} ${ch.name} (${tool.label})`;
+        return `${ch.emoji} ${ch.name} — ${ch.archetype}`;
       });
       const pick = await showQuickReplies(companionOptions);
-      state.companion = toolList.find(t => pick.includes(toolList.find(x => x.id === t.id)?.label || "___"))?.character || "spark";
-      // Defensive: try to match by label substring
+      state.companion = "spark";
       for (const tid of usedTools) {
         const t = toolList.find(x => x.id === tid);
-        if (pick.includes(t.label)) { state.companion = t.character; break; }
+        const ch = C.CHARACTERS[t.character];
+        if (ch && pick.includes(ch.name)) { state.companion = t.character; break; }
       }
     }
     updateRail();
