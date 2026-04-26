@@ -56,3 +56,4 @@ atlas/data/lmic/_raw/*.zip
 atlas/data/lmic/_raw/*.rds
 atlas/data/lmic/_raw/*.pdf
 # (CSV + JSON < 1MB are kept for grep-ability and citation)
+*.zip
