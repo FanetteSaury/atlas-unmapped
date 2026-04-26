@@ -2,7 +2,6 @@
 // Server Component. Reads country configs at build time. No client-side state.
 
 import Link from "next/link";
-import { COUNTRIES } from "@/lib/config/schema";
 
 export default function Home() {
   return (
@@ -13,7 +12,6 @@ export default function Home() {
         <Hero />
         <StatRow />
         <Entries />
-        <BriefTable />
       </main>
 
       <Footer />
@@ -181,7 +179,6 @@ function Entries() {
       <h2 className="text-2xl font-semibold tracking-tight">Three audiences — one engine</h2>
       <p className="mt-2 max-w-2xl text-sm text-zinc-600 dark:text-zinc-400">
         Same configurable backend, three role-distinct surfaces. SMEs see candidates; NGOs see cohort signals; youth play the quest.
-        Add a country = add a JSON file.
       </p>
       <div className="mt-6 grid gap-4 sm:grid-cols-3">
         {cards.map((c) => (
@@ -201,41 +198,6 @@ function Entries() {
             </div>
           </Link>
         ))}
-      </div>
-    </section>
-  );
-}
-
-function BriefTable() {
-  const rows: [string, string][] = [
-    ["Infrastructure, not product", "3 surfaces (Player / Employer / Policymaker) on configurable backend"],
-    ["Build ≥ 2 of 3 modules", "Module 1 (Skills Signal Engine) + Module 2 (AI Readiness Lens) + Module 3 (Opportunity Matching)"],
-    ["Country-agnostic", `JSON config: ${Object.values(COUNTRIES).map(c => c.flag + " " + c.name).join(" · ")}`],
-    ["Real econometric data", "ILOSTAT · WDI · Frey-Osborne · WBES · WBL · Findex · Wittgenstein · STEP · ISCO-08 · O*NET · HCI"],
-    ["≥ 2 signals visible to user", "Wage · Demand growth · Automation risk · AI premium — surfaced on Atlas Card"],
-    ["Specific constrained user", "Voice-ready, low-bandwidth, shared-device, navigator-assisted"],
-    ["Honest about limits", "Hackathon-grade rubrics, not psychometrically validated. Disclosed."],
-  ];
-  return (
-    <section className="py-12">
-      <h2 className="text-2xl font-semibold tracking-tight">Brief compliance</h2>
-      <div className="mt-6 overflow-hidden rounded-2xl border border-zinc-200 dark:border-white/10">
-        <table className="w-full text-left text-sm">
-          <thead className="bg-zinc-100 text-xs uppercase tracking-wide text-zinc-500 dark:bg-white/5">
-            <tr>
-              <th className="px-4 py-3 font-medium">Requirement</th>
-              <th className="px-4 py-3 font-medium">Atlas</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-zinc-100 dark:divide-white/5">
-            {rows.map(([req, atlas]) => (
-              <tr key={req} className="bg-white dark:bg-zinc-900">
-                <td className="px-4 py-3 font-medium">{req}</td>
-                <td className="px-4 py-3 text-zinc-600 dark:text-zinc-400">{atlas}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
       </div>
     </section>
   );
