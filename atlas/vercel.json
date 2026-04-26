@@ -5,8 +5,8 @@
   "functions": {
     "api/**/*.py": {
       "runtime": "@vercel/python@4.3.1",
-      "memory": 1024,
-      "maxDuration": 30
+      "maxDuration": 30,
+      "excludeFiles": "{node_modules/**,.next/**,public/_legacy/**,scripts/**,tests/**,data/lmic/_raw/**,**/*.md,**/*.pdf,**/*.xlsx,**/*.zip,**/*.rds}"
     }
   }
 }

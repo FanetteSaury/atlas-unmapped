@@ -106,7 +106,7 @@ Full citations + fetched timestamps: [`PIPELINE.md`](./PIPELINE.md) · [`atlas/d
 
 ## Team
 
-- **Paola Desormière** — CEO. [LinkedIn](https://www.linkedin.com/in/paola-desormiere/)
-- **Fanette Saury** — CTO. [LinkedIn](https://www.linkedin.com/in/fanette-saury)
+- **Paola Berard-Desormière** — CEO. [LinkedIn](https://www.linkedin.com/in/paola-berard-desormi%C3%A8re-948875205/)
+- **Fanette Saury** — CTO. [LinkedIn](https://www.linkedin.com/in/fanette-saury/)
 
 — *Hack-Nation 2026 · Track 5 UNMAPPED · powered by The World Bank Youth Summit*
