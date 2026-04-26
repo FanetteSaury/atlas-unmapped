@@ -43,3 +43,6 @@ next-env.d.ts
 
 /src/generated/prisma
 .env*.local
+*.pdf
+atlas_indicators_*.csv
+Atlas Cohort Brief*.pdf
