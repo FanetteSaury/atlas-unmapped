@@ -33,28 +33,39 @@ It surfaces real econometric signals (ILOSTAT wages, WDI sector growth, Frey-Osb
 
 ---
 
-## Run locally
+## Run locally — Quickstart for judges
+
+Atlas runs out-of-the-box with **only one optional env var** (`ANTHROPIC_API_KEY`). Without it the chat falls back to deterministic stubs so you can still walk the full game flow + dashboards.
 
 ```bash
-cd atlas
+git clone git@github.com:FanetteSaury/atlas-unmapped.git
+cd atlas-unmapped/atlas
 pnpm install
-pnpm dlx vercel env pull .env.local    # fetch ANTHROPIC_API_KEY, DB_URL, etc.
-pnpm prisma generate
-pnpm prisma db push                    # creates Postgres tables
-pnpm ingest                            # fetch real LMIC data → data/lmic/
+cp .env.example .env.local             # then paste your key (see below)
 pnpm dev                               # http://localhost:3000
 ```
 
-Required env vars (see `atlas/.env.example`):
+Open http://localhost:3000 → pick a country → walk the 8-chapter quest. Visit `/policymaker` and `/employer` for the dual-interface dashboards.
 
-| Var | Source |
-|---|---|
-| `ANTHROPIC_API_KEY` | console.anthropic.com |
-| `OPENAI_API_KEY` | platform.openai.com (Whisper STT only) |
-| `POSTGRES_PRISMA_URL` | Vercel dashboard → Storage → Postgres |
-| `POSTGRES_URL_NON_POOLING` | same |
-| `KV_*` | Vercel dashboard → Storage → KV (optional hot-cache) |
-| `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, `TWILIO_WA_FROM` | console.twilio.com (Sandbox WhatsApp) |
+### Env vars — what's required vs optional
+
+| Var | Required? | What breaks without it | Where to get it |
+|---|---|---|---|
+| `ANTHROPIC_API_KEY` | **recommended** | chat falls back to deterministic stubs (UI still works, scoring still fires) | console.anthropic.com → API Keys (free $5 credit on signup) |
+| `KV_REST_API_URL` + `KV_REST_API_TOKEN` | optional | completed Atlas Cards aren't persisted; `/policymaker` shows seed cohort only | Vercel → Storage → Upstash for Redis (free tier) |
+| `OPENAI_API_KEY` | optional | Whisper voice notes disabled; text input still works | platform.openai.com |
+| `TWILIO_*` | optional | WhatsApp channel disabled; browser channel still works | console.twilio.com (Sandbox WhatsApp) |
+| `ATLAS_CARD_SIGNING_SECRET` | optional | share-link HMAC signing skipped | `openssl rand -hex 32` |
+
+### Health check
+
+After `pnpm dev`, hit `http://localhost:3000/api/health` — confirms which services are wired:
+
+```json
+{ "anthropic": true, "kv": false, "kvCountGH": 0, "model": "claude-sonnet-4-6" }
+```
+
+The deployed prod URL exposes the same endpoint: https://atlas-mu-vert.vercel.app/api/health
 
 ---
 

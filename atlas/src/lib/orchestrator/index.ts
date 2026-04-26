@@ -299,10 +299,10 @@ function handleInventory(input: ChapterInput, ctx: PlayerContext): ChapterResult
       {
         text:
           "🎮 *Pick your companion* — this is your first AI capability check.\n\n" +
-          "1️⃣  🧙 *Sage* — careful, plans first, reasons with you  _(echoes Claude)_\n" +
-          "2️⃣  ⚡ *Spark* — quick, tries everything, learns by doing  _(echoes ChatGPT)_\n" +
-          "3️⃣  🦅 *Scout* — sees the map, jumps far  _(echoes Gemini)_\n" +
-          "4️⃣  🎯 *Kira* — no fluff, ships  _(echoes Copilot)_\n\n" +
+          "1️⃣  🧙 *Sage* — careful, plans first, reasons with you\n" +
+          "2️⃣  ⚡ *Spark* — quick, tries everything, learns by doing\n" +
+          "3️⃣  🦅 *Scout* — sees the map, jumps far\n" +
+          "4️⃣  🎯 *Kira* — no fluff, ships\n\n" +
           "Reply 1-4.",
       },
     ],
