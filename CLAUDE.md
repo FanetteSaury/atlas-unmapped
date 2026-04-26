@@ -19,6 +19,22 @@ The strategic narrative lives in `demo_v1/ATLAS_BRIEF.md` (read this for any pit
 
 See `TASKS.md` for the broken-down work list, and `PLAN.md` for the full execution plan.
 
+## 🚨 Task list contract (binding for all agents + future sessions)
+
+`TASKS.md` at the repo root is the **canonical source of truth** for what's pending. The Claude Code internal TaskList tool (`TaskCreate` / `TaskList`) is volatile — per-session, not git-persisted. Anything that must survive a session restart goes in `TASKS.md`.
+
+**On session start, always read `TASKS.md` § 🆘 LIVE BOARD first.** That section lists the highest-priority active items with full context (verbatim user/Paola conversations, blockers, interview-pending decisions). The internal TaskList may be stale.
+
+**When new tasks emerge:**
+1. `TaskCreate` for in-session tracking (status spinner UX)
+2. **AND** edit `TASKS.md` to add the durable record
+3. Commit the `TASKS.md` change with `docs(tasks): ...` conventional message
+
+**When tasks complete:**
+1. `TaskUpdate` to mark completed in-session
+2. **AND** update the `TASKS.md` entry with the commit ref that closed it
+3. Commit `docs(tasks): mark <task> done @ <sha>`
+
 ## Stack (locked, v2 — tightened per Paola TODO + brief weak-submission warning)
 
 The brief literally warns: *"Weak submissions overengineer the tech stack and under-engineer the user experience."* (p. 5). We cut everything that doesn't show up on stage.
