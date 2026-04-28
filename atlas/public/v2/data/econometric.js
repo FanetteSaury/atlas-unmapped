@@ -97,6 +97,16 @@ const ECONOMETRIC = {
     "GH": { cohort_with_secondary_plus: 0.46, ten_year_delta: "+12pp" },
     "BD": { cohort_with_secondary_plus: 0.58, ten_year_delta: "+15pp" },
     "VN": { cohort_with_secondary_plus: 0.81, ten_year_delta: "+8pp" }
+  },
+
+  // ─── ILO Employment & Social Trends 2026 (Jan 2026 release) — global jobs context
+  // Source: ILO World Employment and Social Outlook / Employment and Social Trends 2026.
+  // https://www.ilo.org/publications/flagship-reports/employment-and-social-trends-2026
+  ILO_GLOBAL_2026: {
+    global_jobs_gap_millions: 402,        // people who want paid work but cannot access it
+    global_informal_workers_bn: 2.0,      // billion workers in the informal economy
+    ssa_informal_share_pct: 86,           // ≈ 9 in 10 SSA workers in informal employment
+    ssa_annual_jobs_gap_millions: 8.5     // annual labor-force entrants vs absorbed jobs
   }
 
 };
