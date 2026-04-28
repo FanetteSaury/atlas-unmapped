@@ -2,7 +2,7 @@
 // "First cohort, April 2026" — disclosed honestly in HonestLimitsBanner.
 // Pseudonymous handles only. No real PII.
 
-import { WAGES, AUTOMATION_RISK, AI_TIER_PREMIUM } from "./wages";
+import { WAGES } from "./wages";
 
 export interface SeedCard {
   handle: string; // AT-<isco>-<ward>-T<tier>

@@ -429,6 +429,8 @@ function WittgensteinCard({ country }: { country: string }) {
   );
 }
 
+// Reserved for v0.2 — side-by-side GH↔BD comparison panel. Kept for shape reference.
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function CountryComparePanel({ current }: { current: string }) {
   const a = getProfile("GH");
   const b = getProfile("BD");

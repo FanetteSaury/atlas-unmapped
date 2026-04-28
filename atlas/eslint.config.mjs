@@ -13,9 +13,8 @@ const eslintConfig = defineConfig([
     "build/**",
     "next-env.d.ts",
     // Atlas-specific:
-    "src/generated/**", // Prisma client (auto-generated)
     "data/lmic/**", // ingested LMIC JSON cache
-    "public/_legacy/**", // preserved demo_v1 HTML/JS
+    "public/v2/**", // Paola's static demo (vanilla JS, served as-is)
   ]),
 ]);
 

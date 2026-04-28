@@ -61,7 +61,6 @@ export function getRealKpis(country: string): RealKpis {
   const femaleLF = latestValue(wdiFemaleLF, iso2);
   const mobile = latestValue(ituMobile, iso2);
   const internet = latestValue(ituInternet, iso2);
-  const sectorGrowth = services - 0.5 * agri; // crude proxy
 
   return {
     country: iso2,

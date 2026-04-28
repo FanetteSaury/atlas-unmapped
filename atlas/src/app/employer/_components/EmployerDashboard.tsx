@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { COUNTRIES, getCountry } from "@/lib/config/schema";
+import { getCountry } from "@/lib/config/schema";
 import {
   SEED_CARDS,
   ALL_WARDS,
@@ -23,9 +23,9 @@ export function EmployerDashboard() {
   const search = useSearchParams();
   const country = (search.get("country") ?? "GH").toUpperCase();
   const cfg = getCountry(country);
-  const wards = ALL_WARDS[country] ?? [];
-  const allIscos = ISCOS_BY_COUNTRY[country] ?? [];
-  const allCards: SeedCard[] = SEED_CARDS[country] ?? [];
+  const wards = useMemo(() => ALL_WARDS[country] ?? [], [country]);
+  const allIscos = useMemo(() => ISCOS_BY_COUNTRY[country] ?? [], [country]);
+  const allCards = useMemo<SeedCard[]>(() => SEED_CARDS[country] ?? [], [country]);
 
   const [selectedIscos, setSelectedIscos] = useState<string[]>(allIscos);
   const [selectedTiers, setSelectedTiers] = useState<AiTier[]>([1, 2, 3, 4]);
