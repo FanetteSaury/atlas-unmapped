@@ -70,45 +70,60 @@ She didn't fill a form. She told a story. And the labour market saw her for the 
 ├── atlas/        # ← Next.js 16 app, Vercel root
 │   ├── src/app/  #   landing, /employer, /policymaker, /player, /api/*
 │   └── public/v2 #   Paola's polished static demo (player.html, policymaker.html)
-├── demo_v1/      # ← legacy static-HTML demo, preserved for reference
 ├── docs/         # ← ARCHITECTURE.md · PRODUCT.md · SUBMISSION.md
 └── README.md     # ← you are here
 ```
 
 ---
 
-## Run locally — Quickstart for judges
+## How to try Atlas
 
-Atlas runs out-of-the-box with **only one optional env var** (`ANTHROPIC_API_KEY`). Without it the chat falls back to deterministic stubs so you can still walk the full game flow + dashboards.
+Two paths depending on who you are.
+
+### 👀 For judges & evaluators — zero setup, one click
+
+**→ https://atlas-mu-vert.vercel.app**
+
+Click the link, pick **Ghana** or **Bangladesh**, walk the 12-minute quest, then check the `/employer` and `/policymaker` dashboards. Everything you need to evaluate Atlas lives at that URL — no clone, no install, no API key required.
+
+The live deploy runs the **heuristic fallback path** (no LLM key set in production, so we never bill anyone for visitor traffic). Chat replies are templated, but the full game loop, real ILOSTAT/Frey-Osborne data, calibration mechanics, and Atlas Card reveal all work as designed. See live env status at [`/api/health`](https://atlas-mu-vert.vercel.app/api/health).
+
+### 🛠 For advanced builders — clone, plug in your own key, see real Claude
+
+If you want to see Atlas with **real Claude Sonnet 4.6** driving the chapters, clone the repo and supply your own `ANTHROPIC_API_KEY`:
 
 ```bash
 git clone git@github.com:FanetteSaury/atlas-unmapped.git
 cd atlas-unmapped/atlas
 pnpm install
-cp .env.example .env.local             # then paste your key (see below)
-pnpm dev                               # http://localhost:3000
+cp .env.example .env.local
+# Edit .env.local and paste your own ANTHROPIC_API_KEY
+# Free credits on signup at console.anthropic.com → API Keys
+pnpm dev   # http://localhost:3000
 ```
 
-Open http://localhost:3000 → pick a country → walk the 8-chapter quest. Visit `/policymaker` and `/employer` for the dual-interface dashboards.
+With your local key set, the orchestrator switches to real Claude — natural-language ISCO classification (88%+ confidence vs 50% heuristic), calibrated AI Tier scoring, O*NET task matches in the Atlas Card. The browser channel works without any other env var; the WhatsApp pipe needs `TWILIO_*` as well (see below).
 
-### Env vars — what's required vs optional
+**Why we don't ship a key on the Vercel demo:** `/api/chat` has no rate limiter yet, and a viral link could drain a personal Anthropic account. Bring-your-own-key keeps the public demo safe and lets you spend exactly what you want to spend on exploring.
+
+#### Env vars — what's required vs optional
 
 | Var | Required? | What breaks without it | Where to get it |
 |---|---|---|---|
-| `ANTHROPIC_API_KEY` | **recommended** | chat falls back to deterministic stubs (UI still works, scoring still fires) | console.anthropic.com → API Keys |
+| `ANTHROPIC_API_KEY` | **bring your own** | chat falls back to deterministic stubs (UI still works, scoring still fires) | console.anthropic.com → API Keys |
 | `KV_REST_API_URL` + `KV_REST_API_TOKEN` | optional | completed Atlas Cards aren't persisted; `/policymaker` shows seed cohort only | Vercel → Storage → Upstash for Redis (free tier) |
 | `OPENAI_API_KEY` | optional | Whisper voice notes disabled; text input still works | platform.openai.com |
 | `TWILIO_*` | optional | WhatsApp channel disabled; browser channel still works | console.twilio.com (Sandbox WhatsApp) |
 
-### Health check
+#### Health check
 
-After `pnpm dev`, hit `http://localhost:3000/api/health` — confirms which services are wired:
+After `pnpm dev`, hit `http://localhost:3000/api/health` to confirm which services are wired:
 
 ```json
 { "anthropic": true, "kv": true, "kvCountGH": 12, "model": "claude-sonnet-4-6" }
 ```
 
-Same endpoint live: https://atlas-mu-vert.vercel.app/api/health
+Same endpoint live (heuristic path): https://atlas-mu-vert.vercel.app/api/health
 
 ---
 
