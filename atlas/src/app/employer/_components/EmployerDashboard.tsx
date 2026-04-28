@@ -57,6 +57,7 @@ export function EmployerDashboard() {
     const cutoff =
       recency === "all"
         ? 0
+        // eslint-disable-next-line react-hooks/purity
         : Date.now() - (recency === "7d" ? 7 : 30) * 24 * 60 * 60 * 1000;
     return allCards.filter((c) => {
       if (!selectedIscos.includes(c.iscoCode)) return false;

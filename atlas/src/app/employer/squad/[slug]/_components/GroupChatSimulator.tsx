@@ -128,6 +128,8 @@ export function GroupChatSimulator({ project, candidates }: Props) {
   const [now, setNow] = useState<string>("12:34");
 
   useEffect(() => {
+    // Hydration-safe: SSR renders the "12:34" placeholder, client swaps to real time post-mount.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setNow(new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }));
   }, []);
 

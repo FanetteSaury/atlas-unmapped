@@ -9,9 +9,6 @@
     "lint": "eslint",
     "test": "vitest run --passWithNoTests",
     "typecheck": "tsc --noEmit",
-    "postinstall": "prisma generate || true",
-    "db:push": "prisma db push --skip-generate",
-    "db:studio": "prisma studio",
     "ingest": "tsx scripts/ingest/all.ts",
     "ingest:ilostat": "tsx scripts/ingest/ilostat.ts",
     "ingest:wdi": "tsx scripts/ingest/wdi.ts"
