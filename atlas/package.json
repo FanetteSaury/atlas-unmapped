@@ -4,7 +4,7 @@
   "private": true,
   "description": "Voice-first WhatsApp game that measures informal-economy skills in LMICs. Hack-Nation 5th Global Hackathon.",
   "author": "Fanette Saury <fanette.saury@compilog.com>",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "homepage": "https://atlas-mu-vert.vercel.app",
   "repository": {
     "type": "git",

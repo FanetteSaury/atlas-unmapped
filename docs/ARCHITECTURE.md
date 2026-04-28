@@ -249,5 +249,5 @@ These are deliberate hackathon-grade trade-offs, all flagged in [SECURITY.md](..
 ├── README.md                       # Project narrative + quickstart
 ├── CHANGELOG.md
 ├── SECURITY.md
-└── LICENSE                         # MIT
+└── LICENSE                         # Apache-2.0
 ```
