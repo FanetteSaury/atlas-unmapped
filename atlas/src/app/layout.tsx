@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Atlas — Hack-Nation 2026 · UNMAPPED · World Bank Youth Summit",
+  title: "Atlas — Hack-Nation 5th Global Hackathon",
   description:
     "Closing the distance between real skills and real opportunity in the age of AI. A chat-native conversational game for the 600M unmapped young people across 75 LIC + LMIC countries.",
 };

@@ -5,7 +5,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [0.1.0] — 2026-04-26
 
-Hack-Nation 2026 submission · Track 5 UNMAPPED · World Bank Youth Summit.
+Hack-Nation 5th Global Hackathon submission.
 
 ### Added
 - 8-chapter conversational quest (`/player`) — country picker, inventory, companion, drill-in, origin, forge, oracle boss fight, future, tribe, Atlas Card reveal.

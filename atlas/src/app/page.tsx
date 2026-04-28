@@ -28,7 +28,7 @@ function BrandBar() {
           <span className="text-lg font-semibold tracking-tight">Atlas</span>
         </div>
         <div className="hidden text-xs uppercase tracking-widest text-zinc-500 sm:block">
-          Hack-Nation 2026 · UNMAPPED · World Bank Youth Summit
+          Hack-Nation 5th Global Hackathon
         </div>
       </div>
     </header>
@@ -208,7 +208,7 @@ function Entries() {
 function Footer() {
   return (
     <footer className="border-t border-zinc-200 bg-white py-8 text-center text-xs text-zinc-500 dark:border-white/10 dark:bg-black">
-      <div>Atlas v0 · Hack-Nation 2026 Track 5 · UNMAPPED · powered by The World Bank Youth Summit</div>
+      <div>Atlas v0 · Hack-Nation 5th Global Hackathon</div>
       <div className="mt-1">
         All measurements directional, calibrated against Ghana STEP 2013 anchors. Production calibration requires 1000+ players × 6 months.
       </div>

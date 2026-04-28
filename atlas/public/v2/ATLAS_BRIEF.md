@@ -1,6 +1,6 @@
 # Atlas — Project Brief
 
-**Hack-Nation 2026 · Track 5: UNMAPPED · The World Bank Youth Summit**
+**Hack-Nation 5th Global Hackathon**
 
 > *Closing the distance between real skills and economic opportunity in the age of AI.*
 
@@ -26,7 +26,7 @@ The demo includes three working surfaces (player chat · employer dashboard · p
 
 | Phase | What we did | Output |
 |---|---|---|
-| **1. Brief decoding** | Read all 4 hackathon tracks. Picked Track 5 (UNMAPPED) for marketer-led team fit. Decoded the brief's 3 modules + country-agnostic + real-data + design-for-constraint + honest-about-limits requirements | Track selection + brief compliance map |
+| **1. Brief decoding** | Read all hackathon tracks. Picked the LMIC labor-market track for marketer-led team fit. Decoded the brief's 3 modules + country-agnostic + real-data + design-for-constraint + honest-about-limits requirements | Track selection + brief compliance map |
 | **2. Persona research** | Built two grounded personas (Brian, Uganda LIC · Amara, Ghana LMIC). Pulled 2024-2026 data on LinkedIn penetration, WhatsApp dominance, mobile gaming, AI tool exposure | Persona dossier with verified statistics |
 | **3. LMIC universe mapping** | Indexed all 75 LIC + LMIC countries by communication channel, dominant social media, top job platforms, informal recruiting paths | Master country table — 75 rows × 5 channels |
 | **4. Family-WhatsApp insight** | Verified that family WhatsApp is the dominant labor matching channel in LMICs. 95-97% penetration in major African countries. India 620M users. 78% of Indian workers prioritize family in career decisions | Strategic foundation: build on top of family WhatsApp, not against it |
@@ -34,7 +34,7 @@ The demo includes three working surfaces (player chat · employer dashboard · p
 | **6. Measurement methodology** | Defined what Atlas MEASURES (STEP-equivalent + ISCO/ESCO + AI Tier) vs what it SURFACES (wages, growth, risk). Built the chapter-by-chapter measurement spec | Measurement deck — 8 chapters × 4 methods |
 | **7. Game design (3 iterations)** | v1 form-disguised-as-questions → v2 weapon mechanics → **v3 universal Boss Fight + LLM Companion select**. Each iteration sharpened against "would a stranger play?" | Game design spec |
 | **8. Atlas demo build** | Pivoted to local HTML in workspace. Built landing + player chat + employer + policymaker. Wired scoring engine + ESCO catalog + cached econometric data | **Working demo, runnable from `atlas/index.html`** |
-| **9. Privacy architecture** | 3-tier privacy (public heatmap → pseudonymous → consent-gated) with country-aware defaults (stricter for Bangladesh / Pakistan / Iran female users). Disabled employer mapping in conflict zones | Safeguarding layer designed for World Bank judges |
+| **9. Privacy architecture** | 3-tier privacy (public heatmap → pseudonymous → consent-gated) with country-aware defaults (stricter for Bangladesh / Pakistan / Iran female users). Disabled employer mapping in conflict zones | Safeguarding layer designed for hackathon reviewers |
 
 ---
 
@@ -42,7 +42,7 @@ The demo includes three working surfaces (player chat · employer dashboard · p
 
 ### 2.1 The problem the brief asks us to solve
 
-The UNMAPPED brief identifies **three structural failures** in LMIC labor markets:
+The hackathon brief identifies **three structural failures** in LMIC labor markets:
 
 | Failure | What it means |
 |---|---|
@@ -127,7 +127,7 @@ The two dimensions: **(1) verified skill profile** (STEP-equivalent + ESCO codes
 | # | Reveal | Hook | Source |
 |---|---|---|---|
 | 💰 | **VERDICT** | What you're worth (real ₵/$/৳/đ wage) | ILOSTAT 2024 (surfaced) |
-| 🎭 | **CLASS** | One of 8 archetypes (Artisan / Builder / Hustler / etc.) | Atlas measures (ESCO clusters) |
+| 🎭 | **CLASS** | One of 8 archetypes (Artisan / Builder / Striver / etc.) | Atlas measures (ESCO clusters) |
 | 🤖 | **AI TIER** | 0-4, with concrete wage premium | Atlas measures (Oracle composite) |
 | 🤝 | **SQUAD** | Real local WhatsApp group of verified employers | Atlas + Employer side |
 
@@ -241,11 +241,11 @@ cd atlas && python3 -m http.server 8765
 | **Specific constrained user (not generic 'youth')** | Voice-first design (text fallback for demo), low-bandwidth assumed, shared-device aware, navigator-assistable, attestor-driven trust. Personas: Amara (Ghana phone repair) · Riya (Bangladesh tailor) · Tuan (Vietnam dev) | ✅ |
 | **Design for constraint** | WhatsApp-native = no app install, lightweight chat UI, voice-friendly architecture, offline-capable design. Privacy defaults adapt to country safety context | ✅ |
 | **Demonstrate localizability with real evidence** | Ghana ↔ Bangladesh ↔ Vietnam swap is functional. Numeracy questions in local currency. ESCO/ISCO codes are universally portable. Chapter content adapts via LLM (production) or sample data (demo) | ✅ |
-| **Honest about limits** | Hackathon-grade rubrics not psychometrically validated. Production calibration requires 1000+ players × 6 months of IRT. Disclosed on Player rail + README. World Bank judges will recognize this honesty as integrity | ✅ |
+| **Honest about limits** | Hackathon-grade rubrics not psychometrically validated. Production calibration requires 1000+ players × 6 months of IRT. Disclosed on Player rail + README. Reviewers will recognize this honesty as integrity | ✅ |
 
 ---
 
-## 6. What's Already Aligned With Track 5 — Pitch-Ready Talking Points
+## 6. Pitch-Ready Talking Points
 
 These are the lines, framings, and demos that are **ready to drop into the pitch deck right now**.
 
@@ -268,7 +268,7 @@ These are the lines, framings, and demos that are **ready to drop into the pitch
 > *"Remittances flow $1.2 trillion from rich diaspora to home villages — through family WhatsApp. We use the same rails to flow Amara's credential the other way. Every diaspora cousin becomes a verified recruiter."*
 
 ### 6.7 The closer
-> *"In 2026, AI fluency is the highest-leverage individual skill in the global economy. Big tech screens for it. Top consultants train for it. No one — not the World Bank, not the ILO, not McKinsey — measures it for the 600M unmapped young people. Atlas does. In 12 minutes. On a phone."*
+> *"In 2026, AI fluency is the highest-leverage individual skill in the global economy. Big tech screens for it. Top consultants train for it. No one measures it for the 600M unmapped young people. Atlas does. In 12 minutes. On a phone."*
 
 ---
 
@@ -300,7 +300,7 @@ These are the lines, framings, and demos that are **ready to drop into the pitch
 | **Voice end-to-end** | Multilingual voice TTS with native-speaker calibration in 20+ languages |
 | **ESCO LMIC fine-tune** | Native-speaker mappings for Twi, Bengali, Vietnamese, Tagalog, Bahasa, Swahili informal-skills vocabulary |
 | **Anti-gaming detection** | Behavioral consistency layer · longitudinal tracking · adversarial robustness tuning |
-| **Distribution** | Partnerships: World Bank Youth Summit, NGO field-officer programs (BRAC, Pratham, Generation), Mastercard Foundation Youth Africa Works |
+| **Distribution** | Partnerships: NGO field-officer programs (BRAC, Pratham, Generation), Mastercard Foundation Youth Africa Works |
 | **Revenue model** | Verified-employer subscriptions (~$200/mo per SME) + government/NGO licensing (per-cohort pricing) + sponsored AI companion characters (Anthropic / OpenAI / Google co-marketing) |
 | **Geographic expansion** | All 75 LIC + LMIC; priority order: Ghana → Bangladesh → Vietnam → Nigeria → Kenya → India → Philippines → Indonesia |
 

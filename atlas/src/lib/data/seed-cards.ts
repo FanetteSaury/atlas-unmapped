@@ -50,10 +50,10 @@ const CLASS_BY_ISCO_PREFIX: Record<string, string> = {
   "6": "🌾 Grower",
   "7": "🔧 Artisan",
   "8": "🔧 Artisan",
-  "9": "⚡ Hustler",
+  "9": "⚡ Striver",
 };
 
-const atlasClassFor = (isco: string) => CLASS_BY_ISCO_PREFIX[isco.charAt(0)] ?? "⚡ Hustler";
+const atlasClassFor = (isco: string) => CLASS_BY_ISCO_PREFIX[isco.charAt(0)] ?? "⚡ Striver";
 
 function buildSet(country: string, wards: string[], iscos: string[]): SeedCard[] {
   const cards: SeedCard[] = [];

@@ -25,7 +25,7 @@
 | Education | WASSCE certificate, no formal IT training |
 | Family channel | Family WhatsApp group with cousin in London |
 
-**Why Amara**: she's the brief's archetype (UNMAPPED p.2 — phone repair micro-entrepreneur with informal AI tools). She's smart, hustler, and *unmapped to the formal labor market* — exactly who Atlas serves.
+**Why Amara**: she's the brief's archetype (phone repair micro-entrepreneur with informal AI tools). She's smart, scrappy, and *unmapped to the formal labor market* — exactly who Atlas serves.
 
 ---
 

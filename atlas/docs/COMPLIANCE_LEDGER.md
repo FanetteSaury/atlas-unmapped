@@ -1,7 +1,6 @@
 # Atlas — Brief-Compliance Ledger
 
-> Append-only log of every commit-review against the official UNMAPPED brief
-> (`docs/05 - World Bank - Unmapped.docx - Google Docs.pdf`, 7 pages).
+> Append-only log of every commit-review against the official hackathon brief.
 > Maintained by `brief-guardian`. One entry per commit-review request from `team-lead`.
 >
 > Format per entry: VERDICT, BRIEF ALIGNMENT (page-cited), DATASETS check (vs brief p.4-5),

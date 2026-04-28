@@ -1,4 +1,4 @@
-# Atlas — Hack-Nation × World Bank Youth Summit Demo
+# Atlas — Hack-Nation 5th Global Hackathon Demo
 
 **Closing the distance between real skills and economic opportunity in the age of AI.**
 
@@ -10,7 +10,7 @@ A WhatsApp-native conversational game that measures STEP-equivalent skills, AI f
 - **Employer view** — pseudonymous skill-density map + match groups
 - **Policymaker view** — aggregate dashboard with ILO/WB econometric signals
 
-Built for **Hack-Nation 2026** Track 5 (UNMAPPED), powered by The World Bank Youth Summit.
+Built for the **Hack-Nation 5th Global Hackathon**.
 
 ## Brief compliance
 

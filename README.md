@@ -9,7 +9,7 @@
 
 > *Closing the distance between real skills and economic opportunity in the age of AI.*
 
-**Hack-Nation 2026 · Track 5: UNMAPPED · The World Bank Youth Summit**
+**Hack-Nation 5th Global Hackathon**
 
 ---
 
@@ -71,7 +71,7 @@ She didn't fill a form. She told a story. And the labour market saw her for the 
 │   ├── src/app/  #   landing, /employer, /policymaker, /player, /api/*
 │   └── public/v2 #   Paola's polished static demo (player.html, policymaker.html)
 ├── demo_v1/      # ← legacy static-HTML demo, preserved for reference
-├── docs/         # ← official Hack-Nation + World Bank brief PDFs + SUBMISSION.md
+├── docs/         # ← ARCHITECTURE.md · PRODUCT.md · SUBMISSION.md
 └── README.md     # ← you are here
 ```
 
@@ -137,4 +137,4 @@ Same endpoint live: https://atlas-mu-vert.vercel.app/api/health
 - **Paola Berard-Desormière** — CEO. [LinkedIn](https://www.linkedin.com/in/paola-berard-desormi%C3%A8re-948875205/)
 - **Fanette Saury** — CTO. [LinkedIn](https://www.linkedin.com/in/fanette-saury/)
 
-— *Hack-Nation 2026 · Track 5 UNMAPPED · powered by The World Bank Youth Summit*
+— *Hack-Nation 5th Global Hackathon*

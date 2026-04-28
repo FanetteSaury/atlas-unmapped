@@ -277,7 +277,7 @@
       <table><thead><tr><th>Indicator</th><th>Value</th><th>Source</th></tr></thead><tbody>${getBriefRows()}</tbody></table>
       <h2>Methodology note</h2>
       <p>Atlas measurements are hackathon-grade and not psychometrically validated. STEP-equivalent rubrics are calibrated against Ghana STEP 2013 anchors. Production deployment requires IRT calibration with ≥1,000 players over 6 months.</p>
-      <div class="footer">Atlas · Hack-Nation 2026 · UNMAPPED · powered by The World Bank Youth Summit. Distributed under CC BY 4.0 for derived metrics.</div>
+      <div class="footer">Atlas · Hack-Nation 5th Global Hackathon. Distributed under CC BY 4.0 for derived metrics.</div>
       </body></html>`;
     const w = window.open("", "_blank");
     if (!w) { toast("Pop-up blocked — please allow pop-ups"); return; }
@@ -310,12 +310,12 @@
     const isFull = isFullCountry(country);
     const cc = isFull ? C.COUNTRIES[country] : E.REGIONAL_PEERS[country];
     const date = new Date().toISOString().slice(0, 10);
-    const apa = `Atlas. (2026). Cohort Insights — ${cc.name} (${country}). Hack-Nation 2026 × World Bank Youth Summit. Retrieved ${date} from https://atlas-mu-vert.vercel.app/policymaker?country=${country}`;
+    const apa = `Atlas. (2026). Cohort Insights — ${cc.name} (${country}). Hack-Nation 5th Global Hackathon. Retrieved ${date} from https://atlas-mu-vert.vercel.app/policymaker?country=${country}`;
     const bibtex = `@misc{atlas_${country.toLowerCase()}_2026,
   title        = {Atlas Cohort Insights — ${cc.name} (${country})},
   author       = {{Atlas project}},
   year         = {2026},
-  howpublished = {Hack-Nation 2026 × World Bank Youth Summit},
+  howpublished = {Hack-Nation 5th Global Hackathon},
   note         = {Hackathon-grade rubrics. Not psychometrically validated.},
   url          = {https://atlas-mu-vert.vercel.app/policymaker?country=${country}}
 }`;

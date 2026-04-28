@@ -278,9 +278,9 @@ const ATLAS_SCORING = (function () {
   function assignClass(escoSkills, isco) {
     const major = isco ? isco.charAt(0) : null;
     const map = { "7": "artisan", "6": "grower", "5": "dealmaker", "2": "builder", "3": "storyteller", "4": "solver", "1": "solver" };
-    const primary = map[major] || "hustler";
+    const primary = map[major] || "striver";
 
-    // Detect hustler bonus: skills span 2+ ISCO majors
+    // Detect striver bonus: skills span 2+ ISCO majors
     const majors = new Set();
     for (const s of escoSkills) {
       // Toy detection: just count distinct skill prefixes
@@ -289,7 +289,7 @@ const ATLAS_SCORING = (function () {
     const isHybrid = majors.size >= 2;
 
     const cls = window.ATLAS_CONFIG.ATLAS_CLASSES.find(c => c.id === primary);
-    return { primary: cls, hybridWith: isHybrid ? window.ATLAS_CONFIG.ATLAS_CLASSES.find(c => c.id === "hustler") : null };
+    return { primary: cls, hybridWith: isHybrid ? window.ATLAS_CONFIG.ATLAS_CLASSES.find(c => c.id === "striver") : null };
   }
 
   // ─── Final wage verdict ───────────────────────────────────────────────────

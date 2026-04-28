@@ -1,6 +1,6 @@
 // Atlas — policymaker / NGO additional econometrics.
 // All values are real, cited, hardcoded for v1 (live ingest = Phase 2).
-// Sources verbatim per the UNMAPPED brief p.4-5 data table.
+// Sources verbatim per the hackathon brief p.4-5 data table.
 
 import { DataSourceCitation, type CitationSource } from "@/components/DataSourceCitation";
 export type { CitationSource };

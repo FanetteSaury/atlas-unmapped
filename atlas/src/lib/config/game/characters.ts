@@ -69,7 +69,7 @@ export const ATLAS_CLASSES: AtlasClass[] = [
   { id: "storyteller", emoji: "🎨", name: "The Storyteller", iscoClusters: ["3"], tag: "Voice. Audience. Persuasion." },
   { id: "guardian", emoji: "🛡️", name: "The Guardian", iscoClusters: ["3", "5"], tag: "Care. Protect. Teach." },
   { id: "solver", emoji: "🧠", name: "The Solver", iscoClusters: ["1", "2", "4"], tag: "Analyze. Investigate. Judge." },
-  { id: "hustler", emoji: "⚡", name: "The Hustler", iscoClusters: ["multiple"], tag: "Multi-domain entrepreneur." },
+  { id: "striver", emoji: "⚡", name: "The Striver", iscoClusters: ["multiple"], tag: "Multi-domain entrepreneur." },
 ];
 
 export interface AITier {
@@ -115,7 +115,7 @@ export const BONUS_GEMS: BonusGem[] = [
   { id: "mentor", emoji: "✨", name: "MENTOR", condition: "high agreeableness + teaching cues" },
   { id: "builder", emoji: "✨", name: "BUILDER", condition: "high transfer + AI Tier 2+" },
   { id: "resilient", emoji: "✨", name: "RESILIENT", condition: "grit + storm composure" },
-  { id: "hustler", emoji: "✨", name: "HUSTLER", condition: "multiple income streams" },
+  { id: "striver", emoji: "✨", name: "STRIVER", condition: "multiple income streams" },
   { id: "fast_witness", emoji: "✨", name: "FAST WITNESS", condition: "attestor responds < 5 min" },
   { id: "oracle_slayer", emoji: "✨", name: "ORACLE-SLAYER", condition: "caught 4+ errors in rival clip" },
   { id: "flawless", emoji: "✨", name: "FLAWLESS DUELIST", condition: "no damage taken in boss fight" },

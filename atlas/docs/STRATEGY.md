@@ -1,6 +1,6 @@
 # Atlas — UX strategy for Player + Employer surfaces
 
-> Pre-code strategy doc. Validates with the UNMAPPED brief BEFORE we build. The brief-reviewer agent runs against this doc.
+> Pre-code strategy doc. Validates with the hackathon brief BEFORE we build. The brief-reviewer agent runs against this doc.
 
 ## 1. Player side — the game
 

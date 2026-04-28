@@ -93,7 +93,7 @@ gh repo create atlas-hacknation --private --source=. --push
 │   ├── package.json, requirements.txt, vercel.json, .env.example
 │   └── public/_legacy/             # demo_v1 archive (not yet moved here, still at repo-root demo_v1/)
 ├── demo_v1/                        # legacy static-HTML demo with ATLAS_BRIEF.md (READ for narrative)
-├── docs/                           # official Hack-Nation + UNMAPPED brief PDFs
+├── docs/                           # SUBMISSION.md + ARCHITECTURE.md + PRODUCT.md
 └── .claude/, .github/              # MCP config, CI workflow
 ```
 

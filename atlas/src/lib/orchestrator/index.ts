@@ -837,7 +837,7 @@ function classFor(isco: string): string {
     "6": "🌾 Grower",
     "7": "🔧 Artisan",
     "8": "🔧 Artisan",
-    "9": "⚡ Hustler",
+    "9": "⚡ Striver",
   };
-  return map[isco.charAt(0)] ?? "⚡ Hustler";
+  return map[isco.charAt(0)] ?? "⚡ Striver";
 }
