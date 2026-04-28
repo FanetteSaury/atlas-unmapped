@@ -3,9 +3,6 @@
 [![CI](https://github.com/FanetteSaury/atlas-unmapped/actions/workflows/ci.yml/badge.svg)](https://github.com/FanetteSaury/atlas-unmapped/actions/workflows/ci.yml)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 [![Deploy](https://img.shields.io/badge/deploy-Vercel-black?logo=vercel)](https://atlas-mu-vert.vercel.app)
-[![Next.js 16](https://img.shields.io/badge/Next.js-16-black?logo=next.js)](https://nextjs.org)
-[![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178c6?logo=typescript)](https://www.typescriptlang.org/)
-[![Anthropic](https://img.shields.io/badge/Claude-Sonnet_4.6-cc785c?logo=anthropic)](https://www.anthropic.com)
 
 > *Closing the distance between real skills and economic opportunity in the age of AI.*
 
